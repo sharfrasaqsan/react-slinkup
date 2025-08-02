@@ -28,11 +28,11 @@ const Login = () => {
       return;
     }
 
-    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (!isValidEmail) {
-      toast.error("Invalid email format");
-      return;
-    }
+    // const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    // if (!isValidEmail) {
+    //   toast.error("Invalid email format");
+    //   return;
+    // }
 
     setLogining(true);
     try {
