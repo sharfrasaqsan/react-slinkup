@@ -5,7 +5,6 @@ import { auth, db } from "../firebase/Config";
 import { doc, getDoc } from "firebase/firestore";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import LoadingSpinner from "../utils/LoadingSpinner";
 
 const Login = () => {
   const { setUser } = useAuth();
@@ -13,13 +12,9 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [logining, setLogining] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
   const handleLogin = async (e) => {
     e.preventDefault();
 
