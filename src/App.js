@@ -15,9 +15,8 @@ import Notifications from "./pages/Notifications";
 import NotFound from "./pages/NotFound";
 
 import { Route, Routes } from "react-router-dom";
-import { ToastContainer } from "react-bootstrap";
+import { Bounce, ToastContainer } from "react-toastify";
 
-import { Bounce } from "react-toastify";
 function App() {
   return (
     <div>
@@ -37,17 +36,16 @@ function App() {
       </Routes>
 
       <Footer />
-
       <ToastContainer
         position="top-center"
         autoClose={2000}
         hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick={false}
+        newestOnTop
+        closeOnClick
         rtl={false}
-        pauseOnFocusLoss
+        pauseOnFocusLoss={false}
         draggable
-        pauseOnHover
+        pauseOnHover={false}
         theme="colored"
         transition={Bounce}
       />

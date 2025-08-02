@@ -20,7 +20,7 @@ const LoadingSpinner = () => {
   return (
     <div
       className="d-flex flex-column align-items-center justify-content-center"
-      style={{ margin: "auto" }}
+      style={{ margin: "auto", maxHeight: "100vh" }}
     >
       <Spinner animation="border" role="status" variant="primary" />
       <p

@@ -1,5 +1,5 @@
-import React from "react";
 import { Link } from "react-router-dom";
+import Logout from "./Logout";
 
 const Navbar = () => {
   return (
@@ -25,6 +25,9 @@ const Navbar = () => {
         </li>
         <li>
           <Link to="/notifications">Notifications</Link>
+        </li>
+        <li>
+          <Logout />
         </li>
       </ul>
     </nav>

@@ -5,6 +5,7 @@ import { auth, db } from "../firebase/Config";
 import { doc, getDoc } from "firebase/firestore";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import ButtonSpinner from "../utils/ButtonSpinner";
 
 const Login = () => {
   const { setUser } = useAuth();
@@ -28,11 +29,11 @@ const Login = () => {
       return;
     }
 
-    // const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    // if (!isValidEmail) {
-    //   toast.error("Invalid email format");
-    //   return;
-    // }
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!isValidEmail) {
+      toast.error("Invalid email format");
+      return;
+    }
 
     setLogining(true);
     try {
@@ -89,7 +90,14 @@ const Login = () => {
         />
 
         <button type="submit" className="btn btn-primary" disabled={logining}>
-          {logining ? "Logging in ..." : "Login"}
+          {logining ? (
+            <>
+              <ButtonSpinner />
+              Logging in...
+            </>
+          ) : (
+            "Login"
+          )}
         </button>
       </form>
     </section>
