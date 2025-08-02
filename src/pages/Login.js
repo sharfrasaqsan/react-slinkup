@@ -23,6 +23,11 @@ const Login = () => {
       return;
     }
 
+    if (password.length < 8) {
+      toast.error("Password must be at least 8 characters");
+      return;
+    }
+
     setLogining(true);
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -61,7 +66,7 @@ const Login = () => {
           onChange={(e) => setEmail(e.target.value)}
           autoComplete="off"
           autoFocus
-          // required
+          required
           disabled={logining}
         />
         <input
@@ -70,7 +75,7 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           autoComplete="off"
-          // required
+          required
           disabled={logining}
         />
         <button type="submit" className="btn btn-primary" disabled={logining}>

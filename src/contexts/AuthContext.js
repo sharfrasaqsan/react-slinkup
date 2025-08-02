@@ -26,14 +26,13 @@ export const AuthProvider = ({ children }) => {
             toast.error("User does not exist");
           }
         } catch (err) {
-          toast.error(err.message);
-        } finally {
-          setLoading(false);
+          setUser(null);
+          toast.error(`User does not exist, ${err.message}`);
         }
       } else {
         setUser(null);
-        setLoading(false);
       }
+      setLoading(false);
     });
 
     return () => unsubscribe();
