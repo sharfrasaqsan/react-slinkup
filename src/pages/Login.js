@@ -28,6 +28,12 @@ const Login = () => {
       return;
     }
 
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!isValidEmail) {
+      toast.error("Invalid email format");
+      return;
+    }
+
     setLogining(true);
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -39,8 +45,9 @@ const Login = () => {
       const res = await getDoc(doc(db, "users", user.uid));
       if (!res.exists()) {
         toast.error("User does not exist");
+        return;
       }
-      setUser(res.data());
+      setUser({ id: user.uid, ...res.data() });
       toast.success("Login successful");
       setEmail("");
       setPassword("");
@@ -69,6 +76,8 @@ const Login = () => {
           required
           disabled={logining}
         />
+
+        <label htmlFor="password">Password</label>
         <input
           type="password"
           placeholder="Password"
@@ -78,6 +87,7 @@ const Login = () => {
           required
           disabled={logining}
         />
+
         <button type="submit" className="btn btn-primary" disabled={logining}>
           {logining ? "Logging in ..." : "Login"}
         </button>
