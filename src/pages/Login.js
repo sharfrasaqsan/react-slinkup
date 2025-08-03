@@ -46,7 +46,7 @@ const Login = () => {
       const user = userCredential.user;
       const res = await getDoc(doc(db, "users", user.uid));
       if (!res.exists()) {
-        toast.error("User does not exist");
+        toast.error("User does not exist! Please try again.");
         return;
       }
       setUser({ id: user.uid, ...res.data() });
@@ -113,7 +113,7 @@ const Login = () => {
         </button>
 
         <p>
-          Don't have an account? <Link href="/register">Register here</Link>.
+          Don't have an account? <Link to="/register">Register</Link>
         </p>
       </form>
     </section>
