@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { auth, db } from "../firebase/Config";
 import { doc, getDoc } from "firebase/firestore";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ButtonSpinner from "../utils/ButtonSpinner";
 
 const Login = () => {
@@ -12,7 +12,7 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [logining, setLogining] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ const Login = () => {
       return;
     }
 
-    setLogining(true);
+    setLoginLoading(true);
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -56,7 +56,7 @@ const Login = () => {
     } catch (err) {
       toast.error(`Failed to login, ${err.message}`);
     } finally {
-      setLogining(false);
+      setLoginLoading(false);
     }
   };
 
@@ -64,33 +64,44 @@ const Login = () => {
     <section>
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          placeholder="Email"
-          id="email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          autoComplete="off"
-          autoFocus
-          required
-          disabled={logining}
-        />
+        <div>
+          {" "}
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            placeholder="Email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="off"
+            autoFocus
+            required
+            disabled={loginLoading}
+          />
+        </div>
 
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          autoComplete="off"
-          required
-          disabled={logining}
-        />
+        <div>
+          {" "}
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="off"
+            required
+            disabled={loginLoading}
+          />
+          <span>* Password must be at least 8 characters.</span>
+        </div>
 
-        <button type="submit" className="btn btn-primary" disabled={logining}>
-          {logining ? (
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={loginLoading}
+        >
+          {loginLoading ? (
             <>
               <ButtonSpinner />
               Logging in...
@@ -99,6 +110,10 @@ const Login = () => {
             "Login"
           )}
         </button>
+
+        <p>
+          Don't have an account? <Link href="/register">Register here</Link>.
+        </p>
       </form>
     </section>
   );

@@ -14,8 +14,11 @@ import Settings from "./pages/Settings";
 import Notifications from "./pages/Notifications";
 import NotFound from "./pages/NotFound";
 
+import PrivateRoute from "./utils/PrivateRoute";
+
 import { Route, Routes } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
+import ScrollToTop from "./utils/ScrollToTop";
 
 function App() {
   return (
@@ -25,17 +28,54 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/explore" element={<Explore />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/explore"
+          element={
+            <PrivateRoute>
+              <Explore />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/post/:postId" element={<PostDetails />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/notifications" element={<Notifications />} />
+        <Route
+          path="/post/:postId"
+          element={
+            <PrivateRoute>
+              <PostDetails />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <PrivateRoute>
+              <Settings />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/notifications"
+          element={
+            <PrivateRoute>
+              <Notifications />
+            </PrivateRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
       <Footer />
+
+      <ScrollToTop />
       <ToastContainer
         position="top-center"
         autoClose={2000}
