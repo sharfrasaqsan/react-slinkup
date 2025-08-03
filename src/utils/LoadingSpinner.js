@@ -12,7 +12,7 @@ const LoadingSpinner = () => {
         index >= fullText.length ? "" : prev + fullText[index]
       );
       setIndex((prev) => (prev + 1) % (fullText.length + 1));
-    }, 200);
+    }, 150);
 
     return () => clearInterval(interval);
   }, [index]);

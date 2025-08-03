@@ -13,14 +13,19 @@ import PostDetails from "./pages/PostDetails";
 import Settings from "./pages/Settings";
 import Notifications from "./pages/Notifications";
 import NotFound from "./pages/NotFound";
+import AdminDashboard from "./pages/AdminDashboard";
 
-import PrivateRoute from "./utils/PrivateRoute";
-
-import { Route, Routes } from "react-router-dom";
-import { Bounce, ToastContainer } from "react-toastify";
+import ProtectedRoute from "./utils/ProtectedRoute";
 import ScrollToTop from "./utils/ScrollToTop";
+import AdminProtectedRoute from "./utils/AdminProtectedRoute";
+import { useAuth } from "./contexts/AuthContext";
+
+import { Navigate, Route, Routes } from "react-router-dom";
+import { Bounce, ToastContainer } from "react-toastify";
 
 function App() {
+  const { user } = useAuth();
+
   return (
     <div>
       <Header />
@@ -31,43 +36,54 @@ function App() {
         <Route
           path="/explore"
           element={
-            <PrivateRoute>
+            <ProtectedRoute>
               <Explore />
-            </PrivateRoute>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/profile"
           element={
-            <PrivateRoute>
+            <ProtectedRoute>
               <Profile />
-            </PrivateRoute>
+            </ProtectedRoute>
           }
         />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+        <Route
+          path="/register"
+          element={user ? <Navigate to="/" /> : <Register />}
+        />
         <Route
           path="/post/:postId"
           element={
-            <PrivateRoute>
+            <ProtectedRoute>
               <PostDetails />
-            </PrivateRoute>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/settings"
           element={
-            <PrivateRoute>
+            <ProtectedRoute>
               <Settings />
-            </PrivateRoute>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/notifications"
           element={
-            <PrivateRoute>
+            <ProtectedRoute>
               <Notifications />
-            </PrivateRoute>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/dashboard/:id"
+          element={
+            <AdminProtectedRoute>
+              <AdminDashboard />
+            </AdminProtectedRoute>
           }
         />
         <Route path="*" element={<NotFound />} />

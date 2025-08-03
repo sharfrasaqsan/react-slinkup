@@ -1,12 +1,13 @@
-import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { auth, db } from "../firebase/Config";
 import { doc, setDoc } from "firebase/firestore";
 import { useData } from "../contexts/DataContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ButtonSpinner from "../utils/ButtonSpinner";
 import { getAuthErrorMessage } from "../utils/authErrors";
+import { format } from "date-fns";
 
 const Register = () => {
   const { setUsers } = useData();
@@ -61,25 +62,25 @@ const Register = () => {
       );
       const { uid } = userCredential.user;
       const newUserData = {
-        id: uid,
+        uid,
         username,
         email,
         profilePic: "",
         bio: "",
-        followersCount: 0,
-        followingCount: 0,
-        postsCount: 0,
+        followersCount: [],
+        followingCount: [],
+        postsCount: [],
         role: "user",
+        createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       };
       await setDoc(doc(db, "users", uid), newUserData);
-      await signOut(auth); // for autologout after registration. if not here user will be logged in after registration
       setUsers((prev) => [...prev, newUserData]);
       toast.success("Registered successfully!");
       setUsername("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
-      navigate("/login");
+      navigate("/");
     } catch (err) {
       toast.error(getAuthErrorMessage(err.code));
     } finally {
@@ -158,6 +159,10 @@ const Register = () => {
             "Register"
           )}
         </button>
+
+        <p>
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
       </form>
     </section>
   );
