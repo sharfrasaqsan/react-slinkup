@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }) => {
             });
           } else {
             setUser(null);
-            toast.error("User does not exist");
           }
         } catch (err) {
           setUser(null);

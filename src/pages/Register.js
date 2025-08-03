@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { auth, db } from "../firebase/Config";
@@ -58,9 +58,9 @@ const Register = () => {
         email,
         password
       );
-      const { userId } = userCredential.user;
-      const userData = {
-        id: userId,
+      const { uid } = userCredential.user;
+      const newUserData = {
+        id: uid,
         username,
         email,
         profilePic: "",
@@ -70,15 +70,14 @@ const Register = () => {
         postsCount: 0,
         role: "user",
       };
-      const res = await setDoc(doc(db, "users", userId), userData);
-      if (!res) {
-        toast.error("Failed to register, please try again!");
-      }
-      setUsers((prev) => [...prev, userData]);
-      toast.success("Registered successfully!");
+      await setDoc(doc(db, "users", uid), newUserData);
+      await signOut(auth); // for autologout after registration. if not here user will be logged in after registration
+      setUsers((prev) => [...prev, newUserData]);
       setUsername("");
       setEmail("");
       setPassword("");
+      setConfirmPassword("");
+      toast.success("Registered successfully!");
       navigate("/login");
     } catch (err) {
       toast.error(`Failed to register, ${err.message}`);
