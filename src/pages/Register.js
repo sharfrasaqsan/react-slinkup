@@ -6,6 +6,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { useData } from "../contexts/DataContext";
 import { useNavigate } from "react-router-dom";
 import ButtonSpinner from "../utils/ButtonSpinner";
+import { getAuthErrorMessage } from "../utils/authErrors";
 
 const Register = () => {
   const { setUsers } = useData();
@@ -73,14 +74,14 @@ const Register = () => {
       await setDoc(doc(db, "users", uid), newUserData);
       await signOut(auth); // for autologout after registration. if not here user will be logged in after registration
       setUsers((prev) => [...prev, newUserData]);
+      toast.success("Registered successfully!");
       setUsername("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
-      toast.success("Registered successfully!");
       navigate("/login");
     } catch (err) {
-      toast.error(`Failed to register, ${err.message}`);
+      toast.error(getAuthErrorMessage(err.code));
     } finally {
       setRegisterLoading(false);
     }

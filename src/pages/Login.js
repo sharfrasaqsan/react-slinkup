@@ -6,6 +6,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import ButtonSpinner from "../utils/ButtonSpinner";
+import { getAuthErrorMessage } from "../utils/authErrors";
 
 const Login = () => {
   const { setUser } = useAuth();
@@ -54,7 +55,7 @@ const Login = () => {
       setPassword("");
       navigate("/");
     } catch (err) {
-      toast.error(`Failed to login, ${err.message}`);
+      toast.error(getAuthErrorMessage(err.code));
     } finally {
       setLoginLoading(false);
     }
