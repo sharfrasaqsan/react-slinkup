@@ -10,28 +10,6 @@ export const DataProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
 
-  // Data details
-  const [user, setUser] = useState({
-    username: "",
-    email: "",
-    profilePic: "",
-    bio: "",
-    createdAt: "",
-    updatedAt: "",
-    followersCount: 0,
-    followingCount: 0,
-    role: "",
-  });
-  const [post, setPost] = useState({
-    title: "",
-    content: "",
-    image: "",
-    createdAt: "",
-    updatedAt: "",
-    likesCount: 0,
-    userId: "",
-  });
-
   // Loading state
   const [loading, setLoading] = useState(true);
 
@@ -80,10 +58,6 @@ export const DataProvider = ({ children }) => {
         setUsers,
         posts,
         setPosts,
-        user,
-        setUser,
-        post,
-        setPost,
         loading,
         setLoading,
       }}

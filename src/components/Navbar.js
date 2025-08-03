@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import Logout from "./Logout";
+import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
+  const { user } = useAuth();
   return (
     <nav>
       <ul>
@@ -26,9 +28,11 @@ const Navbar = () => {
         <li>
           <Link to="/notifications">Notifications</Link>
         </li>
-        <li>
-          <Logout />
-        </li>
+        {user && (
+          <li>
+            <Logout />
+          </li>
+        )}
       </ul>
     </nav>
   );
