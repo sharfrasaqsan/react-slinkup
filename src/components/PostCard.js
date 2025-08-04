@@ -17,14 +17,14 @@ const PostCard = ({ post, postedUser }) => {
 
     try {
       if (hasLiked) {
-        // Unlike: Remove user ID from likes
+        // Remove user ID from likes
         updatedLikes = post.likes.filter((id) => id !== user.uid);
         await updateDoc(doc(db, "posts", postId), {
           likes: updatedLikes,
         });
         toast.info("Like removed.");
       } else {
-        // Like: Add user ID to likes
+        // Add user ID to likes
         updatedLikes = [...post.likes, user.uid];
         await updateDoc(doc(db, "posts", postId), {
           likes: updatedLikes,
