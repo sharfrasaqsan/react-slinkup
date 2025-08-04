@@ -12,7 +12,7 @@ const PostCard = ({ post, postedUser }) => {
   const handleLikes = async (postId) => {
     if (!user || !user.uid) return;
 
-    const hasLiked = post.likes.includes(user.uid); // Check if already liked
+    const hasLiked = post.likes.includes(user.uid);
     let updatedLikes;
 
     try {
