@@ -12,24 +12,24 @@ const PostCard = ({ post, postedUser }) => {
   const handleLikes = async (postId) => {
     if (!user || !user.uid) return;
 
-    const hasLiked = post.likes.includes(user.uid);
+    const hasLiked = post.likes.includes(user.uid); // Check if already liked
     let updatedLikes;
 
     try {
       if (hasLiked) {
-        // remove like from post if already liked
+        // Unlike: Remove user ID from likes
         updatedLikes = post.likes.filter((id) => id !== user.uid);
-        await updateDoc(
-          doc(db, "posts", postId, {
-            likes: updatedLikes,
-          })
-        );
+        await updateDoc(doc(db, "posts", postId), {
+          likes: updatedLikes,
+        });
+        toast.info("Like removed.");
       } else {
-        // add like to post
+        // Like: Add user ID to likes
         updatedLikes = [...post.likes, user.uid];
         await updateDoc(doc(db, "posts", postId), {
           likes: updatedLikes,
         });
+        toast.success("Post liked!");
       }
 
       // Update local state
@@ -37,7 +37,7 @@ const PostCard = ({ post, postedUser }) => {
         prev.map((i) => (i.id === postId ? { ...i, likes: updatedLikes } : i))
       );
     } catch (err) {
-      toast.error(getAuthErrorMessage(err.code));
+      toast.error(getAuthErrorMessage(err.code) || "Failed to update like.");
     }
   };
 
