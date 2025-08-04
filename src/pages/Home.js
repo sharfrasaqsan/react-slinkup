@@ -1,4 +1,5 @@
 import CreatePost from "../components/CreatePost";
+import Feed from "../components/Feed";
 import { useAuth } from "../contexts/AuthContext";
 
 const Home = () => {
@@ -9,6 +10,7 @@ const Home = () => {
       <h2>Home</h2>
 
       {user && <CreatePost />}
+      <Feed />
     </section>
   );
 };

@@ -56,10 +56,12 @@ const CreatePost = () => {
   return (
     <div>
       <form onSubmit={handlePostSubmit}>
-        <input
-          type="text"
+        <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          placeholder="What's on your mind?"
+          cols="30"
+          rows="3"
         />
 
         <button type="submit" disabled={postLoading}>
