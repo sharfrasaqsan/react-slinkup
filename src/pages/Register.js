@@ -67,9 +67,9 @@ const Register = () => {
         email,
         profilePic: "",
         bio: "",
-        followersCount: [],
-        followingCount: [],
-        postsCount: [],
+        followers: [],
+        following: [],
+        posts: [],
         role: "user",
         createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       };
