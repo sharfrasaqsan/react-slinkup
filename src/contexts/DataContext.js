@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/Config";
 import { toast } from "react-toastify";
+import { getAuthErrorMessage } from "../utils/authErrors";
 
 const DataContext = createContext();
 
@@ -9,6 +10,7 @@ export const DataProvider = ({ children }) => {
   // Data storage
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [likes, setLikes] = useState([]);
 
   // Loading state
   const [loading, setLoading] = useState(true);
@@ -17,13 +19,13 @@ export const DataProvider = ({ children }) => {
     const fetchUsers = async () => {
       try {
         const res = await getDocs(collection(db, "users"));
-        const data = res.docs.map((doc) => ({
+        const resData = res.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setUsers(data);
+        setUsers(resData);
       } catch (err) {
-        toast.error(`Failed to fetch users data, ${err.message}`);
+        toast.error(getAuthErrorMessage(err.code));
       } finally {
         setLoading(false);
       }
@@ -36,19 +38,37 @@ export const DataProvider = ({ children }) => {
     const fetchPosts = async () => {
       try {
         const res = await getDocs(collection(db, "posts"));
-        const data = res.docs.map((doc) => ({
+        const resData = res.docs.map((doc) => ({
           id: doc.id,
+          likes: doc.data().likes || [],
           ...doc.data(),
         }));
-        setPosts(data);
+        setPosts(resData);
       } catch (err) {
-        toast.error(`Failed to fetch posts data, ${err.message}`);
+        toast.error(getAuthErrorMessage(err.code));
       } finally {
         setLoading(false);
       }
     };
 
     fetchPosts();
+  }, []);
+
+  useEffect(() => {
+    const fetchLikes = async () => {
+      try {
+        const res = await getDocs(collection(db, "likes"));
+        const resData = res.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setLikes(resData);
+      } catch (err) {
+        toast.error(getAuthErrorMessage(err.code));
+      }
+    };
+
+    fetchLikes();
   }, []);
 
   return (
@@ -58,6 +78,8 @@ export const DataProvider = ({ children }) => {
         setUsers,
         posts,
         setPosts,
+        likes,
+        setLikes,
         loading,
         setLoading,
       }}

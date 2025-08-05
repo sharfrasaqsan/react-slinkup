@@ -14,14 +14,18 @@ const Feed = () => {
     return <NotFound text="posts" />;
   }
 
-  const post = posts.find((post) => post.id);
-  const postedUser = users.find((user) => user.id === post.userId);
-
   return (
     <div>
-      {posts.reverse().map((post) => (
-        <PostCard key={post.id} post={post} postedUser={postedUser} />
-      ))}
+      {[...posts].reverse().map((post) => {
+        const postedUser = users.find((user) => user.id === post.userId);
+        return (
+          <PostCard
+            key={post.id}
+            post={post}
+            postedUser={postedUser}
+          />
+        );
+      })}
     </div>
   );
 };
