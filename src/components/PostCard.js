@@ -99,8 +99,7 @@ const PostCard = ({ post, postedUser }) => {
       </p>
 
       <p onClick={() => handleLikes(post.id)} style={{ cursor: "pointer" }}>
-        {(post.likes || []).includes(user.id) ? "❤️" : "🤍"} {postLikeCount}{" "}
-        {postLikeCount ? "" : postLikeCount > 1 ? "Likes" : "Like"}
+        {(post.likes || []).includes(user?.id) ? "❤️" : "🤍"} {postLikeCount}
       </p>
       <button onClick={() => handleDelete(post.id)}>Delete</button>
     </div>

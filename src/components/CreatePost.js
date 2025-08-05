@@ -39,7 +39,8 @@ const CreatePost = () => {
       if (!res) {
         toast.error("Failed to create post! Please try again.");
       }
-      setPosts((prev) => [...prev, res]);
+      const newpost = { id: res.id, ...newPostData };
+      setPosts((prev) => [...prev, newpost]);
       toast.success("Post created successfully!");
       setContent("");
     } catch (err) {

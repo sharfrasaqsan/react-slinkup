@@ -10,7 +10,6 @@ export const DataProvider = ({ children }) => {
   // Data storage
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
-  const [likes, setLikes] = useState([]);
 
   // Loading state
   const [loading, setLoading] = useState(true);
@@ -54,23 +53,6 @@ export const DataProvider = ({ children }) => {
     fetchPosts();
   }, []);
 
-  useEffect(() => {
-    const fetchLikes = async () => {
-      try {
-        const res = await getDocs(collection(db, "likes"));
-        const resData = res.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setLikes(resData);
-      } catch (err) {
-        toast.error(getAuthErrorMessage(err.code));
-      }
-    };
-
-    fetchLikes();
-  }, []);
-
   return (
     <DataContext.Provider
       value={{
@@ -78,8 +60,6 @@ export const DataProvider = ({ children }) => {
         setUsers,
         posts,
         setPosts,
-        likes,
-        setLikes,
         loading,
         setLoading,
       }}
