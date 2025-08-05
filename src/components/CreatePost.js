@@ -6,7 +6,6 @@ import { format } from "date-fns";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase/Config";
 import { useData } from "../contexts/DataContext";
-import { useNavigate } from "react-router-dom";
 
 const CreatePost = () => {
   const { user } = useAuth();
@@ -14,7 +13,6 @@ const CreatePost = () => {
 
   const [content, setContent] = useState("");
   const [postLoading, setPostLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +22,7 @@ const CreatePost = () => {
       return;
     }
 
-    if (!user || !user.uid) {
+    if (!user || !user.id) {
       toast.error("User is not logged in!");
       return;
     }
@@ -32,10 +30,10 @@ const CreatePost = () => {
     setPostLoading(true);
     try {
       const newPostData = {
-        content,
+        content: content || "",
+        userId: user?.id,
         likes: [],
         createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-        userId: user?.uid,
       };
       const res = await addDoc(collection(db, "posts"), newPostData);
       if (!res) {
@@ -44,9 +42,7 @@ const CreatePost = () => {
       setPosts((prev) => [...prev, res]);
       toast.success("Post created successfully!");
       setContent("");
-      navigate("/");
     } catch (err) {
-      console.log("Error: ", err.message, "Code: ", err.code);
       toast.error(getAuthErrorMessage(err.code));
     } finally {
       setPostLoading(false);

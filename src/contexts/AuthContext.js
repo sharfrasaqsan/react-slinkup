@@ -4,6 +4,7 @@ import { auth, db } from "../firebase/Config";
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import LoadingSpinner from "../utils/LoadingSpinner";
+import { getAuthErrorMessage } from "../utils/authErrors";
 
 const AuthContext = createContext();
 
@@ -26,7 +27,7 @@ export const AuthProvider = ({ children }) => {
           }
         } catch (err) {
           setUser(null);
-          toast.error(`User does not exist, ${err.message}`);
+          toast.error(getAuthErrorMessage(err.code));
         }
       } else {
         setUser(null);
