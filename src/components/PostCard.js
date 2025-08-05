@@ -91,7 +91,9 @@ const PostCard = ({ post, postedUser }) => {
   return (
     <div style={{ marginBottom: "1rem", backgroundColor: "lightgray" }}>
       <p>{postedUser?.username}</p>
+
       <p>{post.content}</p>
+
       <p>
         {post.createdAt
           ? formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })
@@ -101,6 +103,7 @@ const PostCard = ({ post, postedUser }) => {
       <p onClick={() => handleLikes(post.id)} style={{ cursor: "pointer" }}>
         {(post.likes || []).includes(user?.id) ? "❤️" : "🤍"} {postLikeCount}
       </p>
+      
       <button onClick={() => handleDelete(post.id)}>Delete</button>
     </div>
   );
