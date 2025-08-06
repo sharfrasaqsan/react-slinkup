@@ -16,12 +16,9 @@ export const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
-          const fetchCurrentUser = await getDoc(doc(db, "users", user.uid));
-          if (fetchCurrentUser.exists()) {
-            setUser({
-              id: user.uid,
-              ...fetchCurrentUser.data(),
-            });
+          const res = await getDoc(doc(db, "users", user.uid));
+          if (res.exists()) {
+            setUser({ id: res.id, ...res.data() });
           } else {
             setUser(null);
           }
@@ -32,6 +29,7 @@ export const AuthProvider = ({ children }) => {
       } else {
         setUser(null);
       }
+
       setLoading(false);
     });
 
