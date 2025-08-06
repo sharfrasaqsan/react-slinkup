@@ -1,12 +1,24 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import ButtonSpinner from "../utils/ButtonSpinner";
+import { toast } from "react-toastify";
 
 const CreatePost = () => {
   const { user } = useAuth();
 
   const [postBody, setPostBody] = useState("");
   const [postLoading, setPostLoading] = useState(false);
+
+  const handlePost = async (e) => {
+    e.preventDefault();
+
+    setPostLoading(true);
+    try {
+    } catch (err) {
+      toast.error(err.message);
+    }
+    setPostLoading(false);
+  };
 
   return (
     <div>
