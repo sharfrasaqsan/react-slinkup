@@ -15,8 +15,10 @@ import {
 import { db } from "../../firebase/Config";
 import { format } from "date-fns";
 import ButtonSpinner from "../../utils/ButtonSpinner";
+import { useAuth } from "../../contexts/AuthContext";
 
 const UpdateUser = () => {
+  const { user } = useAuth();
   const { users, setUsers, loading } = useData();
 
   const [editUsername, setEditUsername] = useState("");
@@ -98,7 +100,7 @@ const UpdateUser = () => {
         )
       );
       toast.success("User updated successfully!");
-      navigate("/admin/dashboard");
+      navigate(`/admin/dashboard/${user.id}`);
     } catch (err) {
       toast.error(err.message);
     }
