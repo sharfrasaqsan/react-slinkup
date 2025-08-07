@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Logout from "./Logout";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -9,26 +9,26 @@ const Navbar = () => {
     <nav>
       <ul>
         <li>
-          <Link to="/">Home</Link>
+          <NavLink to="/">Home</NavLink>
         </li>
 
         <li>
-          <Link to="/explore">Explore</Link>
+          <NavLink to="/explore">Explore</NavLink>
         </li>
 
         <li>
-          <Link to="/profile">Profile</Link>
+          <NavLink to="/profile">Profile</NavLink>
         </li>
         <li>
-          <Link to="/settings">Settings</Link>
+          <NavLink to="/settings">Settings</NavLink>
         </li>
         <li>
-          <Link to="/notifications">Notifications</Link>
+          <NavLink to="/notifications">Notifications</NavLink>
         </li>
 
         {user && user.role === "admin" && (
           <li>
-            <Link to="/admin/dashboard/:id">Admin</Link>
+            <NavLink to="/admin/dashboard/:id">Admin</NavLink>
           </li>
         )}
 
@@ -41,10 +41,10 @@ const Navbar = () => {
         {!user && (
           <>
             <li>
-              <Link to="/login">Login</Link>
+              <NavLink to="/login">Login</NavLink>
             </li>
             <li>
-              <Link to="/register">Register</Link>
+              <NavLink to="/register">Register</NavLink>
             </li>
           </>
         )}

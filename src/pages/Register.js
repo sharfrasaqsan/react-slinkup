@@ -82,7 +82,7 @@ const Register = () => {
       // Create a new user document
       const newUser = {
         id: uid,
-        username: username.trim().toLowerCase(),
+        username: username.replace(/\s+/g, "").toLowerCase(),
         firstname,
         lastname,
         email,
@@ -194,7 +194,18 @@ const Register = () => {
           />
         </div>
 
-        <button type="submit">
+        <button
+          type="submit"
+          disabled={
+            !email ||
+            !password ||
+            registerLoading ||
+            !firstname ||
+            !lastname ||
+            !username ||
+            !confirmPassword
+          }
+        >
           {registerLoading ? (
             <>
               Registering... <ButtonSpinner />

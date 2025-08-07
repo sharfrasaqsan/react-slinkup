@@ -26,6 +26,7 @@ const UpdateUser = () => {
   const [editLastname, setEditLastname] = useState("");
   const [editPassword, setEditPassword] = useState("");
   const [updateLoading, setUpdateLoading] = useState(false);
+  const [cencelLoading, setCencelLoading] = useState(false);
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -52,25 +53,28 @@ const UpdateUser = () => {
   if (!updatedUser) return <NotFound text={"User not found!"} />;
   if (users.length === 0) return <NotFound text={"No users found!"} />;
   if (updatedUser.role !== "user") return <NotFound text={"User not found!"} />;
+  if (!user) return <NotFound text={"User not found!"} />;
 
   const handleUpdateUser = async (userId) => {
     if (!editUsername || !editFirstname || !editLastname || !editPassword) {
       toast.error("Please fill in all the fields!");
+      return;
     }
 
     if (editPassword.length < 8) {
       toast.error("Password must be at least 8 characters!");
+      return;
     }
 
     if (editPassword !== updatedUser.password) {
       toast.error("Passwords do not match!");
+      return;
     }
 
     // Check if username already exists
     const userDocs = await getDocs(
       query(
         collection(db, "users"),
-        where("id", "==", userId),
         where("role", "==", "user"),
         where("username", "==", editUsername)
       )
@@ -107,15 +111,20 @@ const UpdateUser = () => {
     setUpdateLoading(false);
   };
 
+  const handleCancelUpdate = () => {
+    setCencelLoading(true);
+
+    setTimeout(() => {
+      navigate(`/admin/dashboard/${user.id}`);
+      toast.warning("Update canceled!");
+      setCencelLoading(false);
+    }, 2000);
+  };
+
   return (
     <section>
       <h2>Update Registered User</h2>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleUpdateUser(updatedUser.id);
-        }}
-      >
+      <form onSubmit={(e) => e.preventDefault()}>
         <div>
           <label htmlFor="username">Username</label>
           <input
@@ -166,13 +175,31 @@ const UpdateUser = () => {
           />
         </div>
 
-        <button type="submit">
+        <button
+          type="submit"
+          disabled={updateLoading}
+          onClick={() => handleUpdateUser(updatedUser.id)}
+        >
           {updateLoading ? (
             <>
               Updating... <ButtonSpinner />
             </>
           ) : (
             "Update User"
+          )}
+        </button>
+
+        <button
+          type="submit"
+          disabled={cencelLoading}
+          onClick={handleCancelUpdate}
+        >
+          {cencelLoading ? (
+            <>
+              Cenceling... <ButtonSpinner />
+            </>
+          ) : (
+            "Cencel"
           )}
         </button>
       </form>
