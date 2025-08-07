@@ -2,7 +2,6 @@ import { formatDistanceToNow } from "date-fns";
 import { useData } from "../../contexts/DataContext";
 import { useAuth } from "../../contexts/AuthContext";
 import NotFound from "../../utils/NotFound";
-
 import LoadingSpinner from "../../utils/LoadingSpinner";
 import LikeButton from "./LikeButton";
 
@@ -12,7 +11,7 @@ const PostCard = ({ post }) => {
 
   if (loading) return <LoadingSpinner />;
 
-  if (!user) return <NotFound text={"No user found!"} />;
+  if (!user) return null;
   if (!post) return <NotFound text={"No post found!"} />;
   if (users.legnth === 0) return <NotFound text={"No users found!"} />;
 
