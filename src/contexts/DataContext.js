@@ -65,6 +65,7 @@ export const DataProvider = ({ children }) => {
     fetchPosts();
   }, []);
 
+  // Handle likes function
   const handleLikes = async (postId) => {
     try {
       // Check if user is logged in
@@ -94,7 +95,9 @@ export const DataProvider = ({ children }) => {
         )
       );
 
-      // Add or remove like used only firestore. not local states. so it should be used query to get the updated data from firestore
+      // Add or remove like used only firestore. not local states. 
+      // so it should be used query to get the updated data from firestore
+      
       // Check if user has already liked the post
       if (!alreadyLiked) {
         // Add like to likes collection
