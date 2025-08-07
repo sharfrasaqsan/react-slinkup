@@ -3,6 +3,8 @@ import { useAuth } from "../../contexts/AuthContext";
 const UserInfo = () => {
   const { user } = useAuth();
 
+  if (!user) return null;
+
   return (
     <div>
       <p>{user.username}</p>

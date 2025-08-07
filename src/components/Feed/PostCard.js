@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import NotFound from "../../utils/NotFound";
 
 import LoadingSpinner from "../../utils/LoadingSpinner";
-import LikeButton from "../LikeButton";
+import LikeButton from "./LikeButton";
 
 const PostCard = ({ post }) => {
   const { user } = useAuth();
@@ -27,7 +27,7 @@ const PostCard = ({ post }) => {
         {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
       </p>
       <p>{post.body ? post.body : "No post body"}</p>
-      <LikeButton />
+      <LikeButton post={post} />
     </div>
   );
 };
