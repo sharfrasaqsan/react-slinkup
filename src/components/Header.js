@@ -4,9 +4,11 @@ import { useAuth } from "../contexts/AuthContext";
 const Header = () => {
   const { user } = useAuth();
 
+  if (!user) return null;
+
   return (
     <div>
-      <p>Welcome @{user ? user.username : "Guest"}</p>
+      <p>Welcome back @{user ? user.username : "Guest"}</p>
     </div>
   );
 };

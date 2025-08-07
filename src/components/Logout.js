@@ -11,6 +11,10 @@ const Logout = () => {
   const [loggingOut, setLoggingOut] = useState(false);
   const navigate = useNavigate();
 
+  if (user === null) {
+    return null;
+  }
+
   const handleLogout = async () => {
     if (user === null) {
       toast.error("You are not logged in!");

@@ -78,6 +78,11 @@ const CreatePost = () => {
           required
           value={postBody}
           onChange={(e) => setPostBody(e.target.value)}
+          autoFocus
+          placeholder="What's on your mind?"
+          disabled={postLoading}
+          style={{ resize: "none" }}
+          autoComplete="off"
         />
         <button type="submit" disabled={postLoading || !postBody}>
           {postLoading ? (
