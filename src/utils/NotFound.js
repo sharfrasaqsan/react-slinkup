@@ -1,5 +1,12 @@
 const NotFound = ({ text }) => {
-  return <p style={{ textAlign: "center" }}>No {text} found!</p>;
+  return (
+    <div
+      className="d-flex justify-content-center align-items-center"
+      style={{ minHeight: "300px" }}
+    >
+      <p className="text-center text-muted fs-5">{text}</p>
+    </div>
+  );
 };
 
 export default NotFound;
