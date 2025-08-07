@@ -60,7 +60,7 @@ const Login = () => {
             name="email"
             id="email"
             required
-            autofocus
+            autoFocus
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"

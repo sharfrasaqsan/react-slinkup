@@ -7,6 +7,7 @@ import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/Config";
 import { useData } from "../contexts/DataContext";
 import LoadingSpinner from "../utils/LoadingSpinner";
+import NotFound from "../utils/NotFound";
 
 const CreatePost = () => {
   const { user, setUser } = useAuth();
@@ -15,7 +16,7 @@ const CreatePost = () => {
   const [postBody, setPostBody] = useState("");
   const [postLoading, setPostLoading] = useState(false);
 
-  if (!user) return <p>Please log in to create a post.</p>;
+  if (!user) return <NotFound text={"No user found! Please log in first."} />;
 
   if (loading) {
     return <LoadingSpinner />;
