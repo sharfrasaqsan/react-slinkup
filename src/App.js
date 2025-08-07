@@ -13,7 +13,7 @@ import PostDetails from "./pages/PostDetails";
 import Settings from "./pages/Settings";
 import Notifications from "./pages/Notifications";
 import NotFound from "./pages/NotFound";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 import ProtectedRoute from "./utils/ProtectedRoute";
 import ScrollToTop from "./utils/ScrollToTop";
@@ -22,6 +22,7 @@ import { useAuth } from "./contexts/AuthContext";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
+import UpdateUser from "./pages/admin/UpdateUser";
 
 function App() {
   const { user } = useAuth();
@@ -83,6 +84,14 @@ function App() {
           element={
             <AdminProtectedRoute>
               <AdminDashboard />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/update-user/:id"
+          element={
+            <AdminProtectedRoute>
+              <UpdateUser />
             </AdminProtectedRoute>
           }
         />
