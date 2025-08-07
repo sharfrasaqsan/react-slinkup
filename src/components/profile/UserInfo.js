@@ -9,7 +9,7 @@ const UserInfo = () => {
       <p>{user.email}</p>
       <p>{(user.followers || []).length || 0} followers</p>
       <p>{(user.following || []).length || 0} following</p>
-      <p>{user.bio} Bio</p>
+      <p>{user.bio}</p>
     </div>
   );
 };
