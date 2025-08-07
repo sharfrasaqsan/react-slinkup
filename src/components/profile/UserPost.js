@@ -1,7 +1,7 @@
 import { formatDistanceToNow } from "date-fns";
 import { useAuth } from "../../contexts/AuthContext";
 import { useData } from "../../contexts/DataContext";
-import LikeButton from "../Feed/LikeButton";
+import LikeButton from "../feed/LikeButton";
 import NotFound from "../../utils/NotFound";
 import LoadingSpinner from "../../utils/LoadingSpinner";
 
