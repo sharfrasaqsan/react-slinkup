@@ -80,7 +80,10 @@ const Login = () => {
           />
         </div>
 
-        <button type="submit">
+        <button
+          type="submit"
+          disabled={registerLoading || !email || !password || user}
+        >
           {registerLoading ? (
             <>
               Logging in... <ButtonSpinner />

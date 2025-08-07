@@ -79,7 +79,7 @@ const CreatePost = () => {
           value={postBody}
           onChange={(e) => setPostBody(e.target.value)}
         />
-        <button type="submit">
+        <button type="submit" disabled={postLoading || !postBody}>
           {postLoading ? (
             <>
               Posting... <ButtonSpinner />
