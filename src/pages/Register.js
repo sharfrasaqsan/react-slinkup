@@ -134,7 +134,6 @@ const Register = () => {
             name="lastname"
             placeholder="Enter your lastname"
             required
-            autoFocus
             value={lastname}
             onChange={(e) => setLastname(e.target.value)}
           />
@@ -148,7 +147,6 @@ const Register = () => {
             name="username"
             placeholder="Enter your username"
             required
-            autoFocus
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />

@@ -23,6 +23,8 @@ import { useAuth } from "./contexts/AuthContext";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import UpdateUser from "./pages/admin/UpdateUser";
+import AllUsers from "./pages/userDetails/AllUsers";
+import UserDetails from "./pages/userDetails/UserDetails";
 
 function App() {
   const { user } = useAuth();
@@ -95,6 +97,9 @@ function App() {
             </AdminProtectedRoute>
           }
         />
+
+        <Route path="/all-users" element={<AllUsers />} />
+        <Route path="/user/:id" element={<UserDetails />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
