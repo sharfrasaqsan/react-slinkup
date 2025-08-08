@@ -1,5 +1,5 @@
-import { useData } from "../contexts/DataContext";
-import { useAuth } from "../contexts/AuthContext";
+import { useData } from "../../contexts/DataContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const LikeButton = ({ post }) => {
   const { user } = useAuth();

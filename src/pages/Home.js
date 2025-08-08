@@ -1,5 +1,5 @@
-import CreatePost from "../components/CreatePost";
-import Feed from "../components/feed/Feed";
+import Feed from "../components/Feed";
+import CreatePost from "../components/post/CreatePost";
 
 const Home = () => {
   return (

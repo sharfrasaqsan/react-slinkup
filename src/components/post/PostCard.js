@@ -3,7 +3,7 @@ import { useData } from "../../contexts/DataContext";
 import { useAuth } from "../../contexts/AuthContext";
 import NotFound from "../../utils/NotFound";
 import LoadingSpinner from "../../utils/LoadingSpinner";
-import LikeButton from "../LikeButton";
+import LikeButton from "./LikeButton";
 
 const PostCard = ({ post }) => {
   const { user } = useAuth();
