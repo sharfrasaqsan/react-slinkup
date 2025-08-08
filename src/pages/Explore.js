@@ -4,7 +4,7 @@ import LoadingSpinner from "../utils/LoadingSpinner";
 import NotFound from "../utils/NotFound";
 import _ from "lodash";
 
-const Expolore = () => {
+const Explore = () => {
   const { user } = useAuth();
   const { posts, loading } = useData();
 
@@ -26,4 +26,4 @@ const Expolore = () => {
   );
 };
 
-export default Expolore;
+export default Explore;

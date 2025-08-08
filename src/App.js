@@ -5,7 +5,7 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 
 import Home from "./pages/Home";
-import Explore from "./pages/Expolore";
+import Explore from "./pages/Explore";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
