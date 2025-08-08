@@ -22,15 +22,17 @@ export const DataProvider = ({ children }) => {
   // Data storage
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [notifications, setNotifications] = useState([]);
 
   // Loading state
   const [loading, setLoading] = useState(true);
 
+  // Get all users
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const res = await getDocs(collection(db, "users"));
-        const resData = res.docs.map((doc) => ({
+        const resData = res.docs?.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
@@ -45,11 +47,12 @@ export const DataProvider = ({ children }) => {
     fetchUsers();
   }, []);
 
+  // Get all posts
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const res = await getDocs(collection(db, "posts"));
-        const resData = res.docs.map((doc) => ({
+        const resData = res.docs?.map((doc) => ({
           id: doc.id,
           likes: doc.data().likes || [],
           ...doc.data(),
@@ -63,6 +66,26 @@ export const DataProvider = ({ children }) => {
     };
 
     fetchPosts();
+  }, []);
+
+  // Get all notifications
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const res = await getDocs(collection(db, "notifications"));
+        const resData = res.docs?.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setNotifications(resData);
+      } catch (err) {
+        toast.error(getAuthErrorMessage(err.code));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNotifications();
   }, []);
 
   // Handle likes function
@@ -95,9 +118,29 @@ export const DataProvider = ({ children }) => {
         )
       );
 
-      // Add or remove like used only firestore. not local states. 
+      // Add notification if user has not already liked the post and the post is not by the user
+      if (!alreadyLiked && currentPost.userId !== user.id) {
+        const newNotification = {
+          postId,
+          recieverId: currentPost.userId,
+          senderId: user.id,
+          type: "like",
+          isRead: false,
+          message: `${user.username} liked your post.`,
+          createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+        };
+        const res = await addDoc(
+          collection(db, "notifications"),
+          newNotification
+        );
+        setNotifications((prev) => [
+          ...prev,
+          { id: res.id, ...newNotification },
+        ]);
+      }
+
+      // Add or remove like used only firestore. not local states.
       // so it should be used query to get the updated data from firestore
-      
       // Check if user has already liked the post
       if (!alreadyLiked) {
         // Add like to likes collection
@@ -134,6 +177,8 @@ export const DataProvider = ({ children }) => {
         setUsers,
         posts,
         setPosts,
+        notifications,
+        setNotifications,
         handleLikes,
         loading,
         setLoading,
