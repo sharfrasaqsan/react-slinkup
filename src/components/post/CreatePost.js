@@ -1,13 +1,13 @@
-import ButtonSpinner from "../utils/ButtonSpinner";
+import ButtonSpinner from "../../utils/ButtonSpinner";
 import { useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase/Config";
-import { useData } from "../contexts/DataContext";
-import LoadingSpinner from "../utils/LoadingSpinner";
-import NotFound from "../utils/NotFound";
+import { db } from "../../firebase/Config";
+import { useData } from "../../contexts/DataContext";
+import LoadingSpinner from "../../utils/LoadingSpinner";
+import NotFound from "../../utils/NotFound";
 
 const CreatePost = () => {
   const { user, setUser } = useAuth();

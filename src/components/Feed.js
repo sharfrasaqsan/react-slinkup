@@ -1,5 +1,5 @@
-import { useData } from "../../contexts/DataContext";
-import PostCard from "./PostCard";
+import { useData } from "../contexts/DataContext";
+import PostCard from "./post/PostCard";
 
 const Feed = () => {
   const { posts } = useData();
