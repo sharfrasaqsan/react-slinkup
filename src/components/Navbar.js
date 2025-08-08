@@ -28,7 +28,7 @@ const Navbar = () => {
 
         {user && user.role === "admin" && (
           <li>
-            <NavLink to="/admin/dashboard/:id">Admin</NavLink>
+            <NavLink to={`/admin/dashboard/${user.id}`}>Admin</NavLink>
           </li>
         )}
 
@@ -48,6 +48,10 @@ const Navbar = () => {
             </li>
           </>
         )}
+
+        <li>
+          <NavLink to="/all-users">All Users</NavLink>
+        </li>
       </ul>
     </nav>
   );

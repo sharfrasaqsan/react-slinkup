@@ -1,5 +1,6 @@
 import { useData } from "../../contexts/DataContext";
 import PostCard from "./PostCard";
+import LikeButton from "./LikeButton";
 
 const Feed = () => {
   const { posts } = useData();
@@ -9,7 +10,7 @@ const Feed = () => {
   return (
     <>
       {[...posts].reverse().map((post) => (
-        <PostCard key={post.id} post={post} />
+        <PostCard key={post.id} post={post} LikeButton={LikeButton} />
       ))}
     </>
   );
