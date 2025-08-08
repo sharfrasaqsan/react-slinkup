@@ -1,11 +1,11 @@
 import UserInfo from "../components/profile/UserInfo";
-import UserPost from "../components/profile/UserPost";
+import UserPosts from "../components/profile/UserPosts";
 
 const Profile = () => {
   return (
     <section>
       <UserInfo />
-      <UserPost />
+      <UserPosts />
     </section>
   );
 };

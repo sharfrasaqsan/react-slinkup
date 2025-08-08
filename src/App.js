@@ -11,7 +11,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PostDetails from "./pages/PostDetails";
 import Settings from "./pages/Settings";
-import Notifications from "./pages/Notifications";
+import Notifications from "./pages/notification/Notifications";
 import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 
@@ -23,8 +23,8 @@ import { useAuth } from "./contexts/AuthContext";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import UpdateUser from "./pages/admin/UpdateUser";
-import AllUsers from "./pages/userDetails/AllUsers";
-import UserDetails from "./pages/userDetails/UserDetails";
+import AllUsers from "./pages/users/AllUsers";
+import UserDetails from "./pages/users/UserDetails";
 
 function App() {
   const { user } = useAuth();
@@ -35,7 +35,14 @@ function App() {
       <Navbar />
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/explore"
           element={

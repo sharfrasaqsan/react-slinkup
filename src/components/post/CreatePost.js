@@ -42,7 +42,7 @@ const CreatePost = () => {
           createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
         };
         const res = await addDoc(collection(db, "posts"), newPost);
-        setPosts((prev) => [...prev, newPost]);
+        setPosts((prev) => [...prev, { id: res.id, ...newPost }]);
         setPostBody("");
         toast.success("Post created successfully.");
 
