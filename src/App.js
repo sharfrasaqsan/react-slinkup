@@ -10,10 +10,13 @@ import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PostDetails from "./pages/PostDetails";
-import Settings from "./pages/Settings";
+import Settings from "./pages/settings/Settings";
 import Notifications from "./pages/notification/Notifications";
 import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import UpdateUser from "./pages/admin/UpdateUser";
+import AllUsers from "./pages/users/AllUsers";
+import UserDetails from "./pages/users/UserDetails";
 
 import ProtectedRoute from "./utils/ProtectedRoute";
 import ScrollToTop from "./utils/ScrollToTop";
@@ -22,9 +25,8 @@ import { useAuth } from "./contexts/AuthContext";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
-import UpdateUser from "./pages/admin/UpdateUser";
-import AllUsers from "./pages/users/AllUsers";
-import UserDetails from "./pages/users/UserDetails";
+import ProfileSettings from "./pages/settings/ProfileSettings";
+import AccountSettings from "./pages/settings/AccountSettings";
 
 function App() {
   const { user } = useAuth();
@@ -72,14 +74,12 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/settings"
-          element={
-            <ProtectedRoute>
-              <Settings />
-            </ProtectedRoute>
-          }
-        />
+
+        {/* Settings Routes */}
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/settings/profile" element={<ProfileSettings />} />
+        <Route path="/settings/account" element={<AccountSettings />} />
+
         <Route
           path="/notifications"
           element={
@@ -88,22 +88,26 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/admin/dashboard/:id"
-          element={
-            <AdminProtectedRoute>
-              <AdminDashboard />
-            </AdminProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/update-user/:id"
-          element={
-            <AdminProtectedRoute>
-              <UpdateUser />
-            </AdminProtectedRoute>
-          }
-        />
+
+        {/* Admin Routes */}
+        <Route path="/admin">
+          <Route
+            path="dashboard/:id"
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboard />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="update-user/:id"
+            element={
+              <AdminProtectedRoute>
+                <UpdateUser />
+              </AdminProtectedRoute>
+            }
+          />
+        </Route>
 
         <Route path="/all-users" element={<AllUsers />} />
         <Route path="/user/:id" element={<UserDetails />} />
