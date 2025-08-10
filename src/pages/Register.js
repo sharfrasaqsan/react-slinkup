@@ -26,6 +26,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
+
   const [registerLoading, setRegisterLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -93,6 +94,16 @@ const Register = () => {
         userPosts: [],
         role: "user",
         createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+        location: "", // Empty, user can update it later
+        website: "",
+        social: {},
+        birthday: "",
+        gender: "",
+        hobbies: [],
+        occupation: [],
+        education: [],
+        relationship: "",
+        languages: [],
       };
       // Add the new user document to the "users" collection
       await setDoc(doc(db, "users", uid), newUser);
