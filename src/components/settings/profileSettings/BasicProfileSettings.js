@@ -6,7 +6,6 @@ import ButtonSpinner from "../../../utils/ButtonSpinner";
 import { format } from "date-fns";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase/Config";
-import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../../utils/LoadingSpinner";
 
 const BasicProfileSettings = () => {
@@ -21,16 +20,83 @@ const BasicProfileSettings = () => {
   const [bio, setBio] = useState("");
   const [location, setLocation] = useState("");
   const [website, setWebsite] = useState("");
+
   const [social, setSocial] = useState({}); // stores all platforms + links
   const [selectedPlatform, setSelectedPlatform] = useState("twitter"); // dropdown selection
   const [link, setLink] = useState(""); // current link input
 
-  const navigate = useNavigate();
-
   const [updateLoading, setUpdateLoading] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setUsername(user.username);
+      setEmail(user.email);
+      setPassword(user.password);
+      setFirstname(user.firstname || "");
+      setLastname(user.lastname || "");
+      setBio(user.bio || "");
+      setLocation(user.location || "");
+      setWebsite(user.website || "");
+      setSocial(user.social || {});
+    }
+  }, [user]);
+
+  if (loading) return <LoadingSpinner />;
+  if (!user) return null;
+
+  const handleUpdate = async (userId) => {
+    setUpdateLoading(true);
+
+    if (!username || !email || !password) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
+    
+
+    try {
+      const updatedUser = {
+        username,
+        email,
+        password,
+        firstname,
+        lastname,
+        bio,
+        location,
+        website,
+        social,
+        updatedAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+      };
+
+      await updateDoc(doc(db, "users", userId), { ...updatedUser });
+
+      setUsers((prev) =>
+        prev?.map((user) =>
+          user.id === userId ? { ...user, ...updatedUser } : user
+        )
+      );
+
+      toast.success("Profile updated successfully!");
+    } catch (err) {
+      toast.error(err.message);
+    }
+    setUpdateLoading(false);
+  };
 
   const handleAddSocial = () => {
     if (!link.trim()) return;
+
+    try {
+      new URL(link.trim()); // throws if invalid
+    } catch {
+      toast.error("Please enter a valid URL.");
+      return;
+    }
+
+    if (!selectedPlatform) {
+      toast.error("Please select a platform.");
+      return;
+    }
 
     setSocial((prev) => ({
       ...prev,
@@ -40,51 +106,12 @@ const BasicProfileSettings = () => {
     setLink("");
   };
 
-  useEffect(() => {
-    if (user) {
-      setUsername(user.username);
-      setEmail(user.email);
-      setPassword(user.password);
-      setFirstname(user.firstname);
-      setLastname(user.lastname);
-      setBio(user.bio);
-      setLocation(user.location);
-      setWebsite(user.website);
-      setSocial(user.social);
-    }
-  }, [user]);
-
-  if (loading) return <LoadingSpinner />;
-  if (!user) return null;
-
-  const handleUpdate = async (userId) => {
-    setUpdateLoading(true);
-    try {
-      const updatedUser = {
-        username,
-        email,
-        password,
-        firstname,
-        lastname,
-        bio,
-        website,
-        social,
-        updatedAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-      };
-      await updateDoc(doc(db, "users", userId), {
-        ...updatedUser,
-      });
-      setUsers((prev) =>
-        prev?.map((user) =>
-          user.id === userId ? { ...user, ...updatedUser } : user
-        )
-      );
-      toast.success("Profile updated successfully!");
-      navigate("/profile");
-    } catch (err) {
-      toast.error(err.message);
-    }
-    setUpdateLoading(false);
+  const handleRemoveSocial = (platform) => {
+    setSocial((prev) => {
+      const newSocial = { ...prev };
+      delete newSocial[platform];
+      return newSocial;
+    });
   };
 
   return (
@@ -222,15 +249,29 @@ const BasicProfileSettings = () => {
             onChange={(e) => setLink(e.target.value)}
           />
 
-          <button onClick={handleAddSocial}>Add</button>
+          <button type="button" onClick={handleAddSocial}>
+            Add
+          </button>
 
-          <ul>
-            {Object.entries(social || {})?.map(([platform, url]) => (
-              <li key={platform}>
-                <strong>{platform}:</strong> {url}
-              </li>
-            ))}
-          </ul>
+          <table>
+            <tbody>
+              {Object.entries(social || {}).map(([platform, url]) => (
+                <tr key={platform}>
+                  <td>
+                    {platform}: {url}
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => handleRemoveSocial(platform)}
+                      type="button"
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
 
         <button type="submit">
