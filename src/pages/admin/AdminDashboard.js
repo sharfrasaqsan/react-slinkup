@@ -13,7 +13,7 @@ const AdminDashboard = () => {
   const { user } = useAuth();
   const { users, setUsers, loading } = useData();
 
-  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(null);
 
   if (loading) return <LoadingSpinner />;
   if (!user) return null;
@@ -22,8 +22,12 @@ const AdminDashboard = () => {
   if (registeredUsers.length === 0)
     return <NotFound text={"No users found!"} />;
 
+  const sortedRegisteredUsers = [...registeredUsers].sort((a, b) => {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+
   const handleUserDelete = async (userId) => {
-    setDeleteLoading(true);
+    setDeleteLoading(userId);
     try {
       await deleteDoc(doc(db, "users", userId));
       setUsers((prev) => prev.filter((user) => user.id !== userId));
@@ -31,7 +35,7 @@ const AdminDashboard = () => {
     } catch (err) {
       toast.error(err.message);
     }
-    setDeleteLoading(false);
+    setDeleteLoading(null);
   };
 
   return (
@@ -56,9 +60,9 @@ const AdminDashboard = () => {
           </thead>
 
           <tbody>
-            {registeredUsers.map((user) => (
+            {sortedRegisteredUsers?.map((user, index) => (
               <tr key={user.id}>
-                <td>{registeredUsers.indexOf(user) + 1}</td>
+                <td>{index + 1}</td>
                 <td>{user.username}</td>
                 <td>{user.firstname}</td>
                 <td>{user.lastname}</td>
@@ -72,7 +76,7 @@ const AdminDashboard = () => {
                     onClick={() => handleUserDelete(user.id)}
                     disabled={deleteLoading === user.id}
                   >
-                    {deleteLoading ? (
+                    {deleteLoading === user.id ? (
                       <>
                         Deleting... <ButtonSpinner />
                       </>
