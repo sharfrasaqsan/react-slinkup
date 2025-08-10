@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase/Config";
 import { format } from "date-fns";
+import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
 
 const PersonalSettings = () => {
   const { user } = useAuth();
@@ -208,9 +209,9 @@ const PersonalSettings = () => {
             onChange={(e) => setNewOccupation(e.target.value)}
             placeholder="Enter an occupation"
           />
-          <button type="button" onClick={addOccupation}>
-            Add
-          </button>
+          <span type="button" onClick={addOccupation}>
+            <AiOutlinePlus />
+          </span>
 
           <table>
             <tbody>
@@ -218,12 +219,9 @@ const PersonalSettings = () => {
                 <tr key={index}>
                   <td>{occ}</td>
                   <td>
-                    <button
-                      type="button"
-                      onClick={() => removeOccupation(index)}
-                    >
-                      Remove
-                    </button>
+                    <span type="button" onClick={() => removeOccupation(index)}>
+                      <AiOutlineDelete />
+                    </span>
                   </td>
                 </tr>
               ))}
@@ -241,9 +239,9 @@ const PersonalSettings = () => {
             onChange={(e) => setNewEducation(e.target.value)}
             placeholder="Enter education"
           />
-          <button type="button" onClick={addEducation}>
-            Add
-          </button>
+          <span type="button" onClick={addEducation}>
+            <AiOutlinePlus />
+          </span>
 
           <table>
             <tbody>
@@ -251,12 +249,9 @@ const PersonalSettings = () => {
                 <tr key={index}>
                   <td>{edu}</td>
                   <td>
-                    <button
-                      type="button"
-                      onClick={() => removeEducation(index)}
-                    >
-                      Remove
-                    </button>
+                    <span type="button" onClick={() => removeEducation(index)}>
+                      <AiOutlineDelete />
+                    </span>
                   </td>
                 </tr>
               ))}
@@ -274,9 +269,9 @@ const PersonalSettings = () => {
             onChange={(e) => setNewLanguage(e.target.value)}
             placeholder="Enter a language"
           />
-          <button type="button" onClick={addLanguage}>
-            Add
-          </button>
+          <span type="button" onClick={addLanguage}>
+            <AiOutlinePlus />
+          </span>
 
           <table>
             <tbody>
@@ -284,9 +279,9 @@ const PersonalSettings = () => {
                 <tr key={index}>
                   <td>{lang}</td>
                   <td>
-                    <button type="button" onClick={() => removeLanguage(index)}>
-                      Remove
-                    </button>
+                    <span type="button" onClick={() => removeLanguage(index)}>
+                      <AiOutlineDelete />
+                    </span>
                   </td>
                 </tr>
               ))}
