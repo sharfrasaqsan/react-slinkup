@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase/Config";
 import LoadingSpinner from "../../../utils/LoadingSpinner";
+import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
 
 const BasicProfileSettings = () => {
   const { user } = useAuth();
@@ -251,9 +252,9 @@ const BasicProfileSettings = () => {
             onChange={(e) => setLink(e.target.value)}
           />
 
-          <button type="button" onClick={handleAddSocial}>
-            Add
-          </button>
+          <soan type="button" onClick={handleAddSocial}>
+            <AiOutlinePlus />
+          </soan>
 
           <table>
             <tbody>
@@ -263,12 +264,12 @@ const BasicProfileSettings = () => {
                     {platform}: {url}
                   </td>
                   <td>
-                    <button
+                    <span
                       onClick={() => handleRemoveSocial(platform)}
                       type="button"
                     >
-                      Remove
-                    </button>
+                      <AiOutlineDelete />
+                    </span>
                   </td>
                 </tr>
               ))}

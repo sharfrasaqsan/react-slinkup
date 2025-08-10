@@ -8,6 +8,8 @@ import { useState } from "react";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/Config";
 import ButtonSpinner from "../../utils/ButtonSpinner";
+import { AiOutlineDelete } from "react-icons/ai";
+import { RiEditBoxLine } from "react-icons/ri";
 
 const AdminDashboard = () => {
   const { user } = useAuth();
@@ -70,20 +72,22 @@ const AdminDashboard = () => {
                 <td>{user.role}</td>
                 <td>
                   <Link to={`/admin/update-user/${user.id}`}>
-                    <button>Update</button>
+                    <span type="button">
+                      <RiEditBoxLine />
+                    </span>
                   </Link>
-                  <button
+                  <span
                     onClick={() => handleUserDelete(user.id)}
                     disabled={deleteLoading === user.id}
                   >
                     {deleteLoading === user.id ? (
                       <>
-                        Deleting... <ButtonSpinner />
+                        <ButtonSpinner />
                       </>
                     ) : (
-                      "Delete"
+                      <AiOutlineDelete />
                     )}
-                  </button>
+                  </span>
                 </td>
               </tr>
             ))}
