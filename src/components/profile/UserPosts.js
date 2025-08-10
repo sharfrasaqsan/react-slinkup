@@ -22,7 +22,7 @@ const UserPosts = () => {
   if (userPosts.length === 0) return <NotFound text={"No posts found!"} />;
 
   return (
-    <div>
+    <div style={{ padding: "1rem", backgroundColor: "#f0f0f0" }}>
       <p>
         {(user.userPosts || []).length || 0}{" "}
         {(user.userPosts || []).length > 1 ? "posts" : "post"}

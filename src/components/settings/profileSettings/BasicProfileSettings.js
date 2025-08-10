@@ -22,7 +22,7 @@ const BasicProfileSettings = () => {
   const [website, setWebsite] = useState("");
 
   const [social, setSocial] = useState({}); // stores all platforms + links
-  const [selectedPlatform, setSelectedPlatform] = useState("twitter"); // dropdown selection
+  const [selectedPlatform, setSelectedPlatform] = useState(); // dropdown selection
   const [link, setLink] = useState(""); // current link input
 
   const [updateLoading, setUpdateLoading] = useState(false);
@@ -51,8 +51,6 @@ const BasicProfileSettings = () => {
       toast.error("Please fill in all required fields.");
       return;
     }
-
-    
 
     try {
       const updatedUser = {
@@ -84,7 +82,10 @@ const BasicProfileSettings = () => {
   };
 
   const handleAddSocial = () => {
-    if (!link.trim()) return;
+    if (!link.trim()) {
+      toast.error("Please enter a link.");
+      return;
+    }
 
     try {
       new URL(link.trim()); // throws if invalid
@@ -234,9 +235,10 @@ const BasicProfileSettings = () => {
             value={selectedPlatform}
             onChange={(e) => setSelectedPlatform(e.target.value)}
           >
-            <option value="Twitter">Twitter</option>
-            <option value="Instagram">Instagram</option>
+            <option selected>Select a platform</option>
             <option value="Facebook">Facebook</option>
+            <option value="Instagram">Instagram</option>
+            <option value="Twitter">Twitter</option>
             <option value="Linkedin">LinkedIn</option>
             <option value="Github">Github</option>
           </select>

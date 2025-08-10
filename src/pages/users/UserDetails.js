@@ -10,6 +10,8 @@ import ButtonSpinner from "../../utils/ButtonSpinner";
 import LoadingSpinner from "../../utils/LoadingSpinner";
 import NotFound from "../../utils/NotFound";
 import UsersPosts from "./UsersPosts";
+import { FaRegUser } from "react-icons/fa";
+import { MdOutlineEmail } from "react-icons/md";
 
 const UserDetails = () => {
   const { id } = useParams();
@@ -82,28 +84,6 @@ const UserDetails = () => {
         )
       );
 
-      // Add or delete follower in firestore
-      // if (!alreadyFollowed) {
-      //   const newFollower = {
-      //     follower: user.id,
-      //     following: existUser.id,
-      //     createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-      //   };
-      //   await addDoc(collection(db, "followers"), newFollower);
-      // } else {
-      //   const followerDoc = await getDocs(
-      //     query(
-      //       collection(db, "followers"),
-      //       where("follower", "==", user.id),
-      //       where("following", "==", existUser.id)
-      //     )
-      //   );
-      //   followerDoc.forEach(
-      //     async (singleDoc) =>
-      //       await deleteDoc(doc(db, "followers", singleDoc.id))
-      //   );
-      // }
-
       //------------------------------------------------------------------
 
       // Check if existing user has already following
@@ -133,28 +113,6 @@ const UserDetails = () => {
         )
       );
 
-      // Add or delete following in firestore
-      // if (!alreadyFollowing) {
-      //   const newFollowing = {
-      //     follower: user.id,
-      //     following: existUser.id,
-      //     createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-      //   };
-      //   await addDoc(collection(db, "following"), newFollowing);
-      // } else {
-      //   const followingDoc = await getDocs(
-      //     query(
-      //       collection(db, "following"),
-      //       where("follower", "==", user.id),
-      //       where("following", "==", existUser.id)
-      //     )
-      //   );
-      //   followingDoc.forEach(
-      //     async (singleDoc) =>
-      //       await deleteDoc(doc(db, "following", singleDoc.id))
-      //   );
-      // }
-
       // Add notification if not already followed or current user is the user to follow (own profile)
       const newNotification = {
         recieverId: existUser.id,
@@ -183,13 +141,11 @@ const UserDetails = () => {
 
   return (
     <div>
-      <p>@{existUser.username}</p>
+      <p>{existUser.username}</p>
       <p>
-        <span>
-          {existUser.firstname} {existUser.lastname}
-        </span>
+        {(existUser.followers || []).length || 0} followers |{" "}
+        {(existUser.following || []).length || 0} following
       </p>
-      <p>{existUser.email}</p>
 
       {user.id !== existUser.id && (
         <button
@@ -207,8 +163,16 @@ const UserDetails = () => {
         </button>
       )}
 
-      <p>{(existUser.followers || []).length || 0} followers</p>
-      <p>{(existUser.following || []).length || 0} following</p>
+      <p>
+        <span>
+          <FaRegUser /> {existUser.firstname} {existUser.lastname}
+        </span>
+      </p>
+
+      <p>
+        <MdOutlineEmail /> {existUser.email}
+      </p>
+
       <p>{existUser.bio}</p>
       <UsersPosts existUser={existUser} />
     </div>
