@@ -24,8 +24,6 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
 
   const [registerLoading, setRegisterLoading] = useState(false);
 
@@ -83,9 +81,9 @@ const Register = () => {
       // Create a new user document
       const newUser = {
         id: uid,
-        username: username.replace(/\s+/g, "").toLowerCase(),
-        firstname,
-        lastname,
+        username: username.replace(/[^a-z0-9]/gi, "").toLowerCase(),
+        firstname: "",
+        lastname: "",
         email,
         password,
         bio: "",
@@ -93,17 +91,17 @@ const Register = () => {
         following: [],
         userPosts: [],
         role: "user",
-        createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
         location: "", // Empty, user can update it later
         website: "",
         social: {},
         birthday: "",
         gender: "",
-        hobbies: [],
         occupation: [],
         education: [],
         relationship: "",
         languages: [],
+        createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+        profileCompletion: false,
       };
       // Add the new user document to the "users" collection
       await setDoc(doc(db, "users", uid), newUser);
@@ -111,8 +109,9 @@ const Register = () => {
       setUsername("");
       setEmail("");
       setPassword("");
+      setConfirmPassword("");
       toast.success("Registration successful!");
-      navigate("/");
+      navigate("/register-details");
     } catch (err) {
       toast.error(err.message);
     }
@@ -123,33 +122,6 @@ const Register = () => {
     <section>
       <h2>Register</h2>
       <form onSubmit={handleRegister}>
-        <div>
-          <label htmlFor="email">Firstname</label>
-          <input
-            type="text"
-            id="firstname"
-            name="firstname"
-            placeholder="Enter your firstname"
-            required
-            autoFocus
-            value={firstname}
-            onChange={(e) => setFirstname(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="email">Lastname</label>
-          <input
-            type="text"
-            id="lastname"
-            name="lastname"
-            placeholder="Enter your lastname"
-            required
-            value={lastname}
-            onChange={(e) => setLastname(e.target.value)}
-          />
-        </div>
-
         <div>
           <label htmlFor="email">Username</label>
           <input
@@ -209,8 +181,6 @@ const Register = () => {
             !email ||
             !password ||
             registerLoading ||
-            !firstname ||
-            !lastname ||
             !username ||
             !confirmPassword
           }

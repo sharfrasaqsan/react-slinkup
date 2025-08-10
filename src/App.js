@@ -27,6 +27,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import ProfileSettings from "./pages/settings/ProfileSettings";
 import AccountSettings from "./pages/settings/AccountSettings";
+import RegisterDetails from "./pages/RegisterDetails";
 
 function App() {
   const { user } = useAuth();
@@ -61,11 +62,17 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
         <Route
           path="/register"
           element={user ? <Navigate to="/" /> : <Register />}
         />
+        <Route
+          path="/register-details"
+          element={!user ? <Navigate to="/login" /> : <RegisterDetails />}
+        />
+
         <Route
           path="/post/:postId"
           element={
@@ -76,9 +83,30 @@ function App() {
         />
 
         {/* Settings Routes */}
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/settings/profile" element={<ProfileSettings />} />
-        <Route path="/settings/account" element={<AccountSettings />} />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/profile"
+          element={
+            <ProtectedRoute>
+              <ProfileSettings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/account"
+          element={
+            <ProtectedRoute>
+              <AccountSettings />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/notifications"

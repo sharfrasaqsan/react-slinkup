@@ -1,10 +1,22 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuth();
+  const location = useLocation();
 
-  return user ? children : <Navigate to="/login" replace />;
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (
+    user.profileCompletion === false &&
+    location.pathname !== "/register-details"
+  ) {
+    return <Navigate to="/register-details" replace />;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;

@@ -6,6 +6,7 @@ import ButtonSpinner from "../../../utils/ButtonSpinner";
 import { toast } from "react-toastify";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase/Config";
+import { format } from "date-fns";
 
 const PersonalSettings = () => {
   const { user } = useAuth();
@@ -15,9 +16,6 @@ const PersonalSettings = () => {
   const [birthday, setBirthday] = useState("");
 
   // Arrays with separate "new" inputs
-  const [hobbies, setHobbies] = useState([]);
-  const [newHobby, setNewHobby] = useState("");
-
   const [occupation, setOccupation] = useState([]);
   const [newOccupation, setNewOccupation] = useState("");
 
@@ -37,14 +35,6 @@ const PersonalSettings = () => {
       setBirthday(user.birthday || "");
 
       // convert to array if string, else use empty array if falsy
-      setHobbies(
-        Array.isArray(user.hobbies)
-          ? user.hobbies
-          : user.hobbies
-          ? user.hobbies.split(",").map((item) => item.trim())
-          : []
-      );
-
       setOccupation(
         Array.isArray(user.occupation)
           ? user.occupation
@@ -74,16 +64,6 @@ const PersonalSettings = () => {
   }, [user]);
 
   // Add item helpers for arrays
-  const addHobby = () => {
-    if (newHobby.trim()) {
-      setHobbies((prev) => [...prev, newHobby.trim()]);
-      setNewHobby("");
-    }
-  };
-
-  const removeHobby = (index) => {
-    setHobbies((prev) => prev.filter((_, i) => i !== index));
-  };
 
   const addOccupation = () => {
     if (newOccupation.trim()) {
@@ -120,15 +100,26 @@ const PersonalSettings = () => {
 
   const handleUpdate = async (userId) => {
     setUpdateLoading(true);
+
+    if (!gender) {
+      toast.error("Please select a gender.");
+      return;
+    }
+
+    if (!birthday) {
+      toast.error("Please select a birthday.");
+      return;
+    }
+
     try {
       const updatedUser = {
         gender,
         birthday,
-        hobbies,
         occupation,
         education,
         relationship,
         languages,
+        updatedAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       };
 
       await updateDoc(doc(db, "users", userId), { ...updatedUser });
@@ -169,7 +160,7 @@ const PersonalSettings = () => {
             required
             placeholder="Gender"
           >
-            <option value="">Select Gender</option>
+            <option selected>Select Gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
             <option value="other">Other</option>
@@ -185,6 +176,7 @@ const PersonalSettings = () => {
             value={birthday}
             onChange={(e) => setBirthday(e.target.value)}
             placeholder="Birthday"
+            required
           />
         </div>
 
@@ -197,43 +189,13 @@ const PersonalSettings = () => {
             onChange={(e) => setRelationship(e.target.value)}
             placeholder="Relationship Status"
           >
-            <option value="">Select Status</option>
-            <option value="single">Single</option>
-            <option value="in_a_relationship">In a Relationship</option>
-            <option value="married">Married</option>
-            <option value="divorced">Divorced</option>
-            <option value="widowed">Widowed</option>
+            <option selected>Select Status</option>
+            <option value="Single">Single</option>
+            <option value="In a relationship">In a Relationship</option>
+            <option value="Married">Married</option>
+            <option value="Divorced">Divorced</option>
+            <option value="Widowed">Widowed</option>
           </select>
-        </div>
-
-        <div>
-          <label htmlFor="newHobby">Hobbies</label>
-          <input
-            type="text"
-            id="newHobby"
-            name="newHobby"
-            value={newHobby}
-            onChange={(e) => setNewHobby(e.target.value)}
-            placeholder="Enter a hobby"
-          />
-          <button type="button" onClick={addHobby}>
-            Add
-          </button>
-
-          <table>
-            <tbody>
-              {hobbies?.map((hobby, index) => (
-                <tr key={index}>
-                  <td>{hobby}</td>
-                  <td>
-                    <button type="button" onClick={() => removeHobby(index)}>
-                      Remove
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
 
         <div>
