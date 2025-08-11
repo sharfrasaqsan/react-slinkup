@@ -1,10 +1,18 @@
+import { useState } from "react";
 import LikeButton from "./LikeButton";
 import { formatDistanceToNow } from "date-fns";
+import CommentModal from "../comments/CommentModal";
+import LikeCommentCounts from "./LikeCommentCounts";
 
 const PostsList = ({ userPosts, postedBy }) => {
   const sortedUserPosts = [...userPosts]?.sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
+
+  // Comment button states
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <>
@@ -22,7 +30,12 @@ const PostsList = ({ userPosts, postedBy }) => {
             {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
           </p>
           <p>{post.body}</p>
+
+          <LikeCommentCounts post={post} />
+
           <LikeButton post={post} />
+          <button onClick={handleShow}>Comments</button>
+          <CommentModal show={show} handleClose={handleClose} post={post} />
         </div>
       ))}
     </>

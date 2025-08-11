@@ -2,7 +2,7 @@ import { useState } from "react";
 import { TiArrowRightOutline } from "react-icons/ti";
 import { toast } from "react-toastify";
 import { useAuth } from "../../contexts/AuthContext";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/Config";
 import { useData } from "../../contexts/DataContext";
 import { format } from "date-fns";
@@ -11,7 +11,7 @@ import { useRef } from "react";
 
 const CreateComment = ({ post }) => {
   const { user } = useAuth();
-  const { setComments } = useData();
+  const { setComments, setPosts } = useData();
 
   const [comment, setComment] = useState("");
 
@@ -37,10 +37,26 @@ const CreateComment = ({ post }) => {
         likes: [],
         createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       };
+
       const res = await addDoc(collection(db, "comments"), newComment);
+
       setComments((prev) => [...prev, { id: res.id, ...newComment }]);
+
       toast.info("Comment added successfully!");
       setComment("");
+
+      // Update the comments in posts->comments
+      await updateDoc(doc(db, "posts", postId), {
+        comments: [...(post.comments || []), res.id],
+      });
+
+      setPosts((prev) =>
+        prev?.map((post) =>
+          post.id === postId
+            ? { ...post, comments: [...(post.comments || []), res.id] }
+            : post
+        )
+      );
     } catch (err) {
       toast.error("Failed to create comment!");
     }

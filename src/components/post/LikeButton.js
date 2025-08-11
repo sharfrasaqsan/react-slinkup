@@ -12,9 +12,7 @@ const LikeButton = ({ post }) => {
     <>
       <button onClick={() => handleLikes(post.id)} disabled={!user}>
         {(post.likes || [])?.includes(user.id) ? "Unlike" : "Like"}
-      </button>{" "}
-      {(post.likes || [])?.length ? (post.likes || [])?.length : 0}{" "}
-      {(post.likes || [])?.length > 1 ? "likes" : "like"}
+      </button>
     </>
   );
 };
