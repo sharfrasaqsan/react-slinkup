@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useData } from "../../../contexts/DataContext";
 import { toast } from "react-toastify";
@@ -10,7 +10,7 @@ import LoadingSpinner from "../../../utils/LoadingSpinner";
 import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
 
 const BasicProfileSettings = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const { setUsers, loading } = useData();
 
   const [username, setUsername] = useState("");
@@ -28,6 +28,8 @@ const BasicProfileSettings = () => {
 
   const [updateLoading, setUpdateLoading] = useState(false);
 
+  const socialRef = useRef();
+
   useEffect(() => {
     if (user) {
       setUsername(user.username);
@@ -44,6 +46,42 @@ const BasicProfileSettings = () => {
 
   if (loading) return <LoadingSpinner />;
   if (!user) return null;
+
+  const handleAddSocial = () => {
+    if (!link.trim()) {
+      toast.error("Please enter a link.");
+      return;
+    }
+
+    try {
+      new URL(link.trim()); // throws if invalid
+    } catch {
+      toast.error("Please enter a valid URL.");
+      return;
+    }
+
+    if (!selectedPlatform) {
+      toast.error("Please select a platform.");
+      return;
+    }
+
+    setSocial((prev) => ({
+      ...prev,
+      [selectedPlatform]: link.trim(),
+    }));
+
+    setLink("");
+
+    socialRef.current.focus();
+  };
+
+  const handleRemoveSocial = (platform) => {
+    setSocial((prev) => {
+      const newSocial = { ...prev };
+      delete newSocial[platform];
+      return newSocial;
+    });
+  };
 
   const handleUpdate = async (userId) => {
     setUpdateLoading(true);
@@ -75,45 +113,13 @@ const BasicProfileSettings = () => {
         )
       );
 
+      setUser((prev) => ({ ...prev, ...updatedUser }));
+
       toast.success("Profile updated successfully!");
     } catch (err) {
       toast.error(err.message);
     }
     setUpdateLoading(false);
-  };
-
-  const handleAddSocial = () => {
-    if (!link.trim()) {
-      toast.error("Please enter a link.");
-      return;
-    }
-
-    try {
-      new URL(link.trim()); // throws if invalid
-    } catch {
-      toast.error("Please enter a valid URL.");
-      return;
-    }
-
-    if (!selectedPlatform) {
-      toast.error("Please select a platform.");
-      return;
-    }
-
-    setSocial((prev) => ({
-      ...prev,
-      [selectedPlatform]: link.trim(),
-    }));
-
-    setLink("");
-  };
-
-  const handleRemoveSocial = (platform) => {
-    setSocial((prev) => {
-      const newSocial = { ...prev };
-      delete newSocial[platform];
-      return newSocial;
-    });
   };
 
   return (
@@ -250,11 +256,19 @@ const BasicProfileSettings = () => {
             placeholder="Link"
             value={link}
             onChange={(e) => setLink(e.target.value)}
+            ref={socialRef}
           />
 
-          <soan type="button" onClick={handleAddSocial}>
+          <button
+            type="button"
+            onClick={handleAddSocial}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleAddSocial();
+            }}
+            tabIndex={0}
+          >
             <AiOutlinePlus />
-          </soan>
+          </button>
 
           <table>
             <tbody>
@@ -264,12 +278,12 @@ const BasicProfileSettings = () => {
                     {platform}: {url}
                   </td>
                   <td>
-                    <span
+                    <button
                       onClick={() => handleRemoveSocial(platform)}
                       type="button"
                     >
                       <AiOutlineDelete />
-                    </span>
+                    </button>
                   </td>
                 </tr>
               ))}
