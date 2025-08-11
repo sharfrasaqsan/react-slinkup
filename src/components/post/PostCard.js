@@ -6,6 +6,7 @@ import LoadingSpinner from "../../utils/LoadingSpinner";
 import LikeButton from "./LikeButton";
 import CommentModal from "../comments/CommentModal";
 import { useState } from "react";
+import LikeCommentCounts from "./LikeCommentCounts";
 
 const PostCard = ({ post }) => {
   const { user } = useAuth();
@@ -33,8 +34,10 @@ const PostCard = ({ post }) => {
         {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
       </p>
       <p>{post.body ? post.body : "No post body"}</p>
-      <LikeButton post={post} />
 
+      <LikeCommentCounts post={post} />
+
+      <LikeButton post={post} />
       <button onClick={handleShow}>Comments</button>
       <CommentModal show={show} handleClose={handleClose} post={post} />
     </div>

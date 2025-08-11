@@ -6,8 +6,8 @@ import NotFound from "../../utils/NotFound";
 const CommentList = ({ post }) => {
   const { comments } = useData();
 
-  const postComments = comments?.filter(
-    (comment) => comment.postId === post.id
+  const postComments = comments?.filter((comment) =>
+    post.comments?.includes(comment.id)
   );
 
   const sortedComments = [...(postComments || [])]?.sort(

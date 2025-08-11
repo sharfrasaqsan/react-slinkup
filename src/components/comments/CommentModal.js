@@ -7,7 +7,7 @@ const CommentModal = ({ show, handleClose, post }) => {
       tabIndex="-1"
       role="dialog"
       style={{
-        backgroundColor: "rgba(0,0,0,0.5)",
+        // backgroundColor: "rgba(0,0,0,0.5)",
         backdropFilter: "blur(5px)",
       }}
     >
