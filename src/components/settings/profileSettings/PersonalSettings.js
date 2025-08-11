@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useData } from "../../../contexts/DataContext";
 import LoadingSpinner from "../../../utils/LoadingSpinner";
@@ -10,7 +10,7 @@ import { format } from "date-fns";
 import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
 
 const PersonalSettings = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const { setUsers, loading } = useData();
 
   const [gender, setGender] = useState("");
@@ -29,6 +29,10 @@ const PersonalSettings = () => {
   const [newLanguage, setNewLanguage] = useState("");
 
   const [updateLoading, setUpdateLoading] = useState(false);
+
+  const occupationRef = useRef(null);
+  const educationRef = useRef(null);
+  const languageRef = useRef(null);
 
   useEffect(() => {
     if (user) {
@@ -71,6 +75,7 @@ const PersonalSettings = () => {
       setOccupation((prev) => [...prev, newOccupation.trim()]);
       setNewOccupation("");
     }
+    occupationRef.current.focus();
   };
 
   const removeOccupation = (index) => {
@@ -82,6 +87,7 @@ const PersonalSettings = () => {
       setEducation((prev) => [...prev, newEducation.trim()]);
       setNewEducation("");
     }
+    educationRef.current.focus();
   };
 
   const removeEducation = (index) => {
@@ -93,6 +99,7 @@ const PersonalSettings = () => {
       setLanguages((prev) => [...prev, newLanguage.trim()]);
       setNewLanguage("");
     }
+    languageRef.current.focus();
   };
 
   const removeLanguage = (index) => {
@@ -131,6 +138,8 @@ const PersonalSettings = () => {
         )
       );
 
+      setUser((prev) => ({ ...prev, ...updatedUser }));
+
       toast.success("Profile updated successfully!");
     } catch (err) {
       toast.error(err.message);
@@ -162,9 +171,9 @@ const PersonalSettings = () => {
             placeholder="Gender"
           >
             <option selected>Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
           </select>
         </div>
 
@@ -208,10 +217,12 @@ const PersonalSettings = () => {
             value={newOccupation}
             onChange={(e) => setNewOccupation(e.target.value)}
             placeholder="Enter an occupation"
+            autoComplete="off"
+            ref={occupationRef}
           />
-          <span type="button" onClick={addOccupation}>
+          <button type="button" onClick={addOccupation}>
             <AiOutlinePlus />
-          </span>
+          </button>
 
           <table>
             <tbody>
@@ -219,9 +230,12 @@ const PersonalSettings = () => {
                 <tr key={index}>
                   <td>{occ}</td>
                   <td>
-                    <span type="button" onClick={() => removeOccupation(index)}>
+                    <button
+                      type="button"
+                      onClick={() => removeOccupation(index)}
+                    >
                       <AiOutlineDelete />
-                    </span>
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -238,10 +252,19 @@ const PersonalSettings = () => {
             value={newEducation}
             onChange={(e) => setNewEducation(e.target.value)}
             placeholder="Enter education"
+            autoComplete="off"
+            ref={educationRef}
           />
-          <span type="button" onClick={addEducation}>
+          <button
+            type="button"
+            onClick={addEducation}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") addEducation();
+            }}
+            tabIndex={0}
+          >
             <AiOutlinePlus />
-          </span>
+          </button>
 
           <table>
             <tbody>
@@ -249,9 +272,12 @@ const PersonalSettings = () => {
                 <tr key={index}>
                   <td>{edu}</td>
                   <td>
-                    <span type="button" onClick={() => removeEducation(index)}>
+                    <button
+                      type="button"
+                      onClick={() => removeEducation(index)}
+                    >
                       <AiOutlineDelete />
-                    </span>
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -268,10 +294,19 @@ const PersonalSettings = () => {
             value={newLanguage}
             onChange={(e) => setNewLanguage(e.target.value)}
             placeholder="Enter a language"
+            autoComplete="off"
+            ref={languageRef}
           />
-          <span type="button" onClick={addLanguage}>
+          <button
+            type="button"
+            onClick={addLanguage}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") addLanguage();
+            }}
+            tabIndex={0}
+          >
             <AiOutlinePlus />
-          </span>
+          </button>
 
           <table>
             <tbody>
@@ -279,9 +314,9 @@ const PersonalSettings = () => {
                 <tr key={index}>
                   <td>{lang}</td>
                   <td>
-                    <span type="button" onClick={() => removeLanguage(index)}>
+                    <button type="button" onClick={() => removeLanguage(index)}>
                       <AiOutlineDelete />
-                    </span>
+                    </button>
                   </td>
                 </tr>
               ))}

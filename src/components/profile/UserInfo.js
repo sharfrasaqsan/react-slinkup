@@ -30,9 +30,9 @@ const UserInfo = () => {
   if (!user) return null;
 
   const genderIcons = {
-    male: <BsGenderMale />,
-    female: <BsGenderFemale />,
-    other: <BsGenderNeuter />,
+    Male: <BsGenderMale />,
+    Female: <BsGenderFemale />,
+    Other: <BsGenderNeuter />,
   };
 
   const socialIcons = {
@@ -91,17 +91,23 @@ const UserInfo = () => {
         </div>
       )}
 
-      <p>
-        <BsCalendar2Date /> {user.birthday || "Not specified"}
-      </p>
+      {user.birthday && (
+        <p>
+          <BsCalendar2Date /> {user.birthday || "Not specified"}
+        </p>
+      )}
 
-      <p>
-        {genderIcons[user.gender] || null} {user.gender || "Not specified"}
-      </p>
+      {user.gender && (
+        <p>
+          {genderIcons[user.gender] || null} {user.gender || "Not specified"}
+        </p>
+      )}
 
-      <p>
-        <FaLocationDot /> {user.location || "Not specified"}
-      </p>
+      {user.location && (
+        <p>
+          <FaLocationDot /> {user.location || "Not specified"}
+        </p>
+      )}
 
       {user.relationship && (
         <p>

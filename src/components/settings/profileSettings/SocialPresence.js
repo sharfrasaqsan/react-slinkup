@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
 
 const SocialPresence = () => {
   return (
-    <div>SocialPresence</div>
-  )
-}
+    <div>
+      <h4>Social Presence</h4>
+      <form>
+        <label htmlFor="">Manage followers/following counts</label>
+      </form>
+    </div>
+  );
+};
 
-export default SocialPresence
+export default SocialPresence;
