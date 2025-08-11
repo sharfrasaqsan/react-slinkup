@@ -1,6 +1,6 @@
-import React from "react";
-
 const LikeCommentCounts = ({ post }) => {
+  if (!post) return null;
+
   return (
     <div>
       <span>

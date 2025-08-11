@@ -2,7 +2,13 @@ import { useState } from "react";
 import { TiArrowRightOutline } from "react-icons/ti";
 import { toast } from "react-toastify";
 import { useAuth } from "../../contexts/AuthContext";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  arrayUnion,
+  collection,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../firebase/Config";
 import { useData } from "../../contexts/DataContext";
 import { format } from "date-fns";
@@ -11,7 +17,7 @@ import { useRef } from "react";
 
 const CreateComment = ({ post }) => {
   const { user } = useAuth();
-  const { setComments, setPosts } = useData();
+  const { setComments, setPosts, setNotifications } = useData();
 
   const [comment, setComment] = useState("");
 
@@ -47,7 +53,8 @@ const CreateComment = ({ post }) => {
 
       // Update the comments in posts->comments
       await updateDoc(doc(db, "posts", postId), {
-        comments: [...(post.comments || []), res.id],
+        comments: arrayUnion(res.id), // Safely add without overwriting existing comments, even if multiple users comment at once
+        updatedAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       });
 
       setPosts((prev) =>
@@ -57,6 +64,27 @@ const CreateComment = ({ post }) => {
             : post
         )
       );
+
+      // Create a notification for the post author
+      const newNotification = {
+        postId,
+        recieverId: post.userId,
+        senderId: user.id,
+        type: "comment",
+        isRead: false,
+        message: `${user.username} commented on your post.`,
+        createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+      };
+
+      const resNotification = await addDoc(
+        collection(db, "notifications"),
+        newNotification
+      );
+
+      setNotifications((prev) => [
+        ...prev,
+        { id: resNotification.id, ...newNotification },
+      ]);
     } catch (err) {
       toast.error("Failed to create comment!");
     }

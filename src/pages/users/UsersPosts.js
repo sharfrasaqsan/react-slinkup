@@ -1,6 +1,6 @@
 import { useData } from "../../contexts/DataContext";
 import NotFound from "../../utils/NotFound";
-import PostsList from "../../components/post/PostsList";
+import UserPostsList from "../../components/post/UserPostsList";
 
 const UsersPosts = ({ existUser }) => {
   const { posts } = useData();
@@ -19,7 +19,7 @@ const UsersPosts = ({ existUser }) => {
         {(existUser.userPosts || []).length > 1 ? "posts" : "post"}
       </p>
 
-      <PostsList userPosts={userPosts} postedBy={existUser.username} />
+      <UserPostsList userPosts={userPosts} postedBy={existUser.username} />
     </div>
   );
 };

@@ -35,7 +35,7 @@ const Notifications = () => {
       <h2>Notifications</h2>
       <table>
         <tbody>
-          {(userNotificcations || [])?.map((notification) => (
+          {(userNotificcations || [])?.slice(-10)?.map((notification) => (
             <tr key={notification.id}>
               <td
                 style={{
@@ -58,6 +58,18 @@ const Notifications = () => {
                   </Link>
                 ) : notification.type === "follow" ? (
                   <Link to={`/user/${notification.senderId}`}>
+                    <>
+                      {notification.message}
+                      <br />
+                      <small>
+                        {formatDistanceToNow(new Date(notification.createdAt), {
+                          addSuffix: true,
+                        })}
+                      </small>
+                    </>
+                  </Link>
+                ) : notification.type === "comment" ? (
+                  <Link to={`/post/${notification.postId}`}>
                     <>
                       {notification.message}
                       <br />
