@@ -105,7 +105,7 @@ const BasicProfileSettings = () => {
         updatedAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       };
 
-      await updateDoc(doc(db, "users", userId), { ...updatedUser });
+      await updateDoc(doc(db, "users", userId), updatedUser);
 
       setUsers((prev) =>
         prev?.map((user) =>

@@ -16,7 +16,7 @@ import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import UpdateUser from "./pages/admin/UpdateUser";
 import AllUsers from "./pages/users/AllUsers";
-import UserDetails from "./pages/users/UserDetails";
+import UsersInfo from "./pages/users/UserInfo";
 
 import ProtectedRoute from "./utils/ProtectedRoute";
 import ScrollToTop from "./utils/ScrollToTop";
@@ -28,6 +28,8 @@ import { Bounce, ToastContainer } from "react-toastify";
 import ProfileSettings from "./pages/settings/ProfileSettings";
 import AccountSettings from "./pages/settings/AccountSettings";
 import RegisterDetails from "./pages/RegisterDetails";
+import Followers from "./pages/users/Followers";
+import Following from "./pages/users/Following";
 
 function App() {
   const { user } = useAuth();
@@ -46,6 +48,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/explore"
           element={
@@ -54,15 +57,34 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* Profile */}
         <Route
-          path="/profile"
+          path="/my-profile/:id"
           element={
             <ProtectedRoute>
               <Profile />
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/my-profile/:id/followers"
+          element={
+            <ProtectedRoute>
+              <Followers />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-profile/:id/following"
+          element={
+            <ProtectedRoute>
+              <Following />
+            </ProtectedRoute>
+          }
+        />
 
+        {/* Login & Register */}
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
         <Route
           path="/register"
@@ -138,7 +160,9 @@ function App() {
         </Route>
 
         <Route path="/all-users" element={<AllUsers />} />
-        <Route path="/user/:id" element={<UserDetails />} />
+        <Route path="/user/:id" element={<UsersInfo />} />
+        <Route path="/user/:id/followers" element={<Followers />} />
+        <Route path="/user/:id/following" element={<Following />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
