@@ -17,7 +17,7 @@ import { useRef } from "react";
 
 const CreateComment = ({ post }) => {
   const { user } = useAuth();
-  const { setComments, setPosts } = useData();
+  const { setComments, setPosts, setNotifications } = useData();
 
   const [comment, setComment] = useState("");
 
@@ -64,6 +64,27 @@ const CreateComment = ({ post }) => {
             : post
         )
       );
+
+      // Create a notification for the post author
+      const newNotification = {
+        postId,
+        recieverId: post.userId,
+        senderId: user.id,
+        type: "comment",
+        isRead: false,
+        message: `${user.username} commented on your post.`,
+        createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+      };
+
+      const resNotification = await addDoc(
+        collection(db, "notifications"),
+        newNotification
+      );
+
+      setNotifications((prev) => [
+        ...prev,
+        { id: resNotification.id, ...newNotification },
+      ]);
     } catch (err) {
       toast.error("Failed to create comment!");
     }

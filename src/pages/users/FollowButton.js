@@ -33,12 +33,13 @@ const FollowButton = ({
     setAlreadyFollowed((prev) => !prev);
     try {
       // Get current user and user to follow
-      // Exist user already find in outer scope
+      // const existUser = users.find((user) => user.id === id); userParams(id)
+      const existUser = users.find((i) => i.id === userId);
       const currentUser = users.find((i) => i.id === user.id);
-      if (!existUser || !currentUser) return;
+      if (!existUser || !currentUser) return null;
 
       // Check if current user is the user to follow
-      if (existUser.id === currentUser.id) return;
+      if (userId === currentUser.id) return null;
 
       // Check if current user has already followed
       const alreadyFollowed = (existUser.followers || [])?.includes(user.id);
@@ -48,14 +49,14 @@ const FollowButton = ({
         ? (existUser.followers || [])?.filter((id) => id !== user.id)
         : [...(existUser.followers || []), user.id];
 
-      await updateDoc(doc(db, "users", existUser.id), {
+      await updateDoc(doc(db, "users", userId), {
         followers: updatedFollowers,
         updatedAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       });
 
       setUsers((prev) =>
         prev.map((i) =>
-          i.id === existUser.id
+          i.id === userId
             ? {
                 ...i,
                 followers: updatedFollowers,
@@ -68,14 +69,12 @@ const FollowButton = ({
       //------------------------------------------------------------------
 
       // Check if existing user has already following
-      const alreadyFollowing = (currentUser.following || [])?.includes(
-        existUser.id
-      );
+      const alreadyFollowing = (currentUser.following || [])?.includes(userId);
 
       // Update following in current user
       const updatedFollowing = alreadyFollowing
-        ? (currentUser.following || [])?.filter((id) => id !== existUser.id)
-        : [...(currentUser.following || []), existUser.id];
+        ? (currentUser.following || [])?.filter((id) => id !== userId)
+        : [...(currentUser.following || []), userId];
 
       await updateDoc(doc(db, "users", user.id), {
         following: updatedFollowing,
@@ -96,14 +95,14 @@ const FollowButton = ({
 
       // Add notification if not already followed or current user is the user to follow (own profile)
       const newNotification = {
-        recieverId: existUser.id,
+        recieverId: userId,
         senderId: currentUser.id,
         type: "follow",
         isRead: false,
         message: `${currentUser.username} followed you.`,
         createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       };
-      if (!alreadyFollowed || currentUser.id === existUser.id) {
+      if (!alreadyFollowed || currentUser.id === userId) {
         const res = await addDoc(
           collection(db, "notifications"),
           newNotification

@@ -3,7 +3,7 @@ import { useData } from "../../contexts/DataContext";
 import { Link } from "react-router-dom";
 import CommentLikeButton from "./CommentLikeButton";
 
-const CommentCard = ({ comment }) => {
+const CommentCard = ({ comment, post }) => {
   const { users } = useData();
 
   const commentUser = users?.find((user) => user.id === comment.commentUserId);
@@ -28,7 +28,7 @@ const CommentCard = ({ comment }) => {
         <br />
         {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
         <br />
-        <CommentLikeButton />
+        <CommentLikeButton comment={comment} post={post} />
       </div>
     </>
   );

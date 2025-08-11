@@ -20,7 +20,7 @@ const CommentList = ({ post }) => {
 
       {(postComments || []).length > 0 ? (
         sortedComments?.map((comment) => (
-          <CommentCard key={comment.id} comment={comment} />
+          <CommentCard key={comment.id} comment={comment} post={post} />
         ))
       ) : (
         <NotFound text={"No comments!"} />
