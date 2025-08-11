@@ -2,7 +2,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useData } from "../../contexts/DataContext";
 import NotFound from "../../utils/NotFound";
 import LoadingSpinner from "../../utils/LoadingSpinner";
-import PostsList from "../post/PostsList";
+import UserPostsList from "../post/UserPostsList";
 
 const UserPosts = () => {
   const { user } = useAuth();
@@ -28,7 +28,7 @@ const UserPosts = () => {
         {(user.userPosts || []).length > 1 ? "posts" : "post"}
       </p>
 
-      <PostsList userPosts={userPosts} postedBy={user.username} />
+      <UserPostsList userPosts={userPosts} postedBy={user.username} />
     </div>
   );
 };

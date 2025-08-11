@@ -2,7 +2,13 @@ import { useState } from "react";
 import { TiArrowRightOutline } from "react-icons/ti";
 import { toast } from "react-toastify";
 import { useAuth } from "../../contexts/AuthContext";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  arrayUnion,
+  collection,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../firebase/Config";
 import { useData } from "../../contexts/DataContext";
 import { format } from "date-fns";
@@ -47,7 +53,8 @@ const CreateComment = ({ post }) => {
 
       // Update the comments in posts->comments
       await updateDoc(doc(db, "posts", postId), {
-        comments: [...(post.comments || []), res.id],
+        comments: arrayUnion(res.id), // Safely add without overwriting existing comments, even if multiple users comment at once
+        updatedAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       });
 
       setPosts((prev) =>

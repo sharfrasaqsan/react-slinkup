@@ -6,10 +6,6 @@ const CommentModal = ({ show, handleClose, post }) => {
       className={`modal fade ${show ? "show d-block" : ""}`}
       tabIndex="-1"
       role="dialog"
-      style={{
-        // backgroundColor: "rgba(0,0,0,0.5)",
-        backdropFilter: "blur(5px)",
-      }}
     >
       <div className="modal-dialog" role="document">
         <div className="modal-content">

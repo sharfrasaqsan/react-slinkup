@@ -1,42 +1,38 @@
 import ButtonSpinner from "../../utils/ButtonSpinner";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/Config";
 import { useData } from "../../contexts/DataContext";
-import LoadingSpinner from "../../utils/LoadingSpinner";
 import NotFound from "../../utils/NotFound";
 
 const CreatePost = () => {
   const { user, setUser } = useAuth();
-  const { setPosts, setUsers, loading } = useData();
-
+  const { setPosts, setUsers } = useData();
   const [postBody, setPostBody] = useState("");
   const [postLoading, setPostLoading] = useState(false);
 
-  if (!user) return <NotFound text={"No user found! Please log in first."} />;
+  const postRef = useRef(null);
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+  if (!user) return <NotFound text={"No user found! Please log in first."} />;
 
   const handlePost = async (e) => {
     e.preventDefault();
 
-    setPostLoading(true);
-    if (!postBody) {
-      toast.error("No post body. Please write something.");
+    if (!postBody.trim()) {
+      toast.error("Post cannot be empty!");
       return;
     }
 
+    setPostLoading(true);
     try {
       // Check if user is logged in
       if (user) {
         // Create a new post
         const newPost = {
-          body: postBody,
+          body: postBody.trim(),
           userId: user.id,
           likes: [],
           comments: [],
@@ -66,6 +62,7 @@ const CreatePost = () => {
       toast.error(err.message);
     }
     setPostLoading(false);
+    postRef.current?.focus();
   };
 
   return (
@@ -84,6 +81,7 @@ const CreatePost = () => {
           disabled={postLoading}
           style={{ resize: "none" }}
           autoComplete="off"
+          ref={postRef}
         />
         <button type="submit" disabled={postLoading || !postBody}>
           {postLoading ? (
