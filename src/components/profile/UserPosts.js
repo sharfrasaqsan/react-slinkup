@@ -2,7 +2,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useData } from "../../contexts/DataContext";
 import NotFound from "../../utils/NotFound";
 import LoadingSpinner from "../../utils/LoadingSpinner";
-import PostsList from "./PostsList";
+import PostsList from "../post/PostsList";
 
 const UserPosts = () => {
   const { user } = useAuth();

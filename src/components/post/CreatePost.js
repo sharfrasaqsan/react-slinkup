@@ -39,6 +39,7 @@ const CreatePost = () => {
           body: postBody,
           userId: user.id,
           likes: [],
+          comments: [],
           createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
         };
         const res = await addDoc(collection(db, "posts"), newPost);

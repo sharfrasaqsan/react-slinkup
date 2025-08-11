@@ -22,6 +22,7 @@ export const DataProvider = ({ children }) => {
   // Data storage
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [comments, setComments] = useState([]);
   const [notifications, setNotifications] = useState([]);
 
   // Loading state
@@ -66,6 +67,26 @@ export const DataProvider = ({ children }) => {
     };
 
     fetchPosts();
+  }, []);
+
+  // Get all comments
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const res = await getDocs(collection(db, "comments"));
+        const resData = res.docs?.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setComments(resData);
+      } catch (err) {
+        toast.error(getAuthErrorMessage(err.code));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchComments();
   }, []);
 
   // Get all notifications
@@ -177,6 +198,8 @@ export const DataProvider = ({ children }) => {
         setUsers,
         posts,
         setPosts,
+        comments,
+        setComments,
         notifications,
         setNotifications,
         handleLikes,
