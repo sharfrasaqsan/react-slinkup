@@ -1,4 +1,3 @@
-import React from "react";
 import { useAuth } from "../contexts/AuthContext";
 
 const Header = () => {
@@ -7,8 +6,11 @@ const Header = () => {
   if (!user) return null;
 
   return (
-    <div>
-      <p>Welcome back @{user ? user.username : "Guest"}</p>
+    <div
+    
+    >
+      <div>Welcome back @{user ? user.username : "Guest"}</div>
+    
     </div>
   );
 };

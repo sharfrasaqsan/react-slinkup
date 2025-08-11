@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useData } from "../../contexts/DataContext";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
@@ -10,10 +10,9 @@ import ButtonSpinner from "../../utils/ButtonSpinner";
 import LoadingSpinner from "../../utils/LoadingSpinner";
 import NotFound from "../../utils/NotFound";
 import UsersPosts from "./UsersPosts";
-import { FaRegUser } from "react-icons/fa";
-import { MdOutlineEmail } from "react-icons/md";
+import ProfileDetails from "../../components/profile/ProfileDetails";
 
-const UserDetails = () => {
+const UsersInfo = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const { users, setUsers, loading, setNotifications } = useData();
@@ -142,10 +141,18 @@ const UserDetails = () => {
   return (
     <div>
       <p>{existUser.username}</p>
-      <p>
-        {(existUser.followers || []).length || 0} followers |{" "}
-        {(existUser.following || []).length || 0} following
-      </p>
+
+      {user.followCountShow === "show" && (
+        <p>
+          <Link to={`/user/${existUser.id}/followers`}>
+            {(existUser.followers || []).length || 0} followers
+          </Link>{" "}
+          |{" "}
+          <Link to={`/user/${existUser.id}/following`}>
+            {(existUser.following || []).length || 0} following
+          </Link>
+        </p>
+      )}
 
       {user.id !== existUser.id && (
         <button
@@ -163,20 +170,11 @@ const UserDetails = () => {
         </button>
       )}
 
-      <p>
-        <span>
-          <FaRegUser /> {existUser.firstname} {existUser.lastname}
-        </span>
-      </p>
+      <ProfileDetails user={existUser} />
 
-      <p>
-        <MdOutlineEmail /> {existUser.email}
-      </p>
-
-      <p>{existUser.bio}</p>
       <UsersPosts existUser={existUser} />
     </div>
   );
 };
 
-export default UserDetails;
+export default UsersInfo;

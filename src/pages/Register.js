@@ -175,16 +175,7 @@ const Register = () => {
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={
-            !email ||
-            !password ||
-            registerLoading ||
-            !username ||
-            !confirmPassword
-          }
-        >
+        <button type="submit" disabled={registerLoading}>
           {registerLoading ? (
             <>
               Registering... <ButtonSpinner />

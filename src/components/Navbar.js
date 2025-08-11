@@ -17,7 +17,7 @@ const Navbar = () => {
         </li>
 
         <li>
-          <NavLink to="/profile">Profile</NavLink>
+          <NavLink to={`/my-profile/${user?.id}`}>Profile</NavLink>
         </li>
         <li>
           <NavLink to="/settings">Settings</NavLink>
