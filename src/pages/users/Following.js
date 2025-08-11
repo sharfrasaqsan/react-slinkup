@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useData } from "../../contexts/DataContext";
+import NotFound from "../../utils/NotFound";
 
 const Following = () => {
   const { users } = useData();
@@ -9,6 +10,8 @@ const Following = () => {
   const followings = user?.following
     ?.map((followingId) => users.find((user) => user.id === followingId))
     .filter(Boolean); // remove any not found
+
+  if (followings.length === 0) return <NotFound text={"No following users found!"} />;
 
   return (
     <div>

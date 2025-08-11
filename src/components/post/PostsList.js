@@ -1,4 +1,4 @@
-import LikeButton from "../post/LikeButton";
+import LikeButton from "./LikeButton";
 import { formatDistanceToNow } from "date-fns";
 
 const PostsList = ({ userPosts, postedBy }) => {

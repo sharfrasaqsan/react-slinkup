@@ -1,0 +1,76 @@
+import { useState } from "react";
+import { TiArrowRightOutline } from "react-icons/ti";
+import { toast } from "react-toastify";
+import { useAuth } from "../../contexts/AuthContext";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../firebase/Config";
+import { useData } from "../../contexts/DataContext";
+import { format } from "date-fns";
+import ButtonSpinner from "../../utils/ButtonSpinner";
+import { useRef } from "react";
+
+const CreateComment = ({ post }) => {
+  const { user } = useAuth();
+  const { setComments } = useData();
+
+  const [comment, setComment] = useState("");
+
+  const [commentLoading, setCommentLoading] = useState(false);
+
+  const commentRef = useRef(null);
+
+  if (!user) return null;
+
+  const handleCommentSubmit = async (postId) => {
+    if (!comment.trim()) {
+      toast.error("Comment cannot be empty!");
+      return;
+    }
+
+    setCommentLoading(true);
+    try {
+      const newComment = {
+        body: comment,
+        postId,
+        postUserId: post.userId,
+        commentUserId: user.id,
+        likes: [],
+        createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+      };
+      const res = await addDoc(collection(db, "comments"), newComment);
+      setComments((prev) => [...prev, { id: res.id, ...newComment }]);
+      toast.info("Comment added successfully!");
+      setComment("");
+    } catch (err) {
+      toast.error("Failed to create comment!");
+    }
+    setCommentLoading(false);
+    commentRef.current.focus();
+  };
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleCommentSubmit(post.id);
+      }}
+    >
+      <input
+        type="text"
+        id="comment"
+        name="comment"
+        placeholder="Enter your comment"
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        required
+        autoFocus
+        ref={commentRef}
+      />
+      <button type="submit">
+        {commentLoading ? <ButtonSpinner /> : <TiArrowRightOutline />}
+      </button>
+    </form>
+  );
+};
+
+export default CreateComment;

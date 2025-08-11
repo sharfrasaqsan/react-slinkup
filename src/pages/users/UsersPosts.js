@@ -1,6 +1,6 @@
 import { useData } from "../../contexts/DataContext";
 import NotFound from "../../utils/NotFound";
-import PostsList from "../../components/profile/PostsList";
+import PostsList from "../../components/post/PostsList";
 
 const UsersPosts = ({ existUser }) => {
   const { posts } = useData();
