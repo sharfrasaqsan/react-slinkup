@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { useData } from "../../contexts/DataContext";
+import NotFound from "../../utils/NotFound";
 
 const AllUsers = () => {
   const { users } = useData();
+
+  if (users.length === 0) return <NotFound text={"No users found!"} />;
 
   return (
     <div>

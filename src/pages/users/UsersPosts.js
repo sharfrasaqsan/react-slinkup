@@ -5,7 +5,7 @@ import UserPostsList from "../../components/post/UserPostsList";
 const UsersPosts = ({ existUser }) => {
   const { posts } = useData();
 
-  if (existUser.userPosts.length === 0)
+  if (existUser.userPosts?.length === 0)
     return <NotFound text={"No posts found!"} />;
   if (!existUser) return <NotFound text={"No user found!"} />;
 

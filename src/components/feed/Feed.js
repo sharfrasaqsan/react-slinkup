@@ -15,8 +15,6 @@ const Feed = () => {
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
 
-  console.log("Feed posts:", sortedPosts);
-
   return (
     <>
       {sortedPosts?.map((post) => (

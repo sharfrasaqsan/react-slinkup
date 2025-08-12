@@ -35,7 +35,7 @@ const CommentLikeButton = ({ comment, post }) => {
       // Notification update
       const newNotification = {
         postId: post.id,
-        recieverId: currentPost.userId,
+        recieverId: currentPost?.userId,
         senderId: user.id,
         type: "like",
         isRead: false,
@@ -57,7 +57,7 @@ const CommentLikeButton = ({ comment, post }) => {
   return (
     <>
       <button onClick={() => handleLikes(comment.id)} disabled={!user}>
-        {(comment.likes || [])?.includes(user.id) ? "Unlike" : "Like"}
+        {(comment.likes || []).includes(user.id) ? "Unlike" : "Like"}
       </button>{" "}
       {(comment.likes || [])?.length ? (comment.likes || [])?.length : 0}{" "}
       {(comment.likes || [])?.length > 1 ? "likes" : "like"}
