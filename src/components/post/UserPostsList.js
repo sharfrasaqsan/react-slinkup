@@ -1,6 +1,6 @@
-import UserPostsCard from "./UserPostsCard";
+import PostCard from "../feed/PostCard";
 
-const UserPostsList = ({ userPosts, postedBy }) => {
+const UserPostsList = ({ userPosts }) => {
   const sortedUserPosts = [...userPosts]?.sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
@@ -8,7 +8,7 @@ const UserPostsList = ({ userPosts, postedBy }) => {
   return (
     <>
       {sortedUserPosts?.map((userPost) => (
-        <UserPostsCard userPost={userPost} postedBy={postedBy} />
+        <PostCard key={userPost.id} post={userPost} />
       ))}
     </>
   );
