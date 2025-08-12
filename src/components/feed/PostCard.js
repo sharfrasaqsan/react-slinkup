@@ -119,7 +119,7 @@ const PostCard = ({ post }) => {
 
       <LikeCommentCounts post={post} />
 
-      <LikeButton post={post} />
+      <LikeButton post={post} setPosts={setPosts} />
       <button onClick={handleShow}>Comments</button>
 
       {user.id === postedby.id && (
