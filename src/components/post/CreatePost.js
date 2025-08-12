@@ -11,6 +11,7 @@ import NotFound from "../../utils/NotFound";
 const CreatePost = () => {
   const { user, setUser } = useAuth();
   const { setPosts, setUsers } = useData();
+
   const [postBody, setPostBody] = useState("");
   const [postLoading, setPostLoading] = useState(false);
 
