@@ -36,19 +36,18 @@ const CreateComment = ({ post }) => {
     setCommentLoading(true);
     try {
       const newComment = {
-        body: comment,
+        body: comment.trim(),
         postId,
         postUserId: post.userId,
         commentUserId: user.id,
         likes: [],
+        isUpdated: false,
         createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       };
 
       const res = await addDoc(collection(db, "comments"), newComment);
 
       setComments((prev) => [...prev, { id: res.id, ...newComment }]);
-
-      toast.info("Comment added successfully!");
       setComment("");
 
       // Update the comments in posts->comments

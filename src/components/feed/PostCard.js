@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { doc, writeBatch } from "firebase/firestore";
 import { db } from "../../firebase/Config";
 import ButtonSpinner from "../../utils/ButtonSpinner";
+import EditPost from "../post/EditPost";
 
 const PostCard = ({ post }) => {
   const { user, setUser } = useAuth();
@@ -28,9 +29,21 @@ const PostCard = ({ post }) => {
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   // Comment button states
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [showComment, setShowComment] = useState(false);
+  const handleCloseComment = () => {
+    setShowComment(false);
+  };
+  const handleShowComment = () => {
+    setShowComment(true);
+  };
+
+  const [showEditPost, setShowEditPost] = useState(false);
+  const handleCloseEditPost = () => {
+    setShowEditPost(false);
+  };
+  const handleShowEditPost = () => {
+    setShowEditPost(true);
+  };
 
   if (loading) return <LoadingSpinner />;
 
@@ -112,6 +125,7 @@ const PostCard = ({ post }) => {
       style={{ margin: "1rem 0", backgroundColor: "#e0e0e0", padding: "1rem" }}
     >
       <p>{postedby.username ? postedby.username : "Unknown"}</p>
+      {post?.isUpdated && <span className="badge bg-info">Edited</span>}
       <p>
         {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
       </p>
@@ -120,20 +134,35 @@ const PostCard = ({ post }) => {
       <LikeCommentCounts post={post} />
 
       <LikeButton post={post} setPosts={setPosts} />
-      <button onClick={handleShow}>Comments</button>
+      <button onClick={handleShowComment}>Comments</button>
 
       {user.id === postedby.id && (
-        <button type="button" onClick={() => deletePost(post.id)}>
-          {deleteLoading ? (
-            <>
-              Deleting... <ButtonSpinner />
-            </>
-          ) : (
-            "Delete"
-          )}
-        </button>
+        <>
+          <button onClick={handleShowEditPost}>Edit</button>
+          <button type="button" onClick={() => deletePost(post.id)}>
+            {deleteLoading ? (
+              <>
+                Deleting... <ButtonSpinner />
+              </>
+            ) : (
+              "Delete"
+            )}
+          </button>
+        </>
       )}
-      <CommentModal show={show} handleClose={handleClose} post={post} />
+
+      <EditPost
+        showEditPost={showEditPost}
+        handleCloseEditPost={handleCloseEditPost}
+        post={post}
+        setPosts={setPosts}
+      />
+
+      <CommentModal
+        showComment={showComment}
+        handleCloseComment={handleCloseComment}
+        post={post}
+      />
     </div>
   );
 };

@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { doc, writeBatch } from "firebase/firestore";
 import { db } from "../../firebase/Config";
 import { useAuth } from "../../contexts/AuthContext";
+import EditComment from "./EditComment";
 
 const CommentCard = ({ comment, post }) => {
   const { user } = useAuth();
@@ -16,6 +17,15 @@ const CommentCard = ({ comment, post }) => {
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const commentUser = users?.find((user) => user.id === comment.commentUserId);
+
+  const [showEditComment, setShowEditComment] = useState(false);
+  const handleCloseComment = () => {
+    setShowEditComment(false);
+  };
+  const handleOpenComment = () => {
+    setShowEditComment(true);
+  };
+
   if (!commentUser) return null;
 
   const handleDeleteComment = async (commentId) => {
@@ -48,7 +58,6 @@ const CommentCard = ({ comment, post }) => {
         );
 
         await batch.commit();
-        toast.success("Comment deleted successfully");
       } else {
         toast.error("You can only delete your own comments");
       }
@@ -70,24 +79,38 @@ const CommentCard = ({ comment, post }) => {
         }}
       >
         <Link to={`/user/${commentUser.id}`}>
-          {commentUser ? commentUser.username : "Unknown User"}
+          <p>{commentUser ? commentUser.username : "Unknown User"}</p>
         </Link>
-        <br />
-        {comment.body}
-        <br />
-        {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
-        <br />
+        {comment.isUpdated && <span>Edited</span>}
+        <p>{comment.body}</p>
+        <p>
+          {formatDistanceToNow(new Date(comment.createdAt), {
+            addSuffix: true,
+          })}
+        </p>
         <CommentLikeButton comment={comment} post={post} />
         {commentUser.id === user.id && (
-          <button type="button" onClick={() => handleDeleteComment(comment.id)}>
-            {deleteLoading ? (
-              <>
-                Deleting... <ButtonSpinner />
-              </>
-            ) : (
-              "Delete"
-            )}
-          </button>
+          <>
+            <button onClick={handleOpenComment}>Edit</button>
+            <button
+              type="button"
+              onClick={() => handleDeleteComment(comment.id)}
+            >
+              {deleteLoading ? (
+                <>
+                  Deleting... <ButtonSpinner />
+                </>
+              ) : (
+                "Delete"
+              )}
+            </button>
+            <EditComment
+              comment={comment}
+              setComments={setComments}
+              showEditComment={showEditComment}
+              handleCloseComment={handleCloseComment}
+            />
+          </>
         )}
       </div>
     </>

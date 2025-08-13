@@ -2,12 +2,12 @@ import { useEffect, useRef } from "react";
 import CommentList from "./CommentList";
 import LikeCommentCounts from "../post/LikeCommentCounts";
 
-const CommentModal = ({ show, handleClose, post }) => {
+const CommentModal = ({ showComment, handleCloseComment, post }) => {
   const modalRef = useRef(null);
 
   // Prevent background scroll
   useEffect(() => {
-    if (show) {
+    if (showComment) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
@@ -15,37 +15,37 @@ const CommentModal = ({ show, handleClose, post }) => {
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [show]);
+  }, [showComment]);
 
   // Close on ESC
   useEffect(() => {
     const handleEsc = (e) => {
-      if (e.key === "Escape") handleClose();
+      if (e.key === "Escape") handleCloseComment();
     };
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
-  }, [handleClose]);
+  }, [handleCloseComment]);
 
   // Close on outside click
   useEffect(() => {
     const handleOutsideClick = (e) => {
       if (modalRef.current && !modalRef.current.contains(e.target)) {
-        handleClose();
+        handleCloseComment();
       }
     };
-    if (show) {
+    if (showComment) {
       document.addEventListener("mousedown", handleOutsideClick);
     }
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
-  }, [show, handleClose]);
+  }, [showComment, handleCloseComment]);
 
-  if (!show) return null;
+  if (!showComment) return null;
 
   return (
     <div
-      className={`modal fade ${show ? "show d-block" : ""}`}
+      className={`modal fade ${showComment ? "show d-block" : ""}`}
       tabIndex="-1"
       role="dialog"
       style={{
@@ -60,7 +60,7 @@ const CommentModal = ({ show, handleClose, post }) => {
             <button
               type="button"
               className="btn-close"
-              onClick={handleClose}
+              onClick={handleCloseComment}
             ></button>
           </div>
           <div className="modal-body">
