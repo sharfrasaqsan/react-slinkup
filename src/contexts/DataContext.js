@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/Config";
 import { toast } from "react-toastify";
-import { getAuthErrorMessage } from "../utils/authErrors";
 
 const DataContext = createContext();
 
@@ -17,108 +16,44 @@ export const DataProvider = ({ children }) => {
   // Loading state
   const [loading, setLoading] = useState(true);
 
-  // Get all users
+  // Function to handle error states
+  const handleError = (err) => {
+    toast.error(`Error: ${err.message}`);
+    setLoading(false);
+  };
+
+  // Reusable function to fetch data from any collection
+  const fetchData = async (collectionName, setterFunction) => {
+    try {
+      const res = await getDocs(collection(db, collectionName));
+      const resData = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setterFunction(resData);
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
+  // Fetch all necessary data concurrently when the component mounts
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchAllData = async () => {
       try {
-        const res = await getDocs(collection(db, "users"));
-        const resData = res.docs?.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setUsers(resData);
+        setLoading(true);
+        await Promise.all([
+          fetchData("users", setUsers),
+          fetchData("posts", setPosts),
+          fetchData("likes", setLikes),
+          fetchData("comments", setComments),
+          fetchData("notifications", setNotifications),
+        ]);
       } catch (err) {
-        toast.error(getAuthErrorMessage(err.code));
+        handleError(err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUsers();
+    fetchAllData();
   }, []);
-
-  // Get all posts
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const res = await getDocs(collection(db, "posts"));
-        const resData = res.docs?.map((doc) => ({
-          id: doc.id,
-          likes: doc.data().likes || [],
-          ...doc.data(),
-        }));
-        setPosts(resData);
-      } catch (err) {
-        toast.error(getAuthErrorMessage(err.code));
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPosts();
-  }, []);
-
-  // Get all likes
-  useEffect(() => {
-    const fetchLikes = async () => {
-      try {
-        const res = await getDocs(collection(db, "likes"));
-        const resData = res.docs?.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setLikes(resData);
-      } catch (err) {
-        toast.error(getAuthErrorMessage(err.code));
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchLikes();
-  }, []);
-
-  // Get all comments
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const res = await getDocs(collection(db, "comments"));
-        const resData = res.docs?.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setComments(resData);
-      } catch (err) {
-        toast.error(getAuthErrorMessage(err.code));
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchComments();
-  }, []);
-
-  // Get all notifications
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const res = await getDocs(collection(db, "notifications"));
-        const resData = res.docs?.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setNotifications(resData);
-      } catch (err) {
-        toast.error(getAuthErrorMessage(err.code));
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchNotifications();
-  }, []);
-
-  // Handle likes function
 
   return (
     <DataContext.Provider

@@ -79,10 +79,7 @@ const CreatePost = () => {
   };
 
   return (
-    <div
-      className="card shadow-sm border-0 mb-4 p-3"
-      style={{ backgroundColor: "#fff" }}
-    >
+    <div className="card shadow-sm border-0 mb-4 p-3">
       <div className="d-flex align-items-start">
         {/* User Avatar */}
         <img
@@ -99,12 +96,11 @@ const CreatePost = () => {
               <textarea
                 name="body"
                 id="body"
-                rows="4"
-                required
+                rows="2"
                 value={postBody}
                 onChange={handleTextChange}
                 autoFocus
-                placeholder="What's on your mind?"
+                placeholder={`What's on your mind ${user.username}?`}
                 disabled={postLoading}
                 className={`form-control shadow-sm ${
                   error ? "is-invalid" : ""
@@ -136,14 +132,8 @@ const CreatePost = () => {
 
             <button
               type="submit"
-              disabled={postLoading}
+              disabled={postLoading || charCount > MAX_CHARACTERS}
               className="btn btn-primary w-100 shadow-sm mt-3"
-              style={{
-                padding: "10px",
-                borderRadius: "8px",
-                fontWeight: "bold",
-                backgroundColor: "#FF6F00", // Primary button color (from previous color scheme)
-              }}
             >
               {postLoading ? (
                 <>

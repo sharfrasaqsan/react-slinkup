@@ -1,15 +1,19 @@
 const LikeCommentCounts = ({ post }) => {
   if (!post) return null;
 
+  const likesCount = post.likes?.length || 0;
+  const commentsCount = post.comments?.length || 0;
+
   return (
-    <div>
+    <div
+      className="d-flex gap-3 text-muted like-comment-counts"
+      style={{ fontSize: "14px" }}
+    >
       <span>
-        {(post.likes || [])?.length ? (post.likes || [])?.length : 0}{" "}
-        {(post.likes || [])?.length > 1 ? "likes" : "like"}
-      </span>{" "}
+        {likesCount} {likesCount === 1 ? "like" : "likes"}
+      </span>
       <span>
-        {post.comments?.length ? (post.comments || [])?.length : 0}{" "}
-        {post.comments?.length > 1 ? "comments" : "comment"}
+        {commentsCount} {commentsCount === 1 ? "comment" : "comments"}
       </span>
     </div>
   );

@@ -12,108 +12,65 @@ import { doc, writeBatch } from "firebase/firestore";
 import { db } from "../../firebase/Config";
 import ButtonSpinner from "../../utils/ButtonSpinner";
 import EditPost from "../post/EditPost";
+import { FaCommentDots } from "react-icons/fa"; // Added icons
+import { LuPencilLine } from "react-icons/lu";
 
 const PostCard = ({ post }) => {
-  const { user, setUser } = useAuth();
-  const {
-    users,
-    setUsers,
-    loading,
-    setPosts,
-    likes,
-    setLikes,
-    comments,
-    setComments,
-  } = useData();
-
+  const { user } = useAuth();
+  const { users, setUsers, loading, setPosts, setLikes, setComments } =
+    useData();
   const [deleteLoading, setDeleteLoading] = useState(false);
-
-  // Comment button states
   const [showComment, setShowComment] = useState(false);
-  const handleCloseComment = () => {
-    setShowComment(false);
-  };
-  const handleShowComment = () => {
-    setShowComment(true);
-  };
-
   const [showEditPost, setShowEditPost] = useState(false);
-  const handleCloseEditPost = () => {
-    setShowEditPost(false);
-  };
-  const handleShowEditPost = () => {
-    setShowEditPost(true);
-  };
 
   if (loading) return <LoadingSpinner />;
-
-  if (!user) return null;
-  if (!post) return <NotFound text={"No post found!"} />;
+  if (!user || !post) return <NotFound text={"No post found!"} />;
   if (users?.length === 0) return <NotFound text={"No users found!"} />;
 
-  const postedby = users.find((user) => user.id === post.userId);
-  if (!postedby) {
+  const postedBy = users.find((user) => user.id === post.userId);
+  if (!postedBy) {
     toast.error("User not found for this post");
-    return;
+    return null;
   }
-  const deletePost = async (postId) => {
+
+  const handleDeletePost = async (postId) => {
     setDeleteLoading(true);
     try {
-      if (user.id === postedby.id) {
-        if (!postedby) throw new Error("User not found for this post");
-
-        // writeBatch — which deletes multiple docs in one request.
-        const batch = writeBatch(db);
-
-        // Delete post
-        batch.delete(doc(db, "posts", postId));
-        setPosts((prev) => prev.filter((post) => post.id !== postId));
-
-        // Delete likes
-        likes
-          ?.filter((like) => like.postId === postId)
-          .forEach((like) => {
-            batch.delete(doc(db, "likes", like.id));
-          });
-        setLikes((prev) => prev.filter((like) => like.postId !== postId));
-
-        // Delete comments
-        comments
-          ?.filter((comment) => comment.postId === postId)
-          .forEach((comment) => {
-            batch.delete(doc(db, "comments", comment.id));
-          });
-        setComments((prev) =>
-          prev.filter((comment) => comment.postId !== postId)
-        );
-
-        // Update user's posts
-        const updatedUserPosts =
-          postedby.userPosts?.filter((id) => id !== postId) || [];
-        batch.update(doc(db, "users", postedby.id), {
-          userPosts: updatedUserPosts,
-        });
-        setUsers((prev) =>
-          prev?.map((user) =>
-            user.id === postedby.id
-              ? { ...user, userPosts: updatedUserPosts }
-              : user
-          )
-        );
-        setUser &&
-          setUser((prev) =>
-            prev?.id === postedby.id
-              ? { ...prev, userPosts: updatedUserPosts }
-              : prev
-          );
-
-        // writeBatch — which deletes multiple docs in one request.
-        await batch.commit();
-
-        toast.success("Post deleted successfully");
-      } else {
+      if (user.id !== postedBy.id) {
         toast.error("You can only delete your own posts!");
+        return;
       }
+
+      const batch = writeBatch(db);
+
+      // Delete the post, likes, and comments in a batch
+      batch.delete(doc(db, "posts", postId));
+      batch.delete(doc(db, "likes", postId));
+      batch.delete(doc(db, "comments", postId));
+
+      setPosts((prev) => prev.filter((post) => post.id !== postId));
+      setLikes((prev) => prev.filter((like) => like.postId !== postId));
+      setComments((prev) =>
+        prev.filter((comment) => comment.postId !== postId)
+      );
+
+      // Update user posts list
+      const updatedUserPosts = postedBy.userPosts.filter((id) => id !== postId);
+      batch.update(doc(db, "users", postedBy.id), {
+        userPosts: updatedUserPosts,
+      });
+      setUsers((prev) =>
+        prev.map((user) =>
+          user.id === postedBy.id
+            ? { ...user, userPosts: updatedUserPosts }
+            : user
+        )
+      );
+
+      // Commit the batch
+      await batch.commit();
+
+      toast.success("Post deleted successfully");
     } catch (err) {
       toast.error("Error deleting post");
     }
@@ -121,46 +78,97 @@ const PostCard = ({ post }) => {
   };
 
   return (
-    <div
-      style={{ margin: "1rem 0", backgroundColor: "#e0e0e0", padding: "1rem" }}
-    >
-      <p>{postedby.username ? postedby.username : "Unknown"}</p>
-      {post?.isUpdated && <span className="badge bg-info">Edited</span>}
-      <p>
-        {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
-      </p>
-      <p>{post.body ? post.body : "No post body"}</p>
+    <div className="card mb-4 border-0 rounded-3">
+      <div className="card-body">
+        <div className="d-flex justify-content-between align-items-center">
+          <div>
+            <p className="card-title mb-0">
+              {postedBy.username || "Unknown User"}
+            </p>
 
-      <LikeCommentCounts post={post} />
+            <p className="text-muted" style={{ fontSize: "0.9rem", margin: 0 }}>
+              {formatDistanceToNow(new Date(post.createdAt), {
+                addSuffix: true,
+              })}
+            </p>
 
-      <LikeButton post={post} setPosts={setPosts} />
-      <button onClick={handleShowComment}>Comments</button>
-
-      {user.id === postedby.id && (
-        <>
-          <button onClick={handleShowEditPost}>Edit</button>
-          <button type="button" onClick={() => deletePost(post.id)}>
-            {deleteLoading ? (
-              <>
-                Deleting... <ButtonSpinner />
-              </>
-            ) : (
-              "Delete"
+            {post.isUpdated && (
+              <div
+                className="d-flex align-items-center text-warning mt-1"
+                style={{
+                  fontSize: "0.85rem",
+                  fontWeight: "500",
+                  color: "#f39c12",
+                }}
+              >
+                <LuPencilLine
+                  style={{ fontSize: "1rem", marginRight: "0.5rem" }}
+                />
+                <span>Edited</span>
+              </div>
             )}
+          </div>
+
+          <div className="d-flex gap-3">
+            {/* Edit and Delete Buttons for post owner */}
+            {user.id === postedBy.id && (
+              <>
+                <button
+                  className="btn btn-link text-primary"
+                  onClick={() => setShowEditPost(true)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn btn-link text-danger"
+                  onClick={() => handleDeletePost(post.id)}
+                >
+                  {deleteLoading ? (
+                    <>
+                      <ButtonSpinner /> Deleting...
+                    </>
+                  ) : (
+                    "Delete"
+                  )}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Post Body with Border */}
+        <p
+          className="card-text mt-3 p-3 border rounded-3"
+          style={{ border: "1px solid #ddd" }}
+        >
+          {post.body || "No content"}
+        </p>
+
+        <LikeCommentCounts post={post} />
+
+        <div className="d-flex gap-3 mt-3">
+          <LikeButton post={post} setPosts={setPosts} />
+
+          <button
+            className="btn btn-outline-primary btn-sm d-flex align-items-center gap-2"
+            onClick={() => setShowComment(true)}
+          >
+            <FaCommentDots />
+            {post.comments?.length} Comments
           </button>
-        </>
-      )}
+        </div>
+      </div>
 
       <EditPost
         showEditPost={showEditPost}
-        handleCloseEditPost={handleCloseEditPost}
+        handleCloseEditPost={() => setShowEditPost(false)}
         post={post}
         setPosts={setPosts}
       />
 
       <CommentModal
         showComment={showComment}
-        handleCloseComment={handleCloseComment}
+        handleCloseComment={() => setShowComment(false)}
         post={post}
       />
     </div>

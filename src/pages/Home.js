@@ -5,11 +5,11 @@ const Home = () => {
   return (
     <section className="container py-4">
       <div className="row">
-        <div className="col-12 col-lg-4 mb-4">
-          <CreatePost />
-        </div>
-        <div className="col-12 col-lg-8">
-          <Feed />
+        <div className="col-12">
+          <div className="card-body">
+            <CreatePost />
+            <Feed />
+          </div>
         </div>
       </div>
     </section>

@@ -1,0 +1,14 @@
+.thumb-icon {
+  color: var(--primary-color) !important;
+  transition: color 0.3s ease !important;
+}
+
+.thumb-icon.liked-icon {
+  color: white !important;
+}
+
+.btn-outline-primary.liked {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  border-color: var(--primary-color) !important;
+}
