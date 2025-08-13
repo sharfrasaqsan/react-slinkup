@@ -3,6 +3,7 @@ import { useData } from "../../contexts/DataContext";
 import NotFound from "../../utils/NotFound";
 import LoadingSpinner from "../../utils/LoadingSpinner";
 import UserPostsList from "../post/UserPostsList";
+import CreatePost from "../post/CreatePost";
 
 const UserPosts = () => {
   const { user } = useAuth();
@@ -23,12 +24,16 @@ const UserPosts = () => {
 
   return (
     <div style={{ padding: "1rem", backgroundColor: "#f0f0f0" }}>
-      <p>
-        {(user.userPosts || []).length || 0}{" "}
-        {(user.userPosts || []).length > 1 ? "posts" : "post"}
-      </p>
-
-      <UserPostsList userPosts={userPosts} postedBy={user.username} />
+      {user && (
+        <>
+          <CreatePost />
+          <p>
+            {(user.userPosts || []).length || 0}{" "}
+            {(user.userPosts || []).length > 1 ? "posts" : "post"}
+          </p>
+          <UserPostsList userPosts={userPosts} postedBy={user.username} />
+        </>
+      )}
     </div>
   );
 };
