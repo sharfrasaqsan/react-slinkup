@@ -136,7 +136,6 @@ const PostCard = ({ post }) => {
           </div>
         </div>
 
-        {/* Post Body with Border */}
         <p
           className="card-text mt-3 p-3 border rounded-3"
           style={{ border: "1px solid #ddd" }}
