@@ -1,6 +1,160 @@
-* {
+:root {
+  --primary-color: #003366; /* Deep Blue */
+  --secondary-color: #00b8d4; /* Vibrant Cyan */
+  --accent-color: #ffeb3b; /* Radiant Yellow */
+  --success-color: #4caf50; /* Leaf Green */
+  --danger-color: #f44336; /* Fiery Red */
+  --background-color: #f8f9fa;
+  --text-color: #212529;
+  --dark-primary: #002244; /* Darker Blue */
+  --dark-secondary: #00796b; /* Darker Cyan */
+  --primary-font: "Poppins", sans-serif;
+  --secondary-font: "Georgia", serif;
+  --font-size-base: 1rem;
+  --line-height-base: 1.5;
+}
+
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+}
+
+body {
+  font-family: var(--primary-font) !important;
+  font-size: var(--font-size-base) !important;
+  line-height: var(--line-height-base) !important;
+  color: var(--text-color) !important;
+  background-color: var(--background-color) !important;
+}
+
+a {
+  color: var(--primary-color) !important;
+  text-decoration: none !important;
+  transition: color 0.3s ease !important;
+}
+
+a:hover {
+  color: var(--secondary-color) !important;
+  text-decoration: underline !important;
+}
+
+.btn {
+  border-radius: 0.25rem !important;
+  padding: 0.5rem 1rem !important;
+  transition: background-color 0.3s ease, border-color 0.3s ease !important;
+}
+
+.btn-primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--dark-primary) !important;
+  border-color: var(--dark-primary) !important;
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
+}
+
+.btn-secondary:hover {
+  background-color: var(--dark-secondary) !important;
+  border-color: var(--dark-secondary) !important;
+}
+
+.btn-success {
+  background-color: var(--success-color) !important;
+  border-color: var(--success-color) !important;
+}
+
+.btn-success:hover {
+  background-color: #388e3c !important;
+  border-color: #388e3c !important;
+}
+
+.btn-danger {
+  background-color: var(--danger-color) !important;
+  border-color: var(--danger-color) !important;
+}
+
+.btn-danger:hover {
+  background-color: #d32f2f !important;
+  border-color: #d32f2f !important;
+}
+
+.form-control {
+  border-radius: 0.25rem !important;
+  padding: 0.75rem 1rem !important;
+  transition: border-color 0.3s ease !important;
+}
+
+textarea.form-control {
+  resize: vertical !important;
+}
+
+.card {
+  border-radius: 0.25rem !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+  background-color: white !important;
+  transition: box-shadow 0.3s ease !important;
+}
+
+.card:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+}
+
+.card-header {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.card-body {
+  background-color: white !important;
+  color: var(--text-color) !important;
+  padding: 1.25rem !important;
+}
+
+.navbar {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  padding: 1rem !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.navbar a {
+  color: white !important;
+  text-decoration: none !important;
+  margin-right: 1rem !important;
+}
+
+.navbar a:hover {
+  color: var(--secondary-color) !important;
+}
+
+.modal-content {
+  border-radius: 0.5rem !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.modal-header {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+.modal-body {
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+}
+
+footer {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  padding: 1rem !important;
+  text-align: center !important;
 }
