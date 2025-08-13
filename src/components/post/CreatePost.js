@@ -1,5 +1,5 @@
+import { useState, useRef } from "react";
 import ButtonSpinner from "../../utils/ButtonSpinner";
-import { useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
@@ -14,24 +14,27 @@ const CreatePost = () => {
 
   const [postBody, setPostBody] = useState("");
   const [postLoading, setPostLoading] = useState(false);
-
+  const [error, setError] = useState(""); // State for error messages
+  const [charCount, setCharCount] = useState(0); // State for character count
   const postRef = useRef(null);
 
   if (!user) return <NotFound text={"No user found! Please log in first."} />;
 
+  // Max characters for the post
+  const MAX_CHARACTERS = 280;
+
   const handlePost = async (e) => {
     e.preventDefault();
+    setError(""); // Clear error message on each submit attempt
 
     if (!postBody.trim()) {
-      toast.error("Post cannot be empty!");
+      setError("Post cannot be empty!"); // Set error if post body is empty
       return;
     }
 
     setPostLoading(true);
     try {
-      // Check if user is logged in
       if (user) {
-        // Create a new post
         const newPost = {
           body: postBody.trim(),
           userId: user.id,
@@ -43,9 +46,9 @@ const CreatePost = () => {
         const res = await addDoc(collection(db, "posts"), newPost);
         setPosts((prev) => [...prev, { id: res.id, ...newPost }]);
         setPostBody("");
+        setCharCount(0);
         toast.success("Post created successfully.");
 
-        // Update user's posts
         const newUserPost = [user.userPosts || [].length]
           ? [...user.userPosts, res.id]
           : [res.id];
@@ -61,40 +64,98 @@ const CreatePost = () => {
         toast.error("You are not logged in. Please log in to create a post.");
       }
     } catch (err) {
-      toast.error(err.message);
+      toast.error("There was an error creating the post. Please try again.");
+      console.error(err);
     }
     setPostLoading(false);
     postRef.current?.focus();
   };
 
+  // Handle character count update
+  const handleTextChange = (e) => {
+    const text = e.target.value;
+    setPostBody(text);
+    setCharCount(text.length);
+  };
+
   return (
-    <div>
-      <form onSubmit={handlePost}>
-        <textarea
-          name="body"
-          id="body"
-          cols="60"
-          rows="2"
-          required
-          value={postBody}
-          onChange={(e) => setPostBody(e.target.value)}
-          autoFocus
-          placeholder="What's on your mind?"
-          disabled={postLoading}
-          style={{ resize: "none" }}
-          autoComplete="off"
-          ref={postRef}
+    <div
+      className="card shadow-sm border-0 mb-4 p-3"
+      style={{ backgroundColor: "#fff" }}
+    >
+      <div className="d-flex align-items-start">
+        {/* User Avatar */}
+        <img
+          src={user?.avatar || "https://via.placeholder.com/40"}
+          alt="User Avatar"
+          className="rounded-circle me-3"
+          style={{ width: "40px", height: "40px" }}
         />
-        <button type="submit" disabled={postLoading || !postBody}>
-          {postLoading ? (
-            <>
-              Posting... <ButtonSpinner />
-            </>
-          ) : (
-            "Post"
-          )}
-        </button>
-      </form>
+
+        <div className="w-100">
+          <form onSubmit={handlePost}>
+            <div className="mb-3">
+              {/* Textarea for post body */}
+              <textarea
+                name="body"
+                id="body"
+                rows="4"
+                required
+                value={postBody}
+                onChange={handleTextChange}
+                autoFocus
+                placeholder="What's on your mind?"
+                disabled={postLoading}
+                className={`form-control shadow-sm ${
+                  error ? "is-invalid" : ""
+                }`}
+                style={{
+                  resize: "none",
+                  border: "1px solid #ddd",
+                  borderRadius: "8px",
+                  padding: "10px",
+                }}
+                ref={postRef}
+              />
+
+              {/* Error message */}
+              {error && <div className="invalid-feedback">{error}</div>}
+            </div>
+
+            {/* Character counter */}
+            <div
+              className="text-right"
+              style={{ fontSize: "14px", color: "#999" }}
+            >
+              {charCount} / {MAX_CHARACTERS} characters
+            </div>
+
+            {charCount > MAX_CHARACTERS && (
+              <div className="text-danger">Character limit exceeded!</div>
+            )}
+
+            <button
+              type="submit"
+              disabled={postLoading}
+              className="btn btn-primary w-100 shadow-sm mt-3"
+              style={{
+                padding: "10px",
+                borderRadius: "8px",
+                fontWeight: "bold",
+                backgroundColor: "#FF6F00", // Primary button color (from previous color scheme)
+              }}
+            >
+              {postLoading ? (
+                <>
+                  Posting... <ButtonSpinner />
+                </>
+              ) : (
+                "Post"
+              )}
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
