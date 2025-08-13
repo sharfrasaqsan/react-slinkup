@@ -13,13 +13,14 @@ import { useData } from "../../contexts/DataContext";
 import { toast } from "react-toastify";
 import { db } from "../../firebase/Config";
 import { format } from "date-fns";
+import { FaThumbsUp } from "react-icons/fa";
+import "../../styles/post/LikeButton.css";
 
 const LikeButton = ({ post, setPosts }) => {
   const { user } = useAuth();
   const { posts, setNotifications } = useData();
 
-  if (!post) return null;
-  if (!user) return null;
+  if (!post || !user) return null;
 
   const handleLikes = async (postId) => {
     try {
@@ -29,28 +30,26 @@ const LikeButton = ({ post, setPosts }) => {
         return;
       }
 
-      // Find the current post
       const currentPost = posts.find((post) => post.id === postId);
       if (!currentPost) return;
 
-      // Check if user has already liked the post
-      const alreadyLiked = (currentPost.likes || [])?.includes(user.id);
+      const alreadyLiked = (currentPost.likes || []).includes(user.id);
 
-      // Add or remove like
       const updatedLikes = alreadyLiked
-        ? currentPost.likes?.filter((userId) => userId !== user.id)
+        ? currentPost.likes.filter((userId) => userId !== user.id)
         : [...(currentPost.likes || []), user.id];
 
-      await updateDoc(doc(db, "posts", postId), { likes: updatedLikes });
-
-      // Update post local UI
+      // Optimistically update the UI
       setPosts((prev) =>
         prev.map((post) =>
           post.id === postId ? { ...post, likes: updatedLikes } : post
         )
       );
 
-      // Add notification if user has not already liked the post and the post is not by the user
+      // Update likes in Firestore
+      await updateDoc(doc(db, "posts", postId), { likes: updatedLikes });
+
+      // Handle notifications for liked post
       if (!alreadyLiked && currentPost.userId !== user.id) {
         const newNotification = {
           postId,
@@ -61,6 +60,7 @@ const LikeButton = ({ post, setPosts }) => {
           message: `${user.username} liked your post.`,
           createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
         };
+
         const res = await addDoc(
           collection(db, "notifications"),
           newNotification
@@ -71,11 +71,8 @@ const LikeButton = ({ post, setPosts }) => {
         ]);
       }
 
-      // Add or remove like used only firestore. not local states.
-      // so it should be used query to get the updated data from firestore
-      // Check if user has already liked the post
+      // Manage likes collection in Firestore
       if (!alreadyLiked) {
-        // Add like to likes collection
         const newLike = {
           postId,
           userId: user.id,
@@ -83,7 +80,7 @@ const LikeButton = ({ post, setPosts }) => {
         };
         await addDoc(collection(db, "likes"), newLike);
       } else {
-        // Find the like document
+        // Remove like from the Firestore likes collection
         const likeDocs = await getDocs(
           query(
             collection(db, "likes"),
@@ -91,8 +88,6 @@ const LikeButton = ({ post, setPosts }) => {
             where("userId", "==", user.id)
           )
         );
-
-        // Delete like
         likeDocs.forEach(
           async (singleDoc) => await deleteDoc(doc(db, "likes", singleDoc.id))
         );
@@ -103,11 +98,20 @@ const LikeButton = ({ post, setPosts }) => {
   };
 
   return (
-    <>
-      <button onClick={() => handleLikes(post.id)} disabled={!user}>
-        {(post.likes || [])?.includes(user.id) ? "Unlike" : "Like"}
-      </button>
-    </>
+    <button
+      className={`btn btn-outline-primary btn-sm d-flex align-items-center gap-2 ${
+        post.likes?.includes(user.id) ? "liked" : ""
+      }`}
+      onClick={() => handleLikes(post.id)}
+      disabled={!user}
+    >
+      <FaThumbsUp
+        className={`thumb-icon ${
+          post.likes?.includes(user.id) ? "liked-icon" : ""
+        }`}
+      />
+      <span>Like</span>
+    </button>
   );
 };
 
