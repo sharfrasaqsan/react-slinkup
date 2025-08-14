@@ -34,13 +34,13 @@ const Logout = () => {
       } finally {
         setLoggingOut(false);
       }
-    }, 3000);
+    }, 1000);
   };
 
   return (
     <>
       <button
-        className="btn btn-danger"
+        className="dropdown-item text-danger"
         onClick={handleLogout}
         disabled={loggingOut}
       >

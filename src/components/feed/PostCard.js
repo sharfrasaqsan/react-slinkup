@@ -12,8 +12,9 @@ import { doc, writeBatch } from "firebase/firestore";
 import { db } from "../../firebase/Config";
 import ButtonSpinner from "../../utils/ButtonSpinner";
 import EditPost from "../post/EditPost";
-import { FaCommentDots } from "react-icons/fa"; // Added icons
+import { FaCommentDots, FaEllipsisH } from "react-icons/fa";
 import { LuPencilLine } from "react-icons/lu";
+import "../../styles/post/PostCard.css";
 
 const PostCard = ({ post }) => {
   const { user } = useAuth();
@@ -109,35 +110,53 @@ const PostCard = ({ post }) => {
             )}
           </div>
 
-          <div className="d-flex gap-3">
-            {/* Edit and Delete Buttons for post owner */}
+          <div className="d-flex justify-content-end">
             {user.id === postedBy.id && (
-              <>
+              <div className="dropdown">
                 <button
-                  className="btn btn-link text-primary"
-                  onClick={() => setShowEditPost(true)}
+                  className="btn btn-link text-primary dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
                 >
-                  Edit
+                  <FaEllipsisH />
                 </button>
-                <button
-                  className="btn btn-link text-danger"
-                  onClick={() => handleDeletePost(post.id)}
+
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="dropdownMenuButton"
                 >
-                  {deleteLoading ? (
-                    <>
-                      <ButtonSpinner /> Deleting...
-                    </>
-                  ) : (
-                    "Delete"
-                  )}
-                </button>
-              </>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      onClick={() => setShowEditPost(true)}
+                    >
+                      Edit
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      onClick={() => handleDeletePost(post.id)}
+                    >
+                      {deleteLoading ? (
+                        <>
+                          <ButtonSpinner /> Deleting...
+                        </>
+                      ) : (
+                        "Delete"
+                      )}
+                    </button>
+                  </li>
+                </ul>
+              </div>
             )}
           </div>
         </div>
 
         <p
-          className="card-text mt-3 p-3 border rounded-3"
+          className="card-text mt-3 p-3 border"
           style={{ border: "1px solid #ddd" }}
         >
           {post.body || "No content"}

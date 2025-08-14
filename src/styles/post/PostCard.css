@@ -1,0 +1,7 @@
+.dropdown-toggle {
+  transition: transform 1s ease;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}

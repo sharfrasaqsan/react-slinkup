@@ -6,13 +6,13 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase/Config";
 import { doc, getDoc } from "firebase/firestore";
 import ButtonSpinner from "../utils/ButtonSpinner";
+import "../styles/Login.css";
 
 const Login = () => {
   const { user, setUser } = useAuth();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [registerLoading, setRegisterLoading] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ const Login = () => {
       return;
     }
 
-    setRegisterLoading(true);
+    setLoginLoading(true);
     try {
       const userCredentials = await signInWithEmailAndPassword(
         auth,
@@ -46,51 +46,87 @@ const Login = () => {
     } catch (err) {
       toast.error(err.message);
     }
-    setRegisterLoading(false);
+    setLoginLoading(false);
   };
 
   return (
-    <section>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            required
-            autoFocus
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-          />
+    <div
+      className="container d-flex justify-content-center align-items-center"
+      style={{ minHeight: "50vh" }}
+    >
+      <div className="row w-100">
+        <div className="col-md-6 text-center text-md-start d-flex flex-column justify-content-center px-5">
+          <div className="my-5 display-6 fw-bold ls-tight">
+            Connect and Grow <br />
+            <span className="text-primary">
+              with <span style={{ textTransform: "uppercase" }}>Slinkup</span>
+            </span>
+          </div>
+
+          <p
+            className="text-muted"
+            style={{ fontSize: "1.2rem", color: "hsl(217, 10%, 50.8%)" }}
+          >
+            Slinkup brings people together, making social connections
+            effortless. Build your network, share ideas, and grow your
+            community—all in one place.
+          </p>
         </div>
 
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
-          />
-        </div>
+        {/* Right Column: Login Form */}
+        <div className="col-md-6">
+          <div className="card my-5">
+            <div className="card-body p-5">
+              <h4 className="mb-4 text-center">Login to Your Account</h4>
 
-        <button type="submit" disabled={registerLoading || user}>
-          {registerLoading ? (
-            <>
-              Logging in... <ButtonSpinner />
-            </>
-          ) : (
-            "Login"
-          )}
-        </button>
-      </form>
-    </section>
+              <div className="mb-4">
+                <label htmlFor="email" className="form-label">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  className="form-control"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="password" className="form-label">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  className="form-control"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+
+              <button
+                className="btn btn-primary w-100 mb-4"
+                onClick={handleLogin}
+                disabled={loginLoading || user}
+              >
+                {loginLoading ? (
+                  <>
+                    Logging in... <ButtonSpinner />
+                  </>
+                ) : (
+                  "Login"
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
