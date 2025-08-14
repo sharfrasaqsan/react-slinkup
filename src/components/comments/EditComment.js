@@ -11,7 +11,7 @@ const EditComment = ({
   showEditComment,
   handleCloseComment,
 }) => {
-  const [updatedComment, setUpdatedComment] = useState();
+  const [updatedComment, setUpdatedComment] = useState("");
   const [updateLoading, setUpdateLoading] = useState(false);
 
   useEffect(() => {
@@ -50,27 +50,49 @@ const EditComment = ({
           handleCloseComment();
         }, 1000);
       }}
+      style={{ display: "none" }}
     >
-      <input
-        type="text"
-        id="comment"
-        name="comment"
-        placeholder="Enter your comment"
-        required
-        autoFocus
-        value={updatedComment}
-        onChange={(e) => setUpdatedComment(e.target.value)}
-      />
-      <button type="submit">
-        {updateLoading ? (
-          <>
-            Updating... <ButtonSpinner />
-          </>
-        ) : (
-          "Update"
-        )}
-      </button>
-      <button onClick={() => handleCloseComment()}>Cancel</button>
+      <div className="mb-3">
+        <label htmlFor="comment" className="form-label">
+          Edit your comment:
+        </label>
+
+        <input
+          type="text"
+          id="comment"
+          name="comment"
+          placeholder="Enter your comment"
+          required
+          autoFocus
+          value={updatedComment}
+          onChange={(e) => setUpdatedComment(e.target.value)}
+          className="form-control rounded-3 shadow-sm"
+        />
+      </div>
+
+      <div className="d-flex justify-content-between">
+        <button
+          type="submit"
+          className="btn btn-primary shadow-sm w-100"
+          disabled={updateLoading || !updatedComment.trim()}
+        >
+          {updateLoading ? (
+            <>
+              Updating... <ButtonSpinner />
+            </>
+          ) : (
+            "Update"
+          )}
+        </button>
+
+        <button
+          type="button"
+          className="btn btn-link text-secondary ms-2"
+          onClick={() => handleCloseComment()}
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   );
 };

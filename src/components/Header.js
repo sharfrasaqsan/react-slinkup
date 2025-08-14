@@ -1,16 +1,70 @@
 import { useAuth } from "../contexts/AuthContext";
+import { Link } from "react-router-dom";
+import { FaUserCircle, FaBell, FaCog } from "react-icons/fa";
+import Logout from "../components/Logout";
+import "../styles/Header.css";
 
 const Header = () => {
   const { user } = useAuth();
 
-  if (!user) return null;
-
   return (
-    <div
-    
-    >
-      <div>Welcome back @{user ? user.username : "Guest"}</div>
-    
+    <div className="d-flex justify-content-between align-items-center p-3 bg-light shadow-sm">
+      <div className="d-flex align-items-center ">
+        <Link to="/" className="text-decoration-none">
+          <h3 className="text-primary m-0 fw-bold">SLINKUP</h3>
+        </Link>
+      </div>
+
+      <div className="d-flex align-items-center primary-color">
+        {user ? (
+          <>
+            <div className="d-flex align-items-center me-3">
+              <FaUserCircle size={30} className="me-2" />
+              <span className="text-dark">Welcome, {user.username}</span>
+            </div>
+
+            <Link to="/notifications" className="text-decoration-none">
+              <FaBell size={20} className="me-3 text-primary" />
+            </Link>
+
+            <div className="dropdown">
+              <button
+                className="btn btn-link text-primary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <FaCog size={20} className="text-primary" />
+              </button>
+
+              <ul
+                className="dropdown-menu"
+                aria-labelledby="dropdownMenuButton"
+              >
+                <li>
+                  <Link to={`/my-profile/${user.id}`} className="dropdown-item">
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <Logout />
+                </li>
+              </ul>
+            </div>
+          </>
+        ) : (
+          <div className="d-flex align-items-center login-register">
+            <Link to="/login" className="btn btn-primary me-2">
+              Login
+            </Link>
+
+            <Link to="/register" className="btn btn-outline-secondary me-2">
+              Register
+            </Link>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

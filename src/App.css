@@ -40,7 +40,28 @@ a {
 
 a:hover {
   color: var(--secondary-color) !important;
-  text-decoration: underline !important;
+  text-decoration: none !important;
+}
+
+/* Text Color Utilities */
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+.text-secondary {
+  color: var(--secondary-color) !important;
+}
+
+.text-success {
+  color: var(--success-color) !important;
+}
+
+.text-danger {
+  color: var(--danger-color) !important;
+}
+
+.text-info {
+  color: var(--info-color) !important;
 }
 
 /* Button Styles */
@@ -78,6 +99,24 @@ a:hover {
 .btn-primary:active,
 .btn-primary.active {
   box-shadow: 0 0 0 0.2rem rgba(0, 51, 102, 0.25) !important;
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
+  color: white !important;
+}
+
+.btn-secondary:hover {
+  background-color: #00796b !important;
+  border-color: #00796b !important;
+}
+
+.btn-secondary:focus,
+.btn-secondary.focus,
+.btn-secondary:active,
+.btn-secondary.active {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
 }
 
 .btn-success {
@@ -253,6 +292,23 @@ textarea.form-control {
 .modal-body {
   background-color: var(--background-color) !important;
   color: var(--text-color) !important;
+}
+
+/* Dropdown */
+.dropdown-item:focus,
+.dropdown-item:active {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+
+.dropdown-toggle:focus {
+  box-shadow: none !important;
+  outline: none !important;
+  background-color: transparent !important;
+}
+
+.dropdown-toggle:hover {
+  background-color: transparent !important;
 }
 
 /* Footer Styles */

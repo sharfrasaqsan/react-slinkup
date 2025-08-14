@@ -16,6 +16,9 @@ import {
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
+// Regular Expression for email validation
+const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
 const Register = () => {
   const { user } = useAuth();
   const { setUsers } = useData();
@@ -24,7 +27,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const [passwordStrength, setPasswordStrength] = useState("");
   const [registerLoading, setRegisterLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -34,7 +37,7 @@ const Register = () => {
 
     setRegisterLoading(true);
     try {
-      if ((!username, !email, !password)) {
+      if (!username || !email || !password || !confirmPassword) {
         toast.error("Please fill in all fields.");
         return;
       }
@@ -49,7 +52,7 @@ const Register = () => {
         return;
       }
 
-      if (!email.includes("@")) {
+      if (!emailRegex.test(email)) {
         toast.error("Please enter a valid email address.");
         return;
       }
@@ -59,7 +62,6 @@ const Register = () => {
         return;
       }
 
-      // Check if username already exists in the database
       const userDocs = await getDocs(
         query(collection(db, "users"), where("username", "==", username))
       );
@@ -68,17 +70,13 @@ const Register = () => {
         return;
       }
 
-      // Create a new user
       const userCredentials = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-
-      // Get the user ID from the userCredentials
       const { uid } = userCredentials.user;
 
-      // Create a new user document
       const newUser = {
         id: uid,
         username: username.replace(/[^a-z0-9]/gi, "").toLowerCase(),
@@ -91,7 +89,7 @@ const Register = () => {
         following: [],
         userPosts: [],
         role: "user",
-        location: "", // Empty, user can update it later
+        location: "",
         website: "",
         social: {},
         birthday: "",
@@ -103,9 +101,10 @@ const Register = () => {
         createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
         profileCompletion: false,
       };
-      // Add the new user document to the "users" collection
+
       await setDoc(doc(db, "users", uid), newUser);
       setUsers((prev) => [...prev, newUser]);
+
       setUsername("");
       setEmail("");
       setPassword("");
@@ -113,79 +112,141 @@ const Register = () => {
       toast.success("Registration successful!");
       navigate("/register-details");
     } catch (err) {
-      toast.error(err.message);
+      toast.error("Something went wrong, please try again.");
+      console.error(err);
     }
     setRegisterLoading(false);
   };
 
+  const handlePasswordChange = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+
+    // Check password strength
+    if (password.length < 8) {
+      setPasswordStrength("Weak");
+    } else if (password.length < 12) {
+      setPasswordStrength("Medium");
+    } else {
+      setPasswordStrength("Strong");
+    }
+  };
+
   return (
-    <section>
-      <h2>Register</h2>
-      <form onSubmit={handleRegister}>
-        <div>
-          <label htmlFor="email">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Enter your username"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+    <div
+      className="container d-flex justify-content-center align-items-center"
+      style={{ minHeight: "50vh" }}
+    >
+      <div className="row w-100">
+        {/* Left Column: Registration Instructions */}
+        <div className="col-md-6 text-center text-md-start d-flex flex-column justify-content-center px-5">
+          <div className="my-5 display-6 fw-bold ls-tight">
+            Create Your Account on <br />
+            <span className="text-primary">Slinkup</span>
+          </div>
+
+          <p
+            className="text-muted"
+            style={{ fontSize: "1.2rem", color: "hsl(217, 10%, 50.8%)" }}
+          >
+            Join Slinkup to connect with others, share ideas, and build your
+            network in a social community.
+          </p>
         </div>
 
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Enter your email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+        {/* Right Column: Registration Form */}
+        <div className="col-md-6">
+          <div className="card my-5">
+            <div className="card-body p-5">
+              <h4 className="mb-4 text-center">Register for an Account</h4>
 
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Enter your password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <span>* Password must be at least 8 characters</span>
-        </div>
+              <div className="mb-4">
+                <label htmlFor="username" className="form-label">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  className="form-control"
+                  placeholder="Enter your username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+              </div>
 
-        <div>
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            placeholder="Confirm your password"
-            required
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
+              <div className="mb-4">
+                <label htmlFor="email" className="form-label">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  className="form-control"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
 
-        <button type="submit" disabled={registerLoading}>
-          {registerLoading ? (
-            <>
-              Registering... <ButtonSpinner />
-            </>
-          ) : (
-            "Register"
-          )}
-        </button>
-      </form>
-    </section>
+              <div className="mb-4">
+                <label htmlFor="password" className="form-label">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  className="form-control"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  required
+                />
+                <div className="text-muted">
+                  {passwordStrength
+                    ? `${passwordStrength}`
+                    : "Password strength"}
+                </div>
+                <span className="text-muted">
+                  * Password must be at least 8 characters
+                </span>
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="confirmPassword" className="form-label">
+                  Confirm Password
+                </label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  className="form-control"
+                  placeholder="Confirm your password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="btn btn-primary w-100 mb-4"
+                onClick={handleRegister}
+                disabled={registerLoading}
+              >
+                {registerLoading ? (
+                  <>
+                    Registering... <ButtonSpinner />
+                  </>
+                ) : (
+                  "Register"
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

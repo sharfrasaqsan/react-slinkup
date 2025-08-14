@@ -1,0 +1,15 @@
+.login-register a:hover {
+  color: white !important;
+}
+
+.text-decoration-none > .text-primary {
+  color: #003366 !important;
+}
+
+.primary-color > .text-primary {
+  color: #003366 !important;
+}
+
+.primary-color > .dropdown > .dropdown-toggle .text-primary {
+  color: #003366 !important;
+}

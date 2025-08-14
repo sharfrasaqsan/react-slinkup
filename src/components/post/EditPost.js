@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import ButtonSpinner from "../../utils/ButtonSpinner";
 import { format } from "date-fns";
@@ -6,17 +6,24 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/Config";
 
 const EditPost = ({ showEditPost, handleCloseEditPost, post, setPosts }) => {
-  // Prevent background scroll
+  const [editPostBody, setEditPostBody] = useState("");
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [charCount, setCharCount] = useState(0);
+
+  const MAX_CHARACTERS = 280;
+
   useEffect(() => {
     if (showEditPost) {
-      document.body.style.overflow = "hidden";
+      setEditPostBody(post.body);
+      setCharCount(post.body.length);
+      document.body.style.overflow = "hidden"; // Prevent background scroll
     } else {
       document.body.style.overflow = "auto";
     }
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [showEditPost]);
+  }, [showEditPost, post.body]);
 
   // Close on ESC
   useEffect(() => {
@@ -27,17 +34,8 @@ const EditPost = ({ showEditPost, handleCloseEditPost, post, setPosts }) => {
     return () => window.removeEventListener("keydown", handleEsc);
   }, [handleCloseEditPost]);
 
-  const [editPostBody, setEditPostBody] = useState("");
-  const [updateLoading, setUpdateLoading] = useState(false);
-
-  useEffect(() => {
-    if (showEditPost) {
-      setEditPostBody(post.body);
-    }
-  }, [showEditPost, post.body]);
-
   const handleUpdatePost = async (postId) => {
-    if (!editPostBody) {
+    if (!editPostBody.trim()) {
       toast.error("Post content is required");
       return;
     }
@@ -62,6 +60,17 @@ const EditPost = ({ showEditPost, handleCloseEditPost, post, setPosts }) => {
     setUpdateLoading(false);
   };
 
+  const handleCharCount = (e) => {
+    const content = e.target.value;
+    setEditPostBody(content);
+    setCharCount(content.length);
+  };
+
+  const handleClear = () => {
+    setEditPostBody("");
+    setCharCount(0);
+  };
+
   if (!showEditPost) return null;
 
   return (
@@ -72,52 +81,79 @@ const EditPost = ({ showEditPost, handleCloseEditPost, post, setPosts }) => {
       style={{
         backgroundColor: "rgba(0, 0, 0, 0.5)",
         backdropFilter: "blur(5px)",
+        transition: "opacity 0.3s ease",
       }}
     >
       <div className="modal-dialog" role="document">
-        <div className="modal-content">
+        <div className="modal-content border-0 rounded-3">
           <div className="modal-header">
             <h5 className="modal-title">Edit Post</h5>
             <button
               type="button"
-              className="btn-close"
+              className="btn-close btn-close-white"
               onClick={handleCloseEditPost}
             ></button>
           </div>
+
           <div className="modal-body">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleUpdatePost(post.id);
-                setTimeout(() => {
-                  handleCloseEditPost();
-                }, 1000);
+                handleCloseEditPost();
               }}
             >
               <div className="mb-3">
                 <label htmlFor="postBody" className="form-label">
                   Post Body
                 </label>
+
                 <textarea
-                  className="form-control"
+                  className="form-control shadow-sm rounded-3"
                   id="postBody"
-                  rows="3"
+                  rows="4"
                   value={editPostBody}
-                  onChange={(e) => setEditPostBody(e.target.value)}
+                  onChange={handleCharCount}
                   required
                   autoFocus
-                  placeholder="Enter edit post content"
+                  placeholder="Write your post here..."
                 />
-              </div>
-              <button type="submit" className="btn btn-primary">
-                {updateLoading ? (
-                  <>
-                    Updating... <ButtonSpinner />
-                  </>
-                ) : (
-                  "Update"
+
+                <small className="text-muted d-block mt-2">
+                  {charCount}/{MAX_CHARACTERS} characters
+                </small>
+
+                {charCount > MAX_CHARACTERS && (
+                  <div className="text-danger">Character limit exceeded!</div>
                 )}
-              </button>
+              </div>
+
+              <div className="d-flex justify-content-between align-items-center mt-3">
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary shadow-sm mt-3"
+                  onClick={handleClear}
+                  disabled={updateLoading}
+                >
+                  Clear
+                </button>
+
+                <button
+                  type="submit"
+                  className="btn btn-primary shadow-sm mt-3"
+                  disabled={
+                    editPostBody.trim() === "" || charCount > MAX_CHARACTERS
+                  }
+                >
+                  {updateLoading ? (
+                    <>
+                      Updating... <ButtonSpinner />
+                    </>
+                  ) : (
+                    "Update"
+                  )}
+                </button>
+              </div>
             </form>
           </div>
         </div>
