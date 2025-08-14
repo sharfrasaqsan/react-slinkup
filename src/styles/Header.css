@@ -13,3 +13,22 @@
 .primary-color > .dropdown > .dropdown-toggle .text-primary {
   color: #003366 !important;
 }
+
+/* Ensure navbar items are properly spaced */
+.navbar-nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Add gap between icons and text */
+}
+
+/* On small screens, make sure items align properly */
+@media (max-width: 991px) {
+  .navbar-nav .nav-link span {
+    font-size: 14px; /* Adjust text size for small screens */
+  }
+}
+
+/* Optional: Ensure navbar items are displayed inline in all screen sizes */
+.navbar-nav {
+  flex-direction: row; /* Make sure items are aligned in a row */
+}
