@@ -1,19 +1,14 @@
-.ls-tight > .text-primary {
-  color: var(--primary-color) !important;
-}
-
+/* Adjust padding and margin for smaller screens */
 .container {
-  margin: auto;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .card-body {
   padding: 2rem;
 }
 
-.responsive-hide {
-  display: block;
-}
-
+/* For smaller screens, adjust font sizes and form widths */
 @media (max-width: 768px) {
   .form-control {
     max-width: 100%;
@@ -29,9 +24,5 @@
 
   .btn {
     font-size: 1rem;
-  }
-
-  .responsive-hide {
-    display: none !important;
   }
 }

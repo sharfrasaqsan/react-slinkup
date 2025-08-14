@@ -39,132 +39,137 @@ function App() {
       <Header />
       <Navbar />
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/explore"
-          element={
-            <ProtectedRoute>
-              <Explore />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* Profile */}
-        <Route
-          path="/my-profile/:id"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/my-profile/:id/followers"
-          element={
-            <ProtectedRoute>
-              <Followers />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/my-profile/:id/following"
-          element={
-            <ProtectedRoute>
-              <Following />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* Login & Register */}
-        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
-        <Route
-          path="/register"
-          element={user ? <Navigate to="/" /> : <Register />}
-        />
-        <Route
-          path="/register-details"
-          element={!user ? <Navigate to="/login" /> : <RegisterDetails />}
-        />
-
-        <Route
-          path="/post/:postId"
-          element={
-            <ProtectedRoute>
-              <PostDetails />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* Settings Routes */}
-        <Route
-          path="/settings"
-          element={
-            <ProtectedRoute>
-              <Settings />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings/profile"
-          element={
-            <ProtectedRoute>
-              <ProfileSettings />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings/account"
-          element={
-            <ProtectedRoute>
-              <AccountSettings />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/notifications"
-          element={
-            <ProtectedRoute>
-              <Notifications />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* Admin Routes */}
-        <Route path="/admin">
+      <main>
+        <Routes>
           <Route
-            path="dashboard/:id"
+            path="/"
             element={
-              <AdminProtectedRoute>
-                <AdminDashboard />
-              </AdminProtectedRoute>
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/explore"
+            element={
+              <ProtectedRoute>
+                <Explore />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Profile */}
+          <Route
+            path="/my-profile/:id"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
             }
           />
           <Route
-            path="update-user/:id"
+            path="/my-profile/:id/followers"
             element={
-              <AdminProtectedRoute>
-                <UpdateUser />
-              </AdminProtectedRoute>
+              <ProtectedRoute>
+                <Followers />
+              </ProtectedRoute>
             }
           />
-        </Route>
+          <Route
+            path="/my-profile/:id/following"
+            element={
+              <ProtectedRoute>
+                <Following />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route path="/all-users" element={<AllUsers />} />
-        <Route path="/user/:id" element={<UsersInfo />} />
-        <Route path="/user/:id/followers" element={<Followers />} />
-        <Route path="/user/:id/following" element={<Following />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          {/* Login & Register */}
+          <Route
+            path="/login"
+            element={user ? <Navigate to="/" /> : <Login />}
+          />
+          <Route
+            path="/register"
+            element={user ? <Navigate to="/" /> : <Register />}
+          />
+          <Route
+            path="/register-details"
+            element={!user ? <Navigate to="/login" /> : <RegisterDetails />}
+          />
+
+          <Route
+            path="/post/:postId"
+            element={
+              <ProtectedRoute>
+                <PostDetails />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Settings Routes */}
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings/profile"
+            element={
+              <ProtectedRoute>
+                <ProfileSettings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings/account"
+            element={
+              <ProtectedRoute>
+                <AccountSettings />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/notifications"
+            element={
+              <ProtectedRoute>
+                <Notifications />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Admin Routes */}
+          <Route path="/admin">
+            <Route
+              path="dashboard/:id"
+              element={
+                <AdminProtectedRoute>
+                  <AdminDashboard />
+                </AdminProtectedRoute>
+              }
+            />
+            <Route
+              path="update-user/:id"
+              element={
+                <AdminProtectedRoute>
+                  <UpdateUser />
+                </AdminProtectedRoute>
+              }
+            />
+          </Route>
+
+          <Route path="/all-users" element={<AllUsers />} />
+          <Route path="/user/:id" element={<UsersInfo />} />
+          <Route path="/user/:id/followers" element={<Followers />} />
+          <Route path="/user/:id/following" element={<Following />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
 
       <Footer />
 
