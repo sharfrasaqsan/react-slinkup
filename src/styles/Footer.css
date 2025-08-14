@@ -1,18 +1,28 @@
 .footer-link {
-  color: white !important;
   text-decoration: none;
-}
-
-.footer-link:hover {
-  color: var(--secondary-color) !important;
-  text-decoration: underline;
-}
-
-.footer-social-icon {
-  color: white !important;
+  color: white;
   transition: color 0.3s ease;
 }
 
-.footer-social-icon:hover {
-  color: var(--secondary-color) !important;
+.footer-link:hover {
+  color: var(--secondary-color); /* Change this with your secondary color */
+}
+
+.btn-floating {
+  transition: transform 0.3s, color 0.3s;
+}
+
+.btn-floating:hover {
+  transform: scale(1.1);
+  color: var(--secondary-color); /* Hover effect for social icons */
+}
+
+.footer-link {
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: var(--secondary-color); /* Customize with your secondary color */
 }

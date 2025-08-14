@@ -114,8 +114,9 @@ const Register = () => {
     } catch (err) {
       toast.error("Something went wrong, please try again.");
       console.error(err);
+    } finally {
+      setRegisterLoading(false);
     }
-    setRegisterLoading(false);
   };
 
   const handlePasswordChange = (e) => {
@@ -133,10 +134,7 @@ const Register = () => {
   };
 
   return (
-    <div
-      className="container d-flex justify-content-center align-items-center"
-      style={{ minHeight: "50vh" }}
-    >
+    <div className="container d-flex justify-content-center align-items-center">
       <div className="row w-100">
         {/* Left Column: Registration Instructions */}
         <div className="col-md-6 text-center text-md-start d-flex flex-column justify-content-center px-5">

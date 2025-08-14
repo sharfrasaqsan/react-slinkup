@@ -3,8 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../firebase/Config";
-import { doc, getDoc } from "firebase/firestore";
+import { auth } from "../firebase/Config";
 import ButtonSpinner from "../utils/ButtonSpinner";
 import "../styles/Login.css";
 
@@ -36,47 +35,36 @@ const Login = () => {
         email,
         password
       );
-      const user = userCredentials.user;
-      const res = await getDoc(doc(db, "users", user.uid));
-      if (!res.exists()) {
-        toast.error("User does not exist");
-      }
-      setUser(res.data());
+      setUser(userCredentials.user);
       navigate("/");
     } catch (err) {
       toast.error(err.message);
+    } finally {
+      setLoginLoading(false);
     }
-    setLoginLoading(false);
   };
 
   return (
     <div
-      className="container d-flex justify-content-center align-items-center"
-      style={{ minHeight: "50vh" }}
+      className="container d-flex justify-content-center align-items-center py-5"
+      style={{ minHeight: "75vh" }}
     >
       <div className="row w-100">
-        <div className="col-md-6 text-center text-md-start d-flex flex-column justify-content-center px-5">
-          <div className="my-5 display-6 fw-bold ls-tight">
+        <div className="col-md-6 text-center text-md-start d-flex flex-column justify-content-center">
+          <h2 className="my-3 fw-bold ls-tight">
             Connect and Grow <br />
-            <span className="text-primary">
-              with <span style={{ textTransform: "uppercase" }}>Slinkup</span>
-            </span>
-          </div>
-
-          <p
-            className="text-muted"
-            style={{ fontSize: "1.2rem", color: "hsl(217, 10%, 50.8%)" }}
-          >
+            <span className="text-primary">with SLINKUP</span>
+          </h2>
+          <p className="text-muted" style={{ fontSize: "1rem" }}>
             Slinkup brings people together, making social connections
             effortless. Build your network, share ideas, and grow your
             community—all in one place.
           </p>
         </div>
 
-        {/* Right Column: Login Form */}
         <div className="col-md-6">
           <div className="card my-5">
-            <div className="card-body p-5">
+            <div className="card-body p-4">
               <h4 className="mb-4 text-center">Login to Your Account</h4>
 
               <div className="mb-4">

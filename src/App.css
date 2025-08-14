@@ -1,7 +1,7 @@
 /* Root Color Variables */
 :root {
   --primary-color: #003366; /* Deep Blue */
-  --secondary-color: #00b8d4; /* Vibrant Cyan */
+  --secondary-color: #1e90ff; /* Teal */
   --accent-color: #ffeb3b; /* Radiant Yellow */
   --info-color: #2196f3; /* Sky Blue */
   --success-color: #4caf50; /* Leaf Green */
@@ -29,6 +29,14 @@ body {
   line-height: var(--line-height-base) !important;
   color: var(--text-color) !important;
   background-color: var(--background-color) !important;
+}
+
+main {
+  flex: 1 0 auto !important;
+  padding: 1rem !important;
+  background-color: var(--background-color) !important;
+  transition: background-color 0.3s ease !important;
+  min-height: 75vh !important;
 }
 
 /* Links */
