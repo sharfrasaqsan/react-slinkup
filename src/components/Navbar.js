@@ -24,25 +24,25 @@ const Navbar = () => {
             <li className="nav-item">
               <NavLink to="/" className="nav-link text-white">
                 <FaHome /> {/* Home Icon */}
-                <span className="ms-2">Home</span> {/* Text */}
+                <span className="ms-2 link-text">Home</span> {/* Text */}
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink to="/explore" className="nav-link text-white">
                 <FaSearch /> {/* Explore Icon */}
-                <span className="ms-2">Explore</span>
+                <span className="ms-2 link-text">Explore</span>
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink to="/settings" className="nav-link text-white">
                 <FaCogs /> {/* Settings Icon */}
-                <span className="ms-2">Settings</span>
+                <span className="ms-2 link-text">Settings</span>
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink to="/notifications" className="nav-link text-white">
                 <FaBell /> {/* Notifications Icon */}
-                <span className="ms-2">Notifications</span>
+                <span className="ms-2 link-text">Notifications</span>
               </NavLink>
             </li>
 
@@ -53,7 +53,7 @@ const Navbar = () => {
                   className="nav-link text-white"
                 >
                   <FaTachometerAlt /> {/* Admin Icon */}
-                  <span className="ms-2">Admin</span>
+                  <span className="ms-2 link-text">Admin</span>
                 </NavLink>
               </li>
             )}
@@ -61,7 +61,7 @@ const Navbar = () => {
             <li className="nav-item">
               <NavLink to="/all-users" className="nav-link text-white">
                 <FaUsers /> {/* All Users Icon */}
-                <span className="ms-2">All Users</span>
+                <span className="ms-2 link-text">All Users</span>
               </NavLink>
             </li>
           </ul>
