@@ -10,6 +10,7 @@ import { FcInfo } from "react-icons/fc";
 import "../styles/Notifications.css";
 
 const Notifications = ({ setUnReadNotificationCount }) => {
+  // Pass down the count update function
   const { user } = useAuth();
   const { notifications, setNotification, loading } = useData();
 
@@ -23,10 +24,12 @@ const Notifications = ({ setUnReadNotificationCount }) => {
 
   const handleReadNotification = async (notificationId) => {
     try {
+      // Update Firebase document to mark as read
       await updateDoc(doc(db, "notifications", notificationId), {
         isRead: true,
       });
 
+      // Update local state as well
       setNotification((prev) =>
         prev.map((notification) =>
           notification.id === notificationId
@@ -35,8 +38,8 @@ const Notifications = ({ setUnReadNotificationCount }) => {
         )
       );
 
-      // Notify parent (Header) component to update unread count
-      setUnReadNotificationCount((prevCount) => prevCount - 1);
+      // Update unread count in the Header component
+      setUnReadNotificationCount((prevCount) => prevCount - 1); // Decrease unread count
     } catch (err) {
       console.log(err);
     }
@@ -62,7 +65,7 @@ const Notifications = ({ setUnReadNotificationCount }) => {
           }
           className="text-decoration-none"
           key={notification.id}
-          onClick={() => handleReadNotification(notification.id)}
+          onClick={() => handleReadNotification(notification.id)} // Mark as read on click
         >
           <li
             className="list-group-item d-flex justify-content-between align-items-center"
