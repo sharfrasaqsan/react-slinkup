@@ -5,22 +5,22 @@ import Logout from "../components/Logout";
 import "../styles/Header.css";
 import { useData } from "../contexts/DataContext";
 import Notifications from "../components/Notifications";
+import { useState, useEffect } from "react";
 
 const Header = () => {
   const { user } = useAuth();
   const { notifications } = useData();
+  const [unReadNotificationCount, setUnReadNotificationCount] = useState(0);
 
-  const userNotificcations = (notifications || [])?.filter(
-    (notification) => notification.recieverId === user?.id
-  );
-
-  const unReadNotification = userNotificcations.filter(
-    (i) => i.isRead === false
-  );
-
-  const updateUnreadCount = () => {
-    // Force re-render to update the unread count
-  };
+  useEffect(() => {
+    const userNotificcations = notifications?.filter(
+      (notification) => notification.recieverId === user?.id
+    );
+    const unreadCount = userNotificcations?.filter(
+      (i) => i.isRead === false
+    ).length;
+    setUnReadNotificationCount(unreadCount);
+  }, [notifications, user?.id]);
 
   return (
     <div className="d-flex justify-content-between align-items-center p-3 bg-light shadow-sm">
@@ -49,7 +49,7 @@ const Header = () => {
                 <div className="d-flex align-items-center">
                   <FaBell size={20} className="text-primary" />
                   <span className="notification-count">
-                    {unReadNotification.length}
+                    {unReadNotificationCount}
                   </span>
                 </div>
               </button>
@@ -58,7 +58,9 @@ const Header = () => {
                 className="dropdown-menu dropdown-menu-notifications"
                 aria-labelledby="dropdownNotificationButton"
               >
-                <Notifications onNotificationRead={updateUnreadCount} />
+                <Notifications
+                  setUnReadNotificationCount={setUnReadNotificationCount}
+                />
               </div>
             </div>
 

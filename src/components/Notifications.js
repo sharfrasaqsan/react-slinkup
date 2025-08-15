@@ -9,7 +9,7 @@ import { db } from "../firebase/Config";
 import { FcInfo } from "react-icons/fc";
 import "../styles/Notifications.css";
 
-const Notifications = ({ onNotificationRead }) => {
+const Notifications = ({ setUnReadNotificationCount }) => {
   const { user } = useAuth();
   const { notifications, setNotification, loading } = useData();
 
@@ -34,7 +34,9 @@ const Notifications = ({ onNotificationRead }) => {
             : notification
         )
       );
-      onNotificationRead();
+
+      // Notify parent (Header) component to update unread count
+      setUnReadNotificationCount((prevCount) => prevCount - 1);
     } catch (err) {
       console.log(err);
     }
@@ -46,46 +48,44 @@ const Notifications = ({ onNotificationRead }) => {
   if (userNotificcations.length === 0) return null;
 
   return (
-    <>
-      <ul className="list-group">
-        {(userNotificcations || [])?.slice(-10)?.map((notification) => (
-          <Link
-            to={
-              notification.type === "like"
-                ? `/post/${notification.postId}`
-                : notification.type === "follow"
-                ? `/user/${notification.senderId}`
-                : notification.type === "comment"
-                ? `/post/${notification.postId}`
-                : "#"
-            }
-            className="text-decoration-none"
-            key={notification.id}
-            onClick={() => handleReadNotification(notification.id)}
+    <ul className="list-group">
+      {userNotificcations.slice(-10).map((notification) => (
+        <Link
+          to={
+            notification.type === "like"
+              ? `/post/${notification.postId}`
+              : notification.type === "follow"
+              ? `/user/${notification.senderId}`
+              : notification.type === "comment"
+              ? `/post/${notification.postId}`
+              : "#"
+          }
+          className="text-decoration-none"
+          key={notification.id}
+          onClick={() => handleReadNotification(notification.id)}
+        >
+          <li
+            className="list-group-item d-flex justify-content-between align-items-center"
+            style={{
+              backgroundColor: notification.isRead ? "#f8f9faff" : "#e9ecef",
+            }}
           >
-            <li
-              className="list-group-item d-flex justify-content-between align-items-center"
-              style={{
-                backgroundColor: notification.isRead ? "#f8f9faff" : "#e9ecef",
-              }}
-            >
+            <div>
+              <strong>{notification.message}</strong>
+              <br />
+              <small className="text-muted">
+                {formatDistanceToNow(new Date(notification.createdAt))}
+              </small>
+            </div>
+            {notification.isRead === false && (
               <div>
-                <strong>{notification.message}</strong>
-                <br />
-                <small className="text-muted">
-                  {formatDistanceToNow(new Date(notification.createdAt))}
-                </small>
+                <FcInfo />
               </div>
-              {notification.isRead === false && (
-                <div>
-                  <FcInfo />
-                </div>
-              )}
-            </li>
-          </Link>
-        ))}
-      </ul>
-    </>
+            )}
+          </li>
+        </Link>
+      ))}
+    </ul>
   );
 };
 
