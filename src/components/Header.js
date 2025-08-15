@@ -10,17 +10,20 @@ import { useState, useEffect } from "react";
 const Header = () => {
   const { user } = useAuth();
   const { notifications } = useData();
+
+  // Track unread notifications count using state
   const [unReadNotificationCount, setUnReadNotificationCount] = useState(0);
 
+  // Update unread notification count whenever notifications change
   useEffect(() => {
-    const userNotificcations = notifications?.filter(
+    const userNotifications = notifications.filter(
       (notification) => notification.recieverId === user?.id
     );
-    const unreadCount = userNotificcations?.filter(
+    const unreadCount = userNotifications.filter(
       (i) => i.isRead === false
     ).length;
     setUnReadNotificationCount(unreadCount);
-  }, [notifications, user?.id]);
+  }, [notifications, user?.id]); // Re-run whenever notifications or user change
 
   return (
     <div className="d-flex justify-content-between align-items-center p-3 bg-light shadow-sm">
@@ -49,7 +52,7 @@ const Header = () => {
                 <div className="d-flex align-items-center">
                   <FaBell size={20} className="text-primary" />
                   <span className="notification-count">
-                    {unReadNotificationCount}
+                    {unReadNotificationCount} {/* Display unread count */}
                   </span>
                 </div>
               </button>
