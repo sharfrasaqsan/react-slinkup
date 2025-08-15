@@ -3,9 +3,19 @@ import { Link } from "react-router-dom";
 import { FaUserCircle, FaBell, FaCog } from "react-icons/fa";
 import Logout from "../components/Logout";
 import "../styles/Header.css";
+import { useData } from "../contexts/DataContext";
 
 const Header = () => {
   const { user } = useAuth();
+  const { notifications } = useData();
+
+  const userNotificcations = (notifications || [])?.filter(
+    (notification) => notification.recieverId === user?.id
+  );
+
+  const unReadNotification = userNotificcations.filter(
+    (i) => i.isRead === false
+  );
 
   return (
     <div className="d-flex justify-content-between align-items-center p-3 bg-light shadow-sm">
@@ -25,6 +35,7 @@ const Header = () => {
 
             <Link to="/notifications" className="text-decoration-none">
               <FaBell size={20} className="me-3 text-primary" />
+              <span>{unReadNotification.length}</span>
             </Link>
 
             <div className="dropdown">
@@ -45,6 +56,11 @@ const Header = () => {
                 <li>
                   <Link to={`/my-profile/${user.id}`} className="dropdown-item">
                     Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/settings" className="dropdown-item">
+                    Settings
                   </Link>
                 </li>
                 <li>

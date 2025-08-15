@@ -1,48 +1,31 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import {
-  FaHome,
-  FaSearch,
-  FaCogs,
-  FaBell,
-  FaTachometerAlt,
-  FaUsers,
-} from "react-icons/fa"; // Importing React Icons
+import { FaHome, FaTachometerAlt, FaUsers } from "react-icons/fa";
+import "../styles/Navbar.css";
+import { TiWorld } from "react-icons/ti";
 
 const Navbar = () => {
   const { user } = useAuth();
 
   return (
     <nav
-      className="navbar navbar-expand-lg navbar-light"
+      className="navbar navbar-light"
       style={{ backgroundColor: "var(--primary-color)" }}
     >
-      <div className="container-fluid">
-        {/* Navbar without the toggle button */}
-        <div className="navbar-collapse">
-          <ul className="navbar-nav ms-auto">
+      <div className="container-fluid d-flex justify-content-between align-items-center">
+        {/* Navbar links */}
+        <div className="d-flex flex-wrap justify-content-center w-100">
+          <ul className="navbar-nav d-flex w-100 justify-content-center mb-0">
             <li className="nav-item">
               <NavLink to="/" className="nav-link text-white">
-                <FaHome /> {/* Home Icon */}
-                <span className="ms-2 link-text">Home</span> {/* Text */}
+                <FaHome className="icon-size" />
+                <span className="ms-2 link-text">Home</span>
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink to="/explore" className="nav-link text-white">
-                <FaSearch /> {/* Explore Icon */}
+                <TiWorld className="icon-size" />
                 <span className="ms-2 link-text">Explore</span>
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to="/settings" className="nav-link text-white">
-                <FaCogs /> {/* Settings Icon */}
-                <span className="ms-2 link-text">Settings</span>
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to="/notifications" className="nav-link text-white">
-                <FaBell /> {/* Notifications Icon */}
-                <span className="ms-2 link-text">Notifications</span>
               </NavLink>
             </li>
 
@@ -52,7 +35,7 @@ const Navbar = () => {
                   to={`/admin/dashboard/${user.id}`}
                   className="nav-link text-white"
                 >
-                  <FaTachometerAlt /> {/* Admin Icon */}
+                  <FaTachometerAlt className="icon-size" />{" "}
                   <span className="ms-2 link-text">Admin</span>
                 </NavLink>
               </li>
@@ -60,7 +43,7 @@ const Navbar = () => {
 
             <li className="nav-item">
               <NavLink to="/all-users" className="nav-link text-white">
-                <FaUsers /> {/* All Users Icon */}
+                <FaUsers className="icon-size" />
                 <span className="ms-2 link-text">All Users</span>
               </NavLink>
             </li>
