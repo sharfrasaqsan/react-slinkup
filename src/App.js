@@ -11,7 +11,6 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PostDetails from "./pages/PostDetails";
 import Settings from "./pages/settings/Settings";
-import Notifications from "./pages/notification/Notifications";
 import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import UpdateUser from "./pages/admin/UpdateUser";
@@ -130,15 +129,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <AccountSettings />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/notifications"
-            element={
-              <ProtectedRoute>
-                <Notifications />
               </ProtectedRoute>
             }
           />

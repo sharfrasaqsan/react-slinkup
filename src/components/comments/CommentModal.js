@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import CommentList from "./CommentList";
 import LikeCommentCounts from "../post/LikeCommentCounts";
-import LoadingSpinner from "../../utils/LoadingSpinner";
+
 
 const CommentModal = ({ showComment, handleCloseComment, post }) => {
   const modalRef = useRef(null);
-  const [isLoading, setIsLoading] = useState(true); // Assume comments are being fetched
-  const [comments, setComments] = useState([]);
+  const [comments] = useState([]);
 
   // Close on ESC
   useEffect(() => {
@@ -31,17 +30,6 @@ const CommentModal = ({ showComment, handleCloseComment, post }) => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [showComment, handleCloseComment]);
-
-  useEffect(() => {
-    if (showComment) {
-      setIsLoading(true);
-      // Simulating a comment fetch, set isLoading to false after fetching
-      setTimeout(() => {
-        setComments(post.comments); // Assuming post.comments has the comments data
-        setIsLoading(false);
-      }, 1000); // Simulated delay
-    }
-  }, [showComment, post.comments]);
 
   if (!showComment) return null;
 
@@ -78,11 +66,7 @@ const CommentModal = ({ showComment, handleCloseComment, post }) => {
 
           <div className="modal-body">
             <LikeCommentCounts post={post} />
-            {isLoading ? (
-              <LoadingSpinner />
-            ) : (
-              <CommentList post={post} comments={comments} />
-            )}
+            <CommentList post={post} comments={comments} />
           </div>
         </div>
       </div>
