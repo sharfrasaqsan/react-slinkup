@@ -83,7 +83,7 @@ const CreateComment = ({ post }) => {
       toast.error("Failed to create comment!");
     }
     setCommentLoading(false);
-    commentRef.current.focus();
+    commentRef.current?.focus();
   };
 
   return (

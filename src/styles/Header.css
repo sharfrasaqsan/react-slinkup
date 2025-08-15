@@ -20,6 +20,32 @@
   gap: 8px !important;
 }
 
+.notification-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.dropdown-menu-notifications {
+  max-height: 400px;
+  width: 600px;
+  max-width: 400px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #003366 #f8f9fa;
+}
+
 @media (max-width: 991px) {
   .navbar-nav .nav-link span {
     font-size: 14px !important;

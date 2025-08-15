@@ -4,6 +4,7 @@ import { FaUserCircle, FaBell, FaCog } from "react-icons/fa";
 import Logout from "../components/Logout";
 import "../styles/Header.css";
 import { useData } from "../contexts/DataContext";
+import Notifications from "../components/Notifications";
 
 const Header = () => {
   const { user } = useAuth();
@@ -16,6 +17,10 @@ const Header = () => {
   const unReadNotification = userNotificcations.filter(
     (i) => i.isRead === false
   );
+
+  const updateUnreadCount = () => {
+    // Force re-render to update the unread count
+  };
 
   return (
     <div className="d-flex justify-content-between align-items-center p-3 bg-light shadow-sm">
@@ -33,10 +38,29 @@ const Header = () => {
               <span className="text-dark">Welcome, {user.username}</span>
             </div>
 
-            <Link to="/notifications" className="text-decoration-none">
-              <FaBell size={20} className="me-3 text-primary" />
-              <span>{unReadNotification.length}</span>
-            </Link>
+            <div className="dropdown">
+              <button
+                className="btn btn-link text-primary dropdown-toggle"
+                type="button"
+                id="dropdownNotificationButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <div className="d-flex align-items-center">
+                  <FaBell size={20} className="text-primary" />
+                  <span className="notification-count">
+                    {unReadNotification.length}
+                  </span>
+                </div>
+              </button>
+
+              <div
+                className="dropdown-menu dropdown-menu-notifications"
+                aria-labelledby="dropdownNotificationButton"
+              >
+                <Notifications onNotificationRead={updateUnreadCount} />
+              </div>
+            </div>
 
             <div className="dropdown">
               <button
