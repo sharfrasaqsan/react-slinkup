@@ -23,7 +23,7 @@ const Header = () => {
       (i) => i.isRead === false
     ).length;
     setUnReadNotificationCount(unreadCount);
-  }, [notifications, user?.id]); // Re-run whenever notifications or user change
+  }, [notifications, user?.id]); 
 
   return (
     <div className="d-flex justify-content-between align-items-center p-3 bg-light shadow-sm">
