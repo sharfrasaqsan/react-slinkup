@@ -23,14 +23,22 @@ const UserPosts = () => {
   if (userPosts.length === 0) return <NotFound text={"No posts found!"} />;
 
   return (
-    <div style={{ padding: "1rem", backgroundColor: "#f0f0f0" }}>
+    <div
+      style={{
+        padding: "1rem",
+        backgroundColor: "#f0f0f0",
+        borderRadius: "8px",
+      }}
+    >
       {user && (
         <>
           <CreatePost />
           <p>
             {(user.userPosts || []).length || 0}{" "}
-            {(user.userPosts || []).length > 1 ? "posts" : "post"}
+            {(user.userPosts || []).length > 1 ? "posts" : "post"} since{" "}
+            {user.createdAt?.slice(0, 4) || ""}
           </p>
+
           <UserPostsList userPosts={userPosts} postedBy={user.username} />
         </>
       )}

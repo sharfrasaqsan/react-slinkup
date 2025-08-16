@@ -4,20 +4,19 @@ import ProfileDetails from "./ProfileDetails";
 
 const UserInfo = () => {
   const { user } = useAuth();
-
   if (!user) return null;
 
   return (
-    <div style={{ padding: "1rem", backgroundColor: "#d5d5d5ff" }}>
-      <p>{user.username}</p>
+    <div className="profile-card">
+      <h5>{user.username}</h5>
 
-      <p>
+      <p className="mb-3">
         <Link to={`/my-profile/${user.id}/followers`}>
-          {(user.followers || []).length || 0} followers
+          {(user.followers || []).length || 0} Followers
         </Link>{" "}
-        |{" "}
+        ·{" "}
         <Link to={`/my-profile/${user.id}/following`}>
-          {(user.following || []).length || 0} following
+          {(user.following || []).length || 0} Following
         </Link>
       </p>
 
