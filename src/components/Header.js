@@ -11,19 +11,17 @@ const Header = () => {
   const { user } = useAuth();
   const { notifications } = useData();
 
-  // Track unread notifications count using state
   const [unReadNotificationCount, setUnReadNotificationCount] = useState(0);
 
-  // Update unread notification count whenever notifications change
   useEffect(() => {
-    const userNotifications = notifications.filter(
+    const userNotifications = notifications?.filter(
       (notification) => notification.recieverId === user?.id
     );
-    const unreadCount = userNotifications.filter(
+    const unreadCount = userNotifications?.filter(
       (i) => i.isRead === false
     ).length;
     setUnReadNotificationCount(unreadCount);
-  }, [notifications, user?.id]); 
+  }, [notifications, user?.id]);
 
   return (
     <div className="d-flex justify-content-between align-items-center p-3 bg-light shadow-sm">
@@ -52,7 +50,7 @@ const Header = () => {
                 <div className="d-flex align-items-center">
                   <FaBell size={20} className="text-primary" />
                   <span className="notification-count">
-                    {unReadNotificationCount} {/* Display unread count */}
+                    {unReadNotificationCount}
                   </span>
                 </div>
               </button>
@@ -61,9 +59,7 @@ const Header = () => {
                 className="dropdown-menu dropdown-menu-notifications"
                 aria-labelledby="dropdownNotificationButton"
               >
-                <Notifications
-                  setUnReadNotificationCount={setUnReadNotificationCount}
-                />
+                <Notifications />
               </div>
             </div>
 
