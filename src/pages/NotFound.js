@@ -1,11 +1,11 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // Updated for React Router v6
+import { useNavigate } from "react-router-dom"; 
 
 const NotFound = ({ message = "Page Not Found", redirectTo = "/" }) => {
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   const handleRedirect = () => {
-    navigate(redirectTo); // Navigate to the specified path
+    navigate(redirectTo); 
   };
 
   return (
