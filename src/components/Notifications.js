@@ -9,10 +9,10 @@ import { db } from "../firebase/Config";
 import { FcInfo } from "react-icons/fc";
 import "../styles/Notifications.css";
 
-const Notifications = ({ setUnReadNotificationCount }) => {
+const Notifications = () => {
   // Pass down the count update function
   const { user } = useAuth();
-  const { notifications, setNotification, loading } = useData();
+  const { notifications, setNotifications, loading } = useData();
 
   const sortedNotifications = [...(notifications || [])].sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -24,22 +24,18 @@ const Notifications = ({ setUnReadNotificationCount }) => {
 
   const handleReadNotification = async (notificationId) => {
     try {
-      // Update Firebase document to mark as read
       await updateDoc(doc(db, "notifications", notificationId), {
         isRead: true,
       });
 
       // Update local state as well
-      setNotification((prev) =>
+      setNotifications((prev) =>
         prev.map((notification) =>
           notification.id === notificationId
             ? { ...notification, isRead: true }
             : notification
         )
       );
-
-      // Update unread count in the Header component
-      setUnReadNotificationCount((prevCount) => prevCount - 1); // Decrease unread count
     } catch (err) {
       console.log(err);
     }
@@ -65,7 +61,7 @@ const Notifications = ({ setUnReadNotificationCount }) => {
           }
           className="text-decoration-none"
           key={notification.id}
-          onClick={() => handleReadNotification(notification.id)} // Mark as read on click
+          onClick={() => handleReadNotification(notification.id)}
         >
           <li
             className="list-group-item d-flex justify-content-between align-items-center"
