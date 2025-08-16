@@ -3,7 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/Config";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import ButtonSpinner from "../utils/ButtonSpinner";
 
 const Logout = () => {

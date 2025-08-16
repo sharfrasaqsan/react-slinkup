@@ -3,7 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useData } from "../../contexts/DataContext";
 import LoadingSpinner from "../../utils/LoadingSpinner";
 import NotFound from "../../utils/NotFound";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { useState } from "react";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/Config";

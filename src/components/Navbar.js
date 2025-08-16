@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import { FaHome, FaTachometerAlt, FaUsers } from "react-icons/fa";
 import "../styles/Navbar.css";

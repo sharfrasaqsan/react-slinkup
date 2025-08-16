@@ -22,7 +22,7 @@ import ScrollToTop from "./utils/ScrollToTop";
 import AdminProtectedRoute from "./utils/AdminProtectedRoute";
 import { useAuth } from "./contexts/AuthContext";
 
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router";
 import { Bounce, ToastContainer } from "react-toastify";
 import ProfileSettings from "./pages/settings/ProfileSettings";
 import AccountSettings from "./pages/settings/AccountSettings";

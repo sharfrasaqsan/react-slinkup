@@ -1,5 +1,5 @@
 import { useAuth } from "../contexts/AuthContext";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { FaUserCircle, FaBell, FaCog } from "react-icons/fa";
 import Logout from "../components/Logout";
 import "../styles/Header.css";
