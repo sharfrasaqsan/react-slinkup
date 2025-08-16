@@ -47,88 +47,74 @@ const ProfileDetails = ({ user }) => {
   };
 
   return (
-    <div>
-      <p>{user.bio}</p>
+    <div className="profile-details">
+      <div className="mb-3 text-center">{user.bio}</div>
 
       <p>
-        <span>
-          <FaRegUser /> {user.firstname} {user.lastname}
-        </span>
+        <FaRegUser /> {user.firstname} {user.lastname}
       </p>
 
       <p>
         <MdOutlineEmail /> {user.email}
       </p>
 
-      {user.occupation && (
-        <div>
-          {(user.occupation || [])?.map((occ, index) => (
-            <p key={index}>
-              <BsSuitcaseLg /> {occ}
-            </p>
-          ))}
-        </div>
-      )}
+      {(user.occupation || []).map((occ, i) => (
+        <p key={i}>
+          <BsSuitcaseLg /> {occ}
+        </p>
+      ))}
 
-      {user.education && (
-        <div>
-          {(user.education || [])?.map((edu, index) => (
-            <p key={index}>
-              <RiGraduationCapLine /> {edu}
-            </p>
-          ))}
-        </div>
-      )}
+      {(user.education || []).map((edu, i) => (
+        <p key={i}>
+          <RiGraduationCapLine /> {edu}
+        </p>
+      ))}
 
       {user.birthday && (
         <p>
-          <BsCalendar2Date /> {user.birthday || "Not specified"}
+          <BsCalendar2Date /> {user.birthday}
         </p>
       )}
-
       {user.gender && (
         <p>
-          {genderIcons[user.gender] || null} {user.gender || "Not specified"}
+          {genderIcons[user.gender]} {user.gender}
         </p>
       )}
-
       {user.location && (
         <p>
-          <FaLocationDot /> {user.location || "Not specified"}
+          <FaLocationDot /> {user.location}
         </p>
       )}
-
       {user.relationship && (
         <p>
-          {statusIcons[user.relationship] || null}{" "}
-          {user.relationship || "Not specified"}
+          {statusIcons[user.relationship]} {user.relationship}
         </p>
       )}
 
-      {user.website && <p>Website: {user.website}</p>}
-
-      {user.languages && user.languages?.length > 0 && (
-        <div>
-          {(user.languages || [])?.map((lang, index) => (
-            <p key={index}>
-              <IoLanguage /> {lang}
-            </p>
-          ))}
-        </div>
+      {user.website && (
+        <p>
+          🌐{" "}
+          <a href={user.website} target="_blank" rel="noreferrer">
+            {user.website}
+          </a>
+        </p>
       )}
 
-      {user.social && Object.keys(user.social).length > 0 && (
-        <div>
-          {Object.entries(user.social || {})?.map(([platform, url]) => (
-            <p key={platform}>
-              {socialIcons[platform.toLowerCase()] || null} :{" "}
-              <a href={url} target="_blank" rel="noopener noreferrer">
-                {url}
-              </a>
-            </p>
-          ))}
-        </div>
-      )}
+      {(user.languages || []).map((lang, i) => (
+        <p key={i}>
+          <IoLanguage /> {lang}
+        </p>
+      ))}
+
+      {user.social &&
+        Object.entries(user.social).map(([platform, url]) => (
+          <p key={platform}>
+            {socialIcons[platform.toLowerCase()]}{" "}
+            <a href={url} target="_blank" rel="noreferrer">
+              {url}
+            </a>
+          </p>
+        ))}
     </div>
   );
 };
