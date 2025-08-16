@@ -14,10 +14,10 @@ const Header = () => {
   const [unReadNotificationCount, setUnReadNotificationCount] = useState(0);
 
   useEffect(() => {
-    const userNotifications = notifications?.filter(
+    const userNotifications = (notifications || [])?.filter(
       (notification) => notification.recieverId === user?.id
     );
-    const unreadCount = userNotifications?.filter(
+    const unreadCount = (userNotifications || [])?.filter(
       (i) => i.isRead === false
     ).length;
     setUnReadNotificationCount(unreadCount);

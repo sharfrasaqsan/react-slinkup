@@ -33,7 +33,7 @@ const UsersInfo = () => {
     <div>
       <p>{existUser.username}</p>
 
-      {user.followCountShow === "show" && (
+      {existUser.followCountShow === "show" && (
         <p>
           <Link to={`/user/${existUser.id}/followers`}>
             {(existUser.followers || []).length || 0} followers
