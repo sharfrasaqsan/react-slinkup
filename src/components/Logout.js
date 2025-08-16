@@ -12,7 +12,7 @@ const Logout = () => {
   const navigate = useNavigate();
 
   if (!user === null) {
-    return;
+    return null;
   }
 
   const handleLogout = async () => {
