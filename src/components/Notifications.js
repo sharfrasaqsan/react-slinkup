@@ -3,7 +3,7 @@ import { useData } from "../contexts/DataContext";
 import NotFound from "../utils/NotFound";
 import LoadingSpinner from "../utils/LoadingSpinner";
 import { formatDistanceToNow } from "date-fns";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/Config";
 import { FcInfo } from "react-icons/fc";

@@ -4,7 +4,7 @@ import { useData } from "../contexts/DataContext";
 import { toast } from "react-toastify";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/Config";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import LoadingSpinner from "../utils/LoadingSpinner";
 import ButtonSpinner from "../utils/ButtonSpinner";
 

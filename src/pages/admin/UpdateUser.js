@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { useData } from "../../contexts/DataContext";
 import LoadingSpinner from "../../utils/LoadingSpinner";
 import NotFound from "../NotFound";

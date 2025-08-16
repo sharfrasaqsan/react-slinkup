@@ -1,6 +1,6 @@
 import { formatDistanceToNow } from "date-fns";
 import { useData } from "../../contexts/DataContext";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import CommentLikeButton from "./CommentLikeButton";
 import { useState } from "react";
 import ButtonSpinner from "../../utils/ButtonSpinner";

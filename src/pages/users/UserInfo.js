@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 import { useData } from "../../contexts/DataContext";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
