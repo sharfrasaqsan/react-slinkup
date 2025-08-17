@@ -2,6 +2,8 @@ import { useMemo } from "react";
 import { useData } from "../../contexts/DataContext";
 import { useAuth } from "../../contexts/AuthContext";
 import NotFound from "../../utils/NotFound";
+import { Link } from "react-router";
+import "../../styles/search/SearchedUsers.css";
 
 const SearchedUsers = () => {
   const { user } = useAuth();
@@ -17,14 +19,15 @@ const SearchedUsers = () => {
   if (!user) return null;
 
   return (
-    <div>
-      {user && (
-        <ul>
-          {(filteredUsers || [])?.map((user) => (
-            <li key={user.id}>{user.username}</li>
-          ))}
-        </ul>
-      )}
+    <div className="container search-results-user-card">
+      <h5 className="search-results-user-heading">Matched Users</h5>
+      <ul className="user-list">
+        {filteredUsers.map((user) => (
+          <li key={user.id} className="user-list-item">
+            <Link to={`/my-profile/${user.id}`}>{user.username}</Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

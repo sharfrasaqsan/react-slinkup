@@ -1,0 +1,36 @@
+.searched-container {
+  margin: 0 auto;
+}
+
+.searched-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.searched-tab {
+  background-color: transparent;
+  border: 2px solid var(--primary-color);
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--primary-color);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.searched-tab:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.searched-tab.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.searched-results {
+  margin-top: 1rem;
+}
