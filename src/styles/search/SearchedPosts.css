@@ -1,0 +1,23 @@
+.search-results-post-card {
+  margin-bottom: 1rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.search-results-post-heading {
+  font-size: 1.25rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.post-list-item {
+  font-weight: 500;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
