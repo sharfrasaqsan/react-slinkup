@@ -79,7 +79,7 @@ const PostCard = ({ post }) => {
   };
 
   return (
-    <div className="card mb-4 border-0 rounded-3">
+    <div className="card mb-3 border-0 rounded-3">
       <div className="card-body">
         <div className="d-flex justify-content-between align-items-center">
           <div>
@@ -137,7 +137,7 @@ const PostCard = ({ post }) => {
                   </li>
                   <li>
                     <button
-                      className="dropdown-item"
+                      className="dropdown-item text-danger"
                       onClick={() => handleDeletePost(post.id)}
                     >
                       {deleteLoading ? (

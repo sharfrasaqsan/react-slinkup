@@ -46,6 +46,18 @@
   scrollbar-color: #003366 #f8f9fa;
 }
 
+.navbar-nav {
+  flex-direction: row !important;
+}
+
+.responsive-hide {
+  display: block !important;
+}
+
+section > .responsive-show {
+  display: none !important;
+}
+
 @media (max-width: 991px) {
   .navbar-nav .nav-link span {
     font-size: 14px !important;
@@ -56,8 +68,16 @@
   .link-text {
     display: none !important;
   }
-}
 
-.navbar-nav {
-  flex-direction: row !important;
+  .dropdown-menu-notifications {
+    width: 300px;
+  }
+
+  .responsive-hide {
+    display: none !important;
+  }
+
+  section .responsive-show {
+    display: flex !important;
+  }
 }

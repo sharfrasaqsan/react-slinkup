@@ -16,7 +16,6 @@ const CreatePost = () => {
   const [postLoading, setPostLoading] = useState(false);
   const [error, setError] = useState(""); // State for error messages
   const [charCount, setCharCount] = useState(0); // State for character count
-  const postRef = useRef(null);
 
   if (!user) return <NotFound text={"No user found! Please log in first."} />;
 
@@ -68,7 +67,6 @@ const CreatePost = () => {
       console.error(err);
     }
     setPostLoading(false);
-    postRef.current?.focus();
   };
 
   // Handle character count update
@@ -99,7 +97,6 @@ const CreatePost = () => {
                 rows="2"
                 value={postBody}
                 onChange={handleTextChange}
-                autoFocus
                 placeholder={`What's on your mind ${user.username}?`}
                 disabled={postLoading}
                 className={`form-control shadow-sm ${
@@ -111,7 +108,6 @@ const CreatePost = () => {
                   borderRadius: "8px",
                   padding: "10px",
                 }}
-                ref={postRef}
               />
 
               {/* Error message */}

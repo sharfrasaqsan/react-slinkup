@@ -55,6 +55,32 @@ export const DataProvider = ({ children }) => {
     fetchAllData();
   }, []);
 
+  // Search
+  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState("");
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    if (!searchInput) return;
+
+    try {
+      setLoading(true);
+      setSearch(searchInput);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (searchInput.trim() === "") {
+      setSearch("");
+    }
+  }, [searchInput]);
+
   return (
     <DataContext.Provider
       value={{
@@ -70,6 +96,10 @@ export const DataProvider = ({ children }) => {
         setNotifications,
         loading,
         setLoading,
+        search,
+        handleSearch,
+        searchInput,
+        setSearchInput,
       }}
     >
       {children}
