@@ -7,7 +7,7 @@
 }
 
 .search-input {
-  min-width: 300px; /* Adjust width */
+  min-width: 350px; /* Adjust width */
   border-radius: 30px; /* Rounded corners for the input */
   border: 1px solid #ddd;
   font-size: 16px;
@@ -25,13 +25,13 @@
   cursor: pointer;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   .search-container {
     width: 100%;
     padding: 10px;
   }
 
   .search-input {
-    width: 200px; /* Adjust width for smaller screens */
+    min-width: 250px; /* Adjust width for smaller screens */
   }
 }

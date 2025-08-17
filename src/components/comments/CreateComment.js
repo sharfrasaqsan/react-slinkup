@@ -62,6 +62,7 @@ const CreateComment = ({ post }) => {
       // Create a notification for the post author
       const newNotification = {
         postId,
+        commentId: res.id,
         recieverId: post.userId,
         senderId: user.id,
         type: "comment",

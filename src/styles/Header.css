@@ -50,11 +50,11 @@
   flex-direction: row !important;
 }
 
-.responsive-hide {
+.responsive-hide-search {
   display: block !important;
 }
 
-section > .responsive-show {
+section > .responsive-show-search {
   display: none !important;
 }
 
@@ -73,11 +73,11 @@ section > .responsive-show {
     width: 300px;
   }
 
-  .responsive-hide {
+  .responsive-hide-search {
     display: none !important;
   }
 
-  section .responsive-show {
+  section .responsive-show-search {
     display: flex !important;
   }
 }
