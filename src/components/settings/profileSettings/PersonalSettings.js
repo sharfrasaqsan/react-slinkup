@@ -152,7 +152,7 @@ const PersonalSettings = () => {
 
   return (
     <div>
-      <h4>Basic Profile Settings</h4>
+      <h4>Personal Settings</h4>
       <form
         onSubmit={(e) => {
           e.preventDefault();

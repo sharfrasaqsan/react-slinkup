@@ -1,10 +1,8 @@
+
 const NotFound = ({ text }) => {
   return (
-    <div
-      className="d-flex justify-content-center align-items-center"
-      style={{ minHeight: "300px" }}
-    >
-      <p className="text-center text-muted fs-5">{text}</p>
+    <div className="not-found-wrapper d-flex justify-content-center align-items-center text-center">
+      <p className="not-found-text text-muted fs-5">{text}</p>
     </div>
   );
 };

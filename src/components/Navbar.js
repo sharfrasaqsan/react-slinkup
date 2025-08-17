@@ -40,13 +40,6 @@ const Navbar = () => {
                 </NavLink>
               </li>
             )}
-
-            <li className="nav-item">
-              <NavLink to="/all-users" className="nav-link text-white">
-                <FaUsers className="icon-size" />
-                <span className="ms-2 link-text">All Users</span>
-              </NavLink>
-            </li>
           </ul>
         </div>
       </div>
