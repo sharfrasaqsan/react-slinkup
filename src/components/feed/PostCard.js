@@ -18,8 +18,18 @@ import "../../styles/post/PostCard.css";
 
 const PostCard = ({ post }) => {
   const { user } = useAuth();
-  const { users, setUsers, loading, setPosts, setLikes, setComments } =
-    useData();
+  const {
+    users,
+    setUsers,
+    loading,
+    setPosts,
+    likes,
+    setLikes,
+    comments,
+    setComments,
+    notifications,
+    setNotifications,
+  } = useData();
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const [showEditPost, setShowEditPost] = useState(false);
@@ -44,15 +54,36 @@ const PostCard = ({ post }) => {
 
       const batch = writeBatch(db);
 
-      // Delete the post, likes, and comments in a batch
+      // Delete the post
       batch.delete(doc(db, "posts", postId));
-      batch.delete(doc(db, "likes", postId));
-      batch.delete(doc(db, "comments", postId));
-
       setPosts((prev) => prev.filter((post) => post.id !== postId));
+
+      // Delete Likes
+      likes
+        ?.filter((like) => like.postId === postId)
+        .forEach((like) => {
+          batch.delete(doc(db, "likes", like.id));
+        });
       setLikes((prev) => prev.filter((like) => like.postId !== postId));
+
+      // Delete comments
+      comments
+        ?.filter((comment) => comment.postId === postId)
+        .forEach((comment) => {
+          batch.delete(doc(db, "comments", comment.id));
+        });
       setComments((prev) =>
         prev.filter((comment) => comment.postId !== postId)
+      );
+
+      // Delete notifications
+      notifications
+        ?.filter((notification) => notification.postId === postId)
+        .forEach((notification) => {
+          batch.delete(doc(db, "notifications", notification.id));
+        });
+      setNotifications((prev) =>
+        prev.filter((notification) => notification.postId !== postId)
       );
 
       // Update user posts list

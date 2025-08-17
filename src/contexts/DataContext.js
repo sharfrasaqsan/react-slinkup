@@ -66,7 +66,10 @@ export const DataProvider = ({ children }) => {
 
     try {
       setLoading(true);
-      setSearch(searchInput);
+      setTimeout(() => {
+        setSearch(searchInput);
+        setLoading(false);
+      }, 500);
     } catch (err) {
       console.log(err);
       setLoading(false);

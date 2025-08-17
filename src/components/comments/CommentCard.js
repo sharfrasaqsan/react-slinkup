@@ -13,7 +13,14 @@ import { FaEllipsisH } from "react-icons/fa";
 
 const CommentCard = ({ comment, post }) => {
   const { user } = useAuth();
-  const { users, posts, setComments, setPosts } = useData();
+  const {
+    users,
+    posts,
+    setComments,
+    setPosts,
+    notifications,
+    setNotifications,
+  } = useData();
 
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [showEditComment, setShowEditComment] = useState(false);
@@ -29,9 +36,18 @@ const CommentCard = ({ comment, post }) => {
       if (commentUser.id === user.id) {
         const batch = writeBatch(db);
         batch.delete(doc(db, "comments", commentId));
-
         setComments((prev) =>
           prev?.filter((comment) => comment.id !== commentId)
+        );
+
+        // Delete notifications
+        notifications
+          ?.filter((Notification) => Notification.commentId === commentId)
+          .forEach((notification) => {
+            batch.delete(doc(db, "notifications", notification.id));
+          });
+        setNotifications((prev) =>
+          prev?.filter((notification) => notification.commentId !== commentId)
         );
 
         posts
@@ -73,7 +89,8 @@ const CommentCard = ({ comment, post }) => {
       <div className="d-flex justify-content-between align-items-center">
         <Link to={`/user/${commentUser.id}`}>
           <p className="mb-0" style={{ fontWeight: "bold" }}>
-            {commentUser ? commentUser.username : "Unknown User"}
+            {commentUser ? commentUser.username : "Unknown User"}{" "}
+            {comment.commentUserId === comment.postUserId && "(Author)"}
           </p>
         </Link>
 

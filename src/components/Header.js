@@ -34,9 +34,11 @@ const Header = () => {
           </Link>
         </div>
 
-        <div className="responsive-hide">
-          <Search />
-        </div>
+        {user && (
+          <div className="responsive-hide-search">
+            <Search />
+          </div>
+        )}
 
         <div className="d-flex align-items-center primary-color">
           {user ? (
@@ -117,7 +119,7 @@ const Header = () => {
           )}
         </div>
       </div>
-      <div className="d-flex justify-content-center pb-3 bg-light responsive-show">
+      <div className="d-flex justify-content-center pb-3 bg-light responsive-show-search">
         <Search />
       </div>
     </section>
