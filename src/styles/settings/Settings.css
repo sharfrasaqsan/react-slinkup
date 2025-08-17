@@ -1,36 +1,47 @@
-/* Main container */
+/* Container */
 .settings-container {
   margin: 0 auto;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
-/* Header style */
-.settings-container h3 {
+/* Header */
+.settings-title {
   font-weight: 600;
-  font-size: 1.5rem;
-  color: var(--primary-color) !important;
+  font-size: 1.5rem; /* 24px */
+  color: var(--primary-color);
   text-align: center;
   border-bottom: 2px solid var(--primary-color);
   padding-bottom: 0.5rem;
   margin-bottom: 2rem;
 }
 
-/* Card for settings menu */
-.settings-menu {
-  border-radius: 0.75rem;
-  background-color: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
+/* Breadcrumb Styles */
+.settings-breadcrumb {
+  background-color: transparent;
+  padding: 0;
+  margin-bottom: 1rem;
 }
 
-/* List item style for menu */
+.settings-breadcrumb-item + .settings-breadcrumb-item::before {
+  content: "›"; /* Custom separator */
+  color: var(--primary-color);
+}
+
+/* Settings Menu */
+.settings-menu {
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
 .settings-menu .list-group-item {
-  font-size: 1.1rem;
-  padding: 1rem;
+  font-size: 1rem;
+  padding: 1.25rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-/* Hover effect for list items */
 .settings-menu .list-group-item:hover {
   background-color: var(--primary-color);
   color: white;
@@ -46,4 +57,25 @@
 
 .settings-link:hover {
   color: var(--secondary-color);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .settings-container {
+    padding: 0 !important;
+  }
+
+  .settings-title {
+    font-size: 1.2rem; /* 19.2px */
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .settings-menu {
+    padding: 1rem;
+  }
+
+  .settings-menu .list-group-item {
+    font-size: 1rem; /* Slightly smaller for mobile */
+  }
 }

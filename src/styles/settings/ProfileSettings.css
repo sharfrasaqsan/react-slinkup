@@ -1,55 +1,77 @@
-/* Main container */
-.settings-container {
+/* Container */
+.profile-settings-container {
   margin: 0 auto;
-  padding: 2rem;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
-/* Header style */
-.settings-container h4 {
+/* Header */
+.profile-settings-container h4 {
   font-size: 1.5rem;
   font-weight: 600;
   text-align: center;
-  color: var(--primary-color) !important;
+  color: var(--primary-color);
   border-bottom: 2px solid var(--primary-color);
   padding-bottom: 0.5rem;
   margin-bottom: 2rem;
 }
 
 /* Left column for settings navigation */
-.settings-menu {
+.profile-settings-nav {
   background-color: #ffffff;
   border-radius: 0.75rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
 }
 
-.settings-menu .list-group-item {
-  font-size: 1.1rem;
+.profile-settings-nav .list-group-item {
+  font-size: 1rem;
   padding: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.settings-menu .list-group-item:hover {
+.profile-settings-nav .list-group-item:hover {
   background-color: var(--primary-color);
   color: white;
 }
 
 /* Link styles */
-.settings-link {
+.profile-settings-link {
   text-decoration: none;
   color: var(--primary-color);
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
-.settings-link:hover {
+.profile-settings-link:hover {
   color: var(--secondary-color);
 }
 
 /* Right column for settings content */
-.settings-content {
+.profile-settings-content {
   background-color: #fff;
   border-radius: 1rem;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .profile-settings-container {
+    padding: 1rem;
+  }
+
+  .profile-settings-title {
+    font-size: 1.2rem; /* 19.2px */
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .profile-settings-nav {
+    padding: 1rem;
+  }
+
+  .profile-settings-nav .list-group-item {
+    font-size: 1rem; /* Slightly smaller for mobile */
+  }
 }

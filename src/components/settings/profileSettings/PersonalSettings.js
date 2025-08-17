@@ -8,6 +8,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase/Config";
 import { format } from "date-fns";
 import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
+import "../../../styles/settings/PersonalSettings.css";
 
 const PersonalSettings = () => {
   const { user, setUser } = useAuth();
@@ -151,16 +152,17 @@ const PersonalSettings = () => {
   if (!user) return null;
 
   return (
-    <div>
-      <h4>Personal Settings</h4>
+    <div className="personal-settings-container">
       <form
         onSubmit={(e) => {
           e.preventDefault();
           handleUpdate(user.id);
         }}
       >
-        <div>
-          <label htmlFor="gender">Gender *</label>
+        <div className="mb-3">
+          <label htmlFor="gender" className="form-label">
+            Gender *
+          </label>
           <select
             id="gender"
             name="gender"
@@ -168,38 +170,42 @@ const PersonalSettings = () => {
             onChange={(e) => setGender(e.target.value)}
             autoFocus
             required
-            placeholder="Gender"
+            className="form-select custom-form-select"
           >
-            <option selected>Select Gender</option>
+            <option>Select Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
             <option value="Other">Other</option>
           </select>
         </div>
 
-        <div>
-          <label htmlFor="birthday">Birthday</label>
+        <div className="mb-3">
+          <label htmlFor="birthday" className="form-label">
+            Birthday
+          </label>
           <input
             type="date"
             id="birthday"
             name="birthday"
             value={birthday}
             onChange={(e) => setBirthday(e.target.value)}
-            placeholder="Birthday"
             required
+            className="form-control custom-form-control"
           />
         </div>
 
-        <div>
-          <label htmlFor="relationship">Relationship Status</label>
+        <div className="mb-3">
+          <label htmlFor="relationship" className="form-label">
+            Relationship Status
+          </label>
           <select
             id="relationship"
             name="relationship"
             value={relationship}
             onChange={(e) => setRelationship(e.target.value)}
-            placeholder="Relationship Status"
+            className="form-select custom-form-select"
           >
-            <option selected>Select Status</option>
+            <option>Select Status</option>
             <option value="Single">Single</option>
             <option value="In a relationship">In a Relationship</option>
             <option value="Married">Married</option>
@@ -208,8 +214,11 @@ const PersonalSettings = () => {
           </select>
         </div>
 
-        <div>
-          <label htmlFor="newOccupation">Occupation</label>
+        {/* Occupation */}
+        <div className="mb-3">
+          <label htmlFor="newOccupation" className="form-label">
+            Occupation
+          </label>
           <input
             type="text"
             id="newOccupation"
@@ -217,22 +226,27 @@ const PersonalSettings = () => {
             value={newOccupation}
             onChange={(e) => setNewOccupation(e.target.value)}
             placeholder="Enter an occupation"
-            autoComplete="off"
+            className="form-control custom-form-control"
             ref={occupationRef}
           />
-          <button type="button" onClick={addOccupation}>
+          <button
+            type="button"
+            onClick={addOccupation}
+            className="btn btn-outline-primary mt-2"
+          >
             <AiOutlinePlus />
           </button>
 
-          <table>
+          <table className="table mt-3">
             <tbody>
-              {occupation?.map((occ, index) => (
+              {occupation.map((occ, index) => (
                 <tr key={index}>
                   <td>{occ}</td>
                   <td>
                     <button
                       type="button"
                       onClick={() => removeOccupation(index)}
+                      className="btn btn-outline-danger btn-sm"
                     >
                       <AiOutlineDelete />
                     </button>
@@ -243,8 +257,11 @@ const PersonalSettings = () => {
           </table>
         </div>
 
-        <div>
-          <label htmlFor="newEducation">Education</label>
+        {/* Education */}
+        <div className="mb-3">
+          <label htmlFor="newEducation" className="form-label">
+            Education
+          </label>
           <input
             type="text"
             id="newEducation"
@@ -252,29 +269,27 @@ const PersonalSettings = () => {
             value={newEducation}
             onChange={(e) => setNewEducation(e.target.value)}
             placeholder="Enter education"
-            autoComplete="off"
+            className="form-control custom-form-control"
             ref={educationRef}
           />
           <button
             type="button"
             onClick={addEducation}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") addEducation();
-            }}
-            tabIndex={0}
+            className="btn btn-outline-primary mt-2"
           >
             <AiOutlinePlus />
           </button>
 
-          <table>
+          <table className="table mt-3">
             <tbody>
-              {education?.map((edu, index) => (
+              {education.map((edu, index) => (
                 <tr key={index}>
                   <td>{edu}</td>
                   <td>
                     <button
                       type="button"
                       onClick={() => removeEducation(index)}
+                      className="btn btn-outline-danger btn-sm"
                     >
                       <AiOutlineDelete />
                     </button>
@@ -285,8 +300,11 @@ const PersonalSettings = () => {
           </table>
         </div>
 
-        <div>
-          <label htmlFor="newLanguage">Languages</label>
+        {/* Languages */}
+        <div className="mb-3">
+          <label htmlFor="newLanguage" className="form-label">
+            Languages
+          </label>
           <input
             type="text"
             id="newLanguage"
@@ -294,27 +312,28 @@ const PersonalSettings = () => {
             value={newLanguage}
             onChange={(e) => setNewLanguage(e.target.value)}
             placeholder="Enter a language"
-            autoComplete="off"
+            className="form-control custom-form-control"
             ref={languageRef}
           />
           <button
             type="button"
             onClick={addLanguage}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") addLanguage();
-            }}
-            tabIndex={0}
+            className="btn btn-outline-primary mt-2"
           >
             <AiOutlinePlus />
           </button>
 
-          <table>
+          <table className="table mt-3">
             <tbody>
-              {languages?.map((lang, index) => (
+              {languages.map((lang, index) => (
                 <tr key={index}>
                   <td>{lang}</td>
                   <td>
-                    <button type="button" onClick={() => removeLanguage(index)}>
+                    <button
+                      type="button"
+                      onClick={() => removeLanguage(index)}
+                      className="btn btn-outline-danger btn-sm"
+                    >
                       <AiOutlineDelete />
                     </button>
                   </td>
@@ -324,7 +343,11 @@ const PersonalSettings = () => {
           </table>
         </div>
 
-        <button type="submit" disabled={updateLoading}>
+        <button
+          type="submit"
+          className="btn btn-primary w-100 mt-4"
+          disabled={updateLoading}
+        >
           {updateLoading ? (
             <>
               Updating... <ButtonSpinner />{" "}
