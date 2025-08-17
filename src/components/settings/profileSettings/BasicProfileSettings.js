@@ -8,6 +8,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase/Config";
 import LoadingSpinner from "../../../utils/LoadingSpinner";
 import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
+import "../../../styles/settings/BasicProfileSettings.css";
 
 const BasicProfileSettings = () => {
   const { user, setUser } = useAuth();
@@ -122,7 +123,7 @@ const BasicProfileSettings = () => {
   };
 
   return (
-    <div className="container profile-settings-container">
+    <div className="container basic-profile-settings-container">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -142,7 +143,7 @@ const BasicProfileSettings = () => {
             required
             disabled
             readOnly
-            className="form-control"
+            className="form-control custom-form-control"
             placeholder="Username"
             value={username}
           />
@@ -160,7 +161,7 @@ const BasicProfileSettings = () => {
             required
             disabled
             readOnly
-            className="form-control"
+            className="form-control custom-form-control"
             placeholder="Email"
             value={email}
           />
@@ -178,7 +179,7 @@ const BasicProfileSettings = () => {
             required
             disabled
             readOnly
-            className="form-control"
+            className="form-control custom-form-control"
             placeholder="Password"
             value={password}
           />
@@ -194,11 +195,10 @@ const BasicProfileSettings = () => {
             id="firstname"
             name="firstname"
             required
-            className="form-control"
+            className="form-control custom-form-control"
             placeholder="Firstname"
             value={firstname}
             onChange={(e) => setFirstname(e.target.value)}
-            autoFocus
           />
         </div>
 
@@ -212,7 +212,7 @@ const BasicProfileSettings = () => {
             id="lastname"
             name="lastname"
             required
-            className="form-control"
+            className="form-control custom-form-control"
             placeholder="Lastname"
             value={lastname}
             onChange={(e) => setLastname(e.target.value)}
@@ -229,7 +229,7 @@ const BasicProfileSettings = () => {
             name="bio"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            className="form-control"
+            className="form-control custom-form-control"
             placeholder="User Bio"
           />
         </div>
@@ -243,7 +243,7 @@ const BasicProfileSettings = () => {
             type="text"
             id="location"
             name="location"
-            className="form-control"
+            className="form-control custom-form-control"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             placeholder="Location"
@@ -259,7 +259,7 @@ const BasicProfileSettings = () => {
             type="url"
             id="websitelink"
             name="websitelink"
-            className="form-control"
+            className="form-control custom-form-control"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
             placeholder="Website Link"
@@ -275,7 +275,7 @@ const BasicProfileSettings = () => {
             id="social"
             value={selectedPlatform}
             onChange={(e) => setSelectedPlatform(e.target.value)}
-            className="form-select"
+            className="form-select custom-form-select"
           >
             <option>Select a platform</option>
             <option value="Facebook">Facebook</option>
@@ -288,7 +288,7 @@ const BasicProfileSettings = () => {
           <input
             type="url"
             id="sociallink"
-            className="form-control"
+            className="form-control custom-form-control"
             placeholder="Link"
             value={link}
             onChange={(e) => setLink(e.target.value)}

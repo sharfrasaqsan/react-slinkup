@@ -1,18 +1,20 @@
+/* Custom Styles for Personal Settings */
+
 /* Container for the form */
-.basic-profile-settings-container {
+.personal-settings-container {
   margin: 0 auto !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
 /* Form Label */
-.basic-profile-settings-container .form-label {
+.personal-settings-container .form-label {
   font-weight: 600 !important;
   color: var(--text-color) !important;
 }
 
-/* Form Control for input and textareas inside the container */
-.basic-profile-settings-container .form-control {
+/* Form Control for input fields and textareas inside the container */
+.personal-settings-container .form-control {
   border-radius: 0.75rem !important;
   padding: 1rem !important;
   margin-bottom: 1rem !important;
@@ -22,7 +24,7 @@
 }
 
 /* Form Select inside the container */
-.basic-profile-settings-container .form-select {
+.personal-settings-container .form-select {
   border-radius: 0.75rem !important;
   padding: 0.75rem !important;
   margin-bottom: 1rem !important;
@@ -30,61 +32,60 @@
   border: 1px solid var(--border-color) !important;
 }
 
-/* Button Styles inside the container */
-.basic-profile-settings-container .btn-outline-primary {
+/* Table for adding/removing items (languages, occupation, etc.) */
+.personal-settings-container table {
+  width: 100% !important;
+}
+
+.personal-settings-container table td {
+  padding: 0.75rem !important;
+  color: var(--text-color) !important;
+}
+
+/* Button styles for adding/removing items in the table */
+.personal-settings-container .btn-outline-primary {
   border-radius: 0.75rem !important;
   border: 1px solid var(--primary-color) !important;
   color: var(--primary-color) !important;
   transition: background-color 0.3s ease !important;
 }
 
-.basic-profile-settings-container .btn-outline-primary:hover {
+.personal-settings-container .btn-outline-primary:hover {
   background-color: var(--primary-color) !important;
   color: white !important;
 }
 
-/* Table for social media links inside the container */
-.basic-profile-settings-container table.table {
-  width: 100% !important;
-}
-
-.basic-profile-settings-container .table td {
-  padding: 0.75rem !important;
-  color: var(--text-color) !important;
-}
-
-/* Button Styles for Removing Social Links */
-.basic-profile-settings-container .btn-outline-danger {
+/* Button styles for removing social links or items from the list */
+.personal-settings-container .btn-outline-danger {
   border-radius: 0.75rem !important;
   color: var(--danger-color) !important;
   border: 1px solid var(--danger-color) !important;
 }
 
-.basic-profile-settings-container .btn-outline-danger:hover {
+.personal-settings-container .btn-outline-danger:hover {
   background-color: var(--danger-color) !important;
   color: white !important;
 }
 
-.basic-profile-settings-container button[type="submit"] {
+/* Button for submitting the form */
+.personal-settings-container button[type="submit"] {
   border-radius: 0.75rem !important;
 }
 
-/* Responsive Styles for the Basic Profile Settings */
+/* Responsive Styles for Personal Settings */
 @media (max-width: 768px) {
-  .basic-profile-settings-container {
+  .personal-settings-container {
     padding: 0.5rem !important;
   }
 
-  /* Input fields and select for smaller screens */
-  .basic-profile-settings-container .form-control,
-  .basic-profile-settings-container .form-select {
+  .personal-settings-container .form-control,
+  .personal-settings-container .form-select {
     font-size: 1rem !important;
     padding: 0.75rem !important;
   }
 
-  /* Button size adjustments */
-  .basic-profile-settings-container .btn {
-    font-size: 0.875rem !important;
-    padding: 0.5rem 1rem !important;
+  .personal-settings-container button[type="submit"] {
+    font-size: 1rem !important;
+    padding: 0.75rem !important;
   }
 }
