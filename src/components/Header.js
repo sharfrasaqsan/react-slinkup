@@ -2,11 +2,10 @@ import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router";
 import { FaUserCircle, FaBell, FaCog } from "react-icons/fa";
 import Logout from "../components/Logout";
-import "../styles/Header.css";
 import { useData } from "../contexts/DataContext";
 import Notifications from "../components/Notifications";
 import { useState, useEffect } from "react";
-import Search from "./Search";
+import Search from "./search/Search";
 import "../styles/Header.css";
 
 const Header = () => {

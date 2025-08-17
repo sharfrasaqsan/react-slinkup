@@ -1,0 +1,25 @@
+.explore-card {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.explore-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+}
+
+.explore-card-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.explore-post-text {
+  font-size: 1rem;
+  color: var(--text-color);
+  margin-bottom: 0;
+}

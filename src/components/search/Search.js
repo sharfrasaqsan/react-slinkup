@@ -1,6 +1,6 @@
 import { IoSearchSharp } from "react-icons/io5";
-import "../styles/Search.css";
-import { useData } from "../contexts/DataContext";
+import "../../styles/search/Search.css";
+import { useData } from "../../contexts/DataContext";
 import { IoMdClose } from "react-icons/io";
 
 const Search = () => {

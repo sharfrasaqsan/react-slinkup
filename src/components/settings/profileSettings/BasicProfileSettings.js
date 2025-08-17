@@ -22,9 +22,9 @@ const BasicProfileSettings = () => {
   const [location, setLocation] = useState("");
   const [website, setWebsite] = useState("");
 
-  const [social, setSocial] = useState({}); // stores all platforms + links
-  const [selectedPlatform, setSelectedPlatform] = useState(); // dropdown selection
-  const [link, setLink] = useState(""); // current link input
+  const [social, setSocial] = useState({});
+  const [selectedPlatform, setSelectedPlatform] = useState();
+  const [link, setLink] = useState("");
 
   const [updateLoading, setUpdateLoading] = useState(false);
 
@@ -54,7 +54,7 @@ const BasicProfileSettings = () => {
     }
 
     try {
-      new URL(link.trim()); // throws if invalid
+      new URL(link.trim());
     } catch {
       toast.error("Please enter a valid URL.");
       return;
@@ -71,7 +71,6 @@ const BasicProfileSettings = () => {
     }));
 
     setLink("");
-
     socialRef.current.focus();
   };
 
@@ -123,16 +122,19 @@ const BasicProfileSettings = () => {
   };
 
   return (
-    <div>
-      <h4>Basic Profile Settings</h4>
+    <div className="container profile-settings-container">
       <form
         onSubmit={(e) => {
           e.preventDefault();
           handleUpdate(user.id);
         }}
+        className="form"
       >
-        <div>
-          <label htmlFor="username">Username *</label>
+        {/* Username */}
+        <div className="mb-3">
+          <label htmlFor="username" className="form-label">
+            Username *
+          </label>
           <input
             type="text"
             id="username"
@@ -140,13 +142,17 @@ const BasicProfileSettings = () => {
             required
             disabled
             readOnly
+            className="form-control"
             placeholder="Username"
             value={username}
           />
         </div>
 
-        <div>
-          <label htmlFor="email">Email *</label>
+        {/* Email */}
+        <div className="mb-3">
+          <label htmlFor="email" className="form-label">
+            Email *
+          </label>
           <input
             type="email"
             id="email"
@@ -154,13 +160,17 @@ const BasicProfileSettings = () => {
             required
             disabled
             readOnly
+            className="form-control"
             placeholder="Email"
             value={email}
           />
         </div>
 
-        <div>
-          <label htmlFor="password">Password *</label>
+        {/* Password */}
+        <div className="mb-3">
+          <label htmlFor="password" className="form-label">
+            Password *
+          </label>
           <input
             type="password"
             id="password"
@@ -168,18 +178,23 @@ const BasicProfileSettings = () => {
             required
             disabled
             readOnly
+            className="form-control"
             placeholder="Password"
             value={password}
           />
         </div>
 
-        <div>
-          <label htmlFor="firstname">Firstname</label>
+        {/* Firstname */}
+        <div className="mb-3">
+          <label htmlFor="firstname" className="form-label">
+            Firstname
+          </label>
           <input
             type="text"
             id="firstname"
             name="firstname"
             required
+            className="form-control"
             placeholder="Firstname"
             value={firstname}
             onChange={(e) => setFirstname(e.target.value)}
@@ -187,62 +202,82 @@ const BasicProfileSettings = () => {
           />
         </div>
 
-        <div>
-          <label htmlFor="lastname">Lastname</label>
+        {/* Lastname */}
+        <div className="mb-3">
+          <label htmlFor="lastname" className="form-label">
+            Lastname
+          </label>
           <input
             type="text"
             id="lastname"
             name="lastname"
             required
+            className="form-control"
             placeholder="Lastname"
             value={lastname}
             onChange={(e) => setLastname(e.target.value)}
           />
         </div>
 
-        <div>
-          <label htmlFor="bio">Bio</label>
+        {/* Bio */}
+        <div className="mb-3">
+          <label htmlFor="bio" className="form-label">
+            Bio
+          </label>
           <textarea
             id="bio"
             name="bio"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
+            className="form-control"
             placeholder="User Bio"
           />
         </div>
 
-        <div>
-          <label htmlFor="location">Location</label>
+        {/* Location */}
+        <div className="mb-3">
+          <label htmlFor="location" className="form-label">
+            Location
+          </label>
           <input
             type="text"
             id="location"
             name="location"
+            className="form-control"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             placeholder="Location"
           />
         </div>
 
-        <div>
-          <label htmlFor="websitelink">Website Link</label>
+        {/* Website */}
+        <div className="mb-3">
+          <label htmlFor="websitelink" className="form-label">
+            Website Link
+          </label>
           <input
             type="url"
             id="websitelink"
             name="websitelink"
+            className="form-control"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
             placeholder="Website Link"
           />
         </div>
 
-        <div>
-          <label htmlFor="social">Social Platform</label>
+        {/* Social Media */}
+        <div className="mb-3">
+          <label htmlFor="social" className="form-label">
+            Social Platform
+          </label>
           <select
             id="social"
             value={selectedPlatform}
             onChange={(e) => setSelectedPlatform(e.target.value)}
+            className="form-select"
           >
-            <option selected>Select a platform</option>
+            <option>Select a platform</option>
             <option value="Facebook">Facebook</option>
             <option value="Instagram">Instagram</option>
             <option value="Twitter">Twitter</option>
@@ -253,6 +288,7 @@ const BasicProfileSettings = () => {
           <input
             type="url"
             id="sociallink"
+            className="form-control"
             placeholder="Link"
             value={link}
             onChange={(e) => setLink(e.target.value)}
@@ -262,15 +298,12 @@ const BasicProfileSettings = () => {
           <button
             type="button"
             onClick={handleAddSocial}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleAddSocial();
-            }}
-            tabIndex={0}
+            className="btn btn-outline-primary mt-2"
           >
             <AiOutlinePlus />
           </button>
 
-          <table>
+          <table className="table mt-3">
             <tbody>
               {Object.entries(social || {}).map(([platform, url]) => (
                 <tr key={platform}>
@@ -280,6 +313,7 @@ const BasicProfileSettings = () => {
                   <td>
                     <button
                       onClick={() => handleRemoveSocial(platform)}
+                      className="btn btn-outline-danger btn-sm"
                       type="button"
                     >
                       <AiOutlineDelete />
@@ -291,7 +325,7 @@ const BasicProfileSettings = () => {
           </table>
         </div>
 
-        <button type="submit">
+        <button type="submit" className="btn btn-primary w-100 mt-4">
           {updateLoading ? (
             <>
               Updating... <ButtonSpinner />{" "}
