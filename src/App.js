@@ -31,6 +31,7 @@ import { useAuth } from "./contexts/AuthContext";
 
 import { Navigate, Route, Routes } from "react-router";
 import { Bounce, ToastContainer } from "react-toastify";
+
 import { useState } from "react";
 
 function App() {
