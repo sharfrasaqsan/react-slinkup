@@ -113,7 +113,7 @@ function App() {
             />
 
             <Route
-              path="/post/:postId"
+              path="/post/:id"
               element={
                 <ProtectedRoute>
                   <PostDetails />

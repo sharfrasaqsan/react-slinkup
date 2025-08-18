@@ -3,7 +3,7 @@ import CreatePost from "../components/post/CreatePost";
 
 const Home = () => {
   return (
-    <section className="container">
+    <section className="container mt-3">
       <div>
         <CreatePost />
         <Feed />
