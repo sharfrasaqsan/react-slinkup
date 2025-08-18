@@ -15,7 +15,7 @@ import EditPost from "../post/EditPost";
 import { FaCommentDots, FaEllipsisH } from "react-icons/fa";
 import { LuPencilLine } from "react-icons/lu";
 import "../../styles/post/PostCard.css";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 
 const PostCard = ({ post }) => {
   const { user } = useAuth();
@@ -35,6 +35,8 @@ const PostCard = ({ post }) => {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const [showEditPost, setShowEditPost] = useState(false);
+
+  const location = useLocation();
 
   if (loading) return <LoadingSpinner />;
   if (!user || !post) return <NotFound text={"No post found!"} />;
@@ -196,20 +198,29 @@ const PostCard = ({ post }) => {
           </div>
         </div>
 
-        <Link
-          to={`/post/${post.id}`}
-          onClick={() => {
-            setShowComment(false);
-            setSearch("");
-          }}
-        >
+        {location.pathname === `/post/${post.id}` ? (
           <p
-            className="card-text mt-3 p-3 border"
-            style={{ border: "1px solid #ddd" }}
+            className="card-text mt-3 p-3 border text-muted"
+            style={{ border: "1px solid #ddd", cursor: "default" }}
           >
             {post.body || "No content"}
           </p>
-        </Link>
+        ) : (
+          <Link
+            to={`/post/${post.id}`}
+            onClick={() => {
+              setShowComment(false);
+              setSearch("");
+            }}
+          >
+            <p
+              className="card-text mt-3 p-3 border"
+              style={{ border: "1px solid #ddd" }}
+            >
+              {post.body || "No content"}
+            </p>
+          </Link>
+        )}
 
         <LikeCommentCounts post={post} />
 

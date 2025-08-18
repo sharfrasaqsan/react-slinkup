@@ -36,7 +36,7 @@ main {
   padding: 1rem !important;
   background-color: var(--background-color) !important;
   transition: background-color 0.3s ease !important;
-  min-height: 75vh !important;
+  min-height: calc(100vh - 56px) !important;
 }
 
 /* Links */
