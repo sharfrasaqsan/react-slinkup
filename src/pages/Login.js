@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/Config";
@@ -110,6 +110,13 @@ const Login = () => {
                   "Login"
                 )}
               </button>
+
+              <p>
+                <Link to="/reset-password">Forgot Password?</Link>
+              </p>
+              <p>
+                Don't have an account? <Link to="/register">Register</Link>
+              </p>
             </div>
           </div>
         </div>

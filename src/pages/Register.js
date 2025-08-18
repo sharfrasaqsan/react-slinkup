@@ -14,7 +14,7 @@ import {
   where,
 } from "firebase/firestore";
 import { format } from "date-fns";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 // Regular Expression for email validation
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -27,7 +27,6 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordStrength, setPasswordStrength] = useState("");
   const [registerLoading, setRegisterLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -119,20 +118,6 @@ const Register = () => {
     }
   };
 
-  const handlePasswordChange = (e) => {
-    const password = e.target.value;
-    setPassword(password);
-
-    // Check password strength
-    if (password.length < 8) {
-      setPasswordStrength("Weak");
-    } else if (password.length < 12) {
-      setPasswordStrength("Medium");
-    } else {
-      setPasswordStrength("Strong");
-    }
-  };
-
   return (
     <div className="container d-flex justify-content-center align-items-center">
       <div className="row w-100">
@@ -198,14 +183,10 @@ const Register = () => {
                   className="form-control"
                   placeholder="Enter your password"
                   value={password}
-                  onChange={handlePasswordChange}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-                <div className="text-muted">
-                  {passwordStrength
-                    ? `${passwordStrength}`
-                    : "Password strength"}
-                </div>
+
                 <span className="text-muted">
                   * Password must be at least 8 characters
                 </span>
@@ -240,6 +221,10 @@ const Register = () => {
                   "Register"
                 )}
               </button>
+
+              <p>
+                Already have an account? <Link to="/login">Login</Link>
+              </p>
             </div>
           </div>
         </div>
