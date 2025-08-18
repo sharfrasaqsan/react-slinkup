@@ -1,6 +1,6 @@
 import { NavLink } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
-import { FaHome, FaTachometerAlt, FaUsers } from "react-icons/fa";
+import { FaHome, FaTachometerAlt } from "react-icons/fa";
 import "../styles/Navbar.css";
 import { TiWorld } from "react-icons/ti";
 

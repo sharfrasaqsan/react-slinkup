@@ -1,5 +1,14 @@
 import { toast } from "react-toastify";
-import { collection, doc, updateDoc, addDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  updateDoc,
+  addDoc,
+  deleteDoc,
+  query,
+  getDocs,
+  where,
+} from "firebase/firestore";
 import { db } from "../../firebase/Config";
 import { format } from "date-fns";
 import ButtonSpinner from "../../utils/ButtonSpinner";
@@ -13,11 +22,9 @@ const FollowButton = ({
   setAlreadyFollowed,
 }) => {
   const { users, setUsers, setNotifications } = useData();
-
   const [followLoading, setFollowLoading] = useState(false);
 
   const handleFollow = async (userId) => {
-    // Check if user is logged in
     if (!user) {
       toast.error("You must be logged in to follow a user.");
       return;
@@ -29,22 +36,16 @@ const FollowButton = ({
     }
 
     setFollowLoading(true);
-    // toggle true - followed
+    // ✅ immediate toggle (same as your raw file)
     setAlreadyFollowed((prev) => !prev);
+
     try {
-      // Get current user and user to follow
-      // const existUser = users.find((user) => user.id === id); userParams(id)
       const existUser = users.find((i) => i.id === userId);
       const currentUser = users.find((i) => i.id === user.id);
       if (!existUser || !currentUser) return null;
 
-      // Check if current user is the user to follow
-      if (userId === currentUser.id) return null;
-
-      // Check if current user has already followed
       const alreadyFollowed = (existUser.followers || [])?.includes(user.id);
 
-      // Update followers in user to follow
       const updatedFollowers = alreadyFollowed
         ? (existUser.followers || [])?.filter((id) => id !== user.id)
         : [...(existUser.followers || []), user.id];
@@ -66,12 +67,7 @@ const FollowButton = ({
         )
       );
 
-      //------------------------------------------------------------------
-
-      // Check if existing user has already following
       const alreadyFollowing = (currentUser.following || [])?.includes(userId);
-
-      // Update following in current user
       const updatedFollowing = alreadyFollowing
         ? (currentUser.following || [])?.filter((id) => id !== userId)
         : [...(currentUser.following || []), userId];
@@ -93,16 +89,16 @@ const FollowButton = ({
         )
       );
 
-      // Add notification if not already followed or current user is the user to follow (own profile)
-      const newNotification = {
-        recieverId: userId,
-        senderId: currentUser.id,
-        type: "follow",
-        isRead: false,
-        message: `${currentUser.username} followed you.`,
-        createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-      };
-      if (!alreadyFollowed || currentUser.id === userId) {
+      // Add - remove notification
+      if (!alreadyFollowed) {
+        const newNotification = {
+          recieverId: userId,
+          senderId: currentUser.id,
+          type: "follow",
+          isRead: false,
+          message: `${currentUser.username} followed you.`,
+          createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+        };
         const res = await addDoc(
           collection(db, "notifications"),
           newNotification
@@ -111,18 +107,45 @@ const FollowButton = ({
           ...prev,
           { id: res.id, ...newNotification },
         ]);
+      } else {
+        const existNotifications = await getDocs(
+          query(
+            collection(db, "notifications"),
+            where("recieverId", "==", userId),
+            where("senderId", "==", currentUser.id),
+            where("type", "==", "follow")
+          )
+        );
+
+        existNotifications?.forEach(async (notification) => {
+          await deleteDoc(doc(db, "notifications", notification.id));
+        });
+
+        setNotifications((prev) =>
+          prev.filter(
+            (notification) =>
+              !(
+                notification.recieverId === userId &&
+                notification.senderId === currentUser.id &&
+                notification.type === "follow"
+              )
+          )
+        );
       }
     } catch (err) {
       toast.error(err.message);
-      setAlreadyFollowed((prev) => !prev);
+      setAlreadyFollowed((prev) => !prev); // rollback toggle if error
     }
     setFollowLoading(false);
   };
 
   return (
-    <>
+    <div className="mb-3">
       {user.id !== existUser.id && (
         <button
+          className={`btn ${
+            alreadyFollowed ? "btn-outline-primary" : "btn-primary"
+          } btn-sm`}
           onClick={() => handleFollow(existUser.id)}
           disabled={followLoading || !user || user.id === existUser.id}
         >
@@ -136,7 +159,7 @@ const FollowButton = ({
           )}
         </button>
       )}
-    </>
+    </div>
   );
 };
 

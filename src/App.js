@@ -15,7 +15,7 @@ import Settings from "./pages/settings/Settings";
 import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import UpdateUser from "./pages/admin/UpdateUser";
-import UsersInfo from "./pages/users/UserInfo";
+import User from "./pages/users/User";
 import ProfileSettings from "./pages/settings/ProfileSettings";
 import AccountSettings from "./pages/settings/AccountSettings";
 import RegisterDetails from "./pages/RegisterDetails";
@@ -32,7 +32,6 @@ import { useAuth } from "./contexts/AuthContext";
 import { Navigate, Route, Routes } from "react-router";
 import { Bounce, ToastContainer } from "react-toastify";
 import { useState } from "react";
-
 
 function App() {
   const { user } = useAuth();
@@ -74,7 +73,7 @@ function App() {
 
             {/* Profile */}
             <Route
-              path="/my-profile/:id"
+              path="/profile/:id"
               element={
                 <ProtectedRoute>
                   <Profile />
@@ -82,7 +81,7 @@ function App() {
               }
             />
             <Route
-              path="/my-profile/:id/followers"
+              path="/profile/:id/followers"
               element={
                 <ProtectedRoute>
                   <Followers />
@@ -90,7 +89,7 @@ function App() {
               }
             />
             <Route
-              path="/my-profile/:id/following"
+              path="/profile/:id/following"
               element={
                 <ProtectedRoute>
                   <Following />
@@ -167,7 +166,7 @@ function App() {
               />
             </Route>
 
-            <Route path="/user/:id" element={<UsersInfo />} />
+            <Route path="/user/:id" element={<User />} />
             <Route path="/user/:id/followers" element={<Followers />} />
             <Route path="/user/:id/following" element={<Following />} />
             <Route path="*" element={<NotFound />} />

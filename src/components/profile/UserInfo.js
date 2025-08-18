@@ -12,11 +12,11 @@ const UserInfo = () => {
       <h5>{user.username}</h5>
 
       <p className="mb-3">
-        <Link to={`/my-profile/${user.id}/followers`}>
+        <Link to={`/profile/${user.id}/followers`}>
           {(user.followers || []).length || 0} Followers
         </Link>{" "}
         ·{" "}
-        <Link to={`/my-profile/${user.id}/following`}>
+        <Link to={`/profile/${user.id}/following`}>
           {(user.following || []).length || 0} Following
         </Link>
       </p>
