@@ -7,7 +7,7 @@ import "../../styles/search/SearchedUsers.css";
 
 const SearchedUsers = () => {
   const { user } = useAuth();
-  const { users, search } = useData();
+  const { users, search, setSearch } = useData();
 
   const filteredUsers = useMemo(() => {
     return users?.filter((user) =>
@@ -23,9 +23,11 @@ const SearchedUsers = () => {
       <h5 className="search-results-user-heading">Matched Users</h5>
       <ul className="user-list">
         {filteredUsers.map((searchedUser) => (
-          <li key={user.id} className="user-list-item">
+          <li key={searchedUser.id} className="user-list-item">
             {user.id === searchedUser.id ? (
-              <Link to={`/profile/${user.id}`}>{searchedUser.username}</Link>
+              <Link to={`/profile/${user.id}`} onClick={() => setSearch("")}>
+                {searchedUser.username}
+              </Link>
             ) : (
               <Link to={`/user/${searchedUser.id}`}>
                 {searchedUser.username}

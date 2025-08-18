@@ -15,6 +15,7 @@ import EditPost from "../post/EditPost";
 import { FaCommentDots, FaEllipsisH } from "react-icons/fa";
 import { LuPencilLine } from "react-icons/lu";
 import "../../styles/post/PostCard.css";
+import { Link } from "react-router";
 
 const PostCard = ({ post }) => {
   const { user } = useAuth();
@@ -29,6 +30,7 @@ const PostCard = ({ post }) => {
     setComments,
     notifications,
     setNotifications,
+    setSearch,
   } = useData();
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [showComment, setShowComment] = useState(false);
@@ -115,7 +117,15 @@ const PostCard = ({ post }) => {
         <div className="d-flex justify-content-between align-items-center">
           <div>
             <p className="card-title mb-0">
-              {postedBy.username || "Unknown User"}
+              {user.id === postedBy.id ? (
+                <Link to={`/profile/${user.id}`} onClick={() => setSearch("")}>
+                  {postedBy.username || "Unknown User"}
+                </Link>
+              ) : (
+                <Link to={`/user/${postedBy.id}`} onClick={() => setSearch("")}>
+                  {postedBy.username || "Unknown User"}
+                </Link>
+              )}
             </p>
 
             <p className="text-muted" style={{ fontSize: "0.9rem", margin: 0 }}>
@@ -186,12 +196,20 @@ const PostCard = ({ post }) => {
           </div>
         </div>
 
-        <p
-          className="card-text mt-3 p-3 border"
-          style={{ border: "1px solid #ddd" }}
+        <Link
+          to={`/post/${post.id}`}
+          onClick={() => {
+            setShowComment(false);
+            setSearch("");
+          }}
         >
-          {post.body || "No content"}
-        </p>
+          <p
+            className="card-text mt-3 p-3 border"
+            style={{ border: "1px solid #ddd" }}
+          >
+            {post.body || "No content"}
+          </p>
+        </Link>
 
         <LikeCommentCounts post={post} />
 

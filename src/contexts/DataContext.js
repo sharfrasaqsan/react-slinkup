@@ -61,21 +61,12 @@ export const DataProvider = ({ children }) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-
     if (!searchInput) return;
-
-    try {
-      setLoading(true);
-      setTimeout(() => {
-        setSearch(searchInput);
-        setLoading(false);
-      }, 500);
-    } catch (err) {
-      console.log(err);
+    setLoading(true);
+    setTimeout(() => {
+      setSearch(searchInput);
       setLoading(false);
-    } finally {
-      setLoading(false);
-    }
+    }, 500);
   };
 
   useEffect(() => {
@@ -100,6 +91,7 @@ export const DataProvider = ({ children }) => {
         loading,
         setLoading,
         search,
+        setSearch,
         handleSearch,
         searchInput,
         setSearchInput,
