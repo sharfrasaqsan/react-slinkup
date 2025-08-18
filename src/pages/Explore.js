@@ -24,7 +24,9 @@ const Explore = () => {
             <Link to={`/post/${post.id}`}>
               <div className="explore-card h-100">
                 <div className="explore-card-body">
-                  <p className="explore-post-text">{post.body}</p>
+                  {post.body.length > 100
+                    ? `${post.body.slice(0, 100)}...`
+                    : post.body}
                 </div>
               </div>
             </Link>

@@ -16,7 +16,7 @@ const PostDetails = () => {
   if (!post) return <NotFound text={"No post found!"} />;
 
   return (
-    <section className="container">
+    <section className="container mt-3">
       <PostCard post={post} />
     </section>
   );
