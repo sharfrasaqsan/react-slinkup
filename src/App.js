@@ -33,6 +33,7 @@ import { Navigate, Route, Routes } from "react-router";
 import { Bounce, ToastContainer } from "react-toastify";
 
 import { useState } from "react";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   const { user } = useAuth();
@@ -170,6 +171,9 @@ function App() {
             <Route path="/user/:id" element={<User />} />
             <Route path="/user/:id/followers" element={<Followers />} />
             <Route path="/user/:id/following" element={<Following />} />
+
+            <Route path="reset-password" element={<ResetPassword />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         )}
