@@ -1,5 +1,5 @@
 import UserInfo from "../components/profile/UserInfo";
-import UserPosts from "../components/profile/UserPosts";
+import ProfileFeedSection from "../components/profile/ProfileFeedSection";
 import "../styles/Profile.css";
 
 const Profile = () => {
@@ -10,7 +10,7 @@ const Profile = () => {
           <UserInfo />
         </div>
         <div className="col-lg-8">
-          <UserPosts />
+          <ProfileFeedSection />
         </div>
       </div>
     </section>

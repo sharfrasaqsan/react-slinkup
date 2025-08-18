@@ -22,9 +22,15 @@ const SearchedUsers = () => {
     <div className="container search-results-user-card">
       <h5 className="search-results-user-heading">Matched Users</h5>
       <ul className="user-list">
-        {filteredUsers.map((user) => (
+        {filteredUsers.map((searchedUser) => (
           <li key={user.id} className="user-list-item">
-            <Link to={`/my-profile/${user.id}`}>{user.username}</Link>
+            {user.id === searchedUser.id ? (
+              <Link to={`/profile/${user.id}`}>{searchedUser.username}</Link>
+            ) : (
+              <Link to={`/user/${searchedUser.id}`}>
+                {searchedUser.username}
+              </Link>
+            )}
           </li>
         ))}
       </ul>

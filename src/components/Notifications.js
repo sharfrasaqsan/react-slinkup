@@ -48,7 +48,7 @@ const Notifications = () => {
 
   return (
     <ul className="list-group">
-      {userNotificcations.slice(-10).map((notification) => (
+      {userNotificcations.slice(-15).map((notification) => (
         <Link
           to={
             notification.type === "like"

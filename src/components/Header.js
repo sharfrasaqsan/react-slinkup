@@ -87,10 +87,7 @@ const Header = () => {
                   aria-labelledby="dropdownMenuButton"
                 >
                   <li>
-                    <Link
-                      to={`/my-profile/${user.id}`}
-                      className="dropdown-item"
-                    >
+                    <Link to={`/profile/${user.id}`} className="dropdown-item">
                       Profile
                     </Link>
                   </li>

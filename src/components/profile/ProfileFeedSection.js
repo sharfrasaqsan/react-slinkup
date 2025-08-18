@@ -2,10 +2,10 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useData } from "../../contexts/DataContext";
 import NotFound from "../../utils/NotFound";
 import LoadingSpinner from "../../utils/LoadingSpinner";
-import UserPostsList from "../post/UserPostsList";
+import UserFeed from "../feed/UserFeed";
 import CreatePost from "../post/CreatePost";
 
-const UserPosts = () => {
+const ProfileFeedSection = () => {
   const { user } = useAuth();
   const { users, posts, loading } = useData();
 
@@ -39,11 +39,11 @@ const UserPosts = () => {
             {user.createdAt?.slice(0, 4) || ""}
           </p>
 
-          <UserPostsList userPosts={userPosts} postedBy={user.username} />
+          <UserFeed userPosts={userPosts} postedBy={user.username} />
         </>
       )}
     </div>
   );
 };
 
-export default UserPosts;
+export default ProfileFeedSection;

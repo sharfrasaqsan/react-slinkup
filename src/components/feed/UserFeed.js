@@ -1,6 +1,6 @@
-import PostCard from "../feed/PostCard";
+import PostCard from "./PostCard";
 
-const UserPostsList = ({ userPosts }) => {
+const UserFeed = ({ userPosts }) => {
   const sortedUserPosts = [...userPosts]?.sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
@@ -14,4 +14,4 @@ const UserPostsList = ({ userPosts }) => {
   );
 };
 
-export default UserPostsList;
+export default UserFeed;

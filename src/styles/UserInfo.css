@@ -1,4 +1,4 @@
 .sticky {
-  position: sticky;
+  position: sticky !important;
   top: 5rem !important;
 }
