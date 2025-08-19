@@ -8,8 +8,6 @@ const PostDetails = () => {
   const { id } = useParams();
   const { posts, loading } = useData();
 
-  console.log(id);
-
   if (loading) return <LoadingSpinner />;
 
   const post = posts?.find((post) => post.id === id);

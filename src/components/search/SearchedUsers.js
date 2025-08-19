@@ -29,7 +29,10 @@ const SearchedUsers = () => {
                 {searchedUser.username}
               </Link>
             ) : (
-              <Link to={`/user/${searchedUser.id}`}>
+              <Link
+                to={`/user/${searchedUser.id}`}
+                onClick={() => setSearch("")}
+              >
                 {searchedUser.username}
               </Link>
             )}
