@@ -2,10 +2,16 @@ import { Link } from "react-router";
 import { useAuth } from "../../contexts/AuthContext";
 import ProfileDetails from "./ProfileDetails";
 import "../../styles/UserInfo.css";
+import { format, parse } from "date-fns";
 
 const UserInfo = () => {
   const { user } = useAuth();
   if (!user) return null;
+
+  const joinedLabel = format(
+    parse(user.createdAt, "yyyy-MM-dd HH:mm:ss", new Date()),
+    "yyyy MMMM"
+  );
 
   return (
     <div className="profile-card z-0 sticky">
@@ -20,6 +26,8 @@ const UserInfo = () => {
           {(user.following || []).length || 0} Following
         </Link>
       </p>
+
+      <p className="form-text">Joined on {joinedLabel}</p>
 
       <ProfileDetails user={user} />
     </div>

@@ -185,7 +185,7 @@ const PostCard = ({ post }) => {
                     >
                       {deleteLoading ? (
                         <>
-                          <ButtonSpinner /> Deleting...
+                          Deleting... <ButtonSpinner />
                         </>
                       ) : (
                         "Delete"

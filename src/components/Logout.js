@@ -5,9 +5,12 @@ import { auth } from "../firebase/Config";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import ButtonSpinner from "../utils/ButtonSpinner";
+import { useData } from "../contexts/DataContext";
 
 const Logout = () => {
   const { user, setUser } = useAuth();
+  const { setSearch } = useData();
+
   const [loggingOut, setLoggingOut] = useState(false);
   const navigate = useNavigate();
 
@@ -26,6 +29,7 @@ const Logout = () => {
     setTimeout(async () => {
       try {
         await signOut(auth);
+        setSearch("");
         setUser(null);
         toast.success("Logged out successfully");
         navigate("/login");
