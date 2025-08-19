@@ -12,8 +12,8 @@ const ProfileFeedSection = () => {
   // Error handling
   if (loading) return <LoadingSpinner />;
   if (!user) return <NotFound text={"No user found! Please log in."} />;
-  if (users.length === 0) return <NotFound text={"No users found!"} />;
   if (posts.length === 0) return <NotFound text={"No posts found!"} />;
+  if (users.length === 0) return <NotFound text={"No users found!"} />;
 
   // Filter - 	When you want many results
   // Find - 	When you want only one result

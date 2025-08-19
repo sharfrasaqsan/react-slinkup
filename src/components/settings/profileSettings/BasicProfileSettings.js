@@ -14,9 +14,6 @@ const BasicProfileSettings = () => {
   const { user, setUser } = useAuth();
   const { setUsers, loading } = useData();
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [bio, setBio] = useState("");
@@ -33,9 +30,6 @@ const BasicProfileSettings = () => {
 
   useEffect(() => {
     if (user) {
-      setUsername(user.username);
-      setEmail(user.email);
-      setPassword(user.password);
       setFirstname(user.firstname || "");
       setLastname(user.lastname || "");
       setBio(user.bio || "");
@@ -86,16 +80,8 @@ const BasicProfileSettings = () => {
   const handleUpdate = async (userId) => {
     setUpdateLoading(true);
 
-    if (!username || !email || !password) {
-      toast.error("Please fill in all required fields.");
-      return;
-    }
-
     try {
       const updatedUser = {
-        username,
-        email,
-        password,
         firstname,
         lastname,
         bio,
@@ -131,60 +117,6 @@ const BasicProfileSettings = () => {
         }}
         className="form"
       >
-        {/* Username */}
-        <div className="mb-3">
-          <label htmlFor="username" className="form-label">
-            Username *
-          </label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            required
-            disabled
-            readOnly
-            className="form-control custom-form-control"
-            placeholder="Username"
-            value={username}
-          />
-        </div>
-
-        {/* Email */}
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">
-            Email *
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            disabled
-            readOnly
-            className="form-control custom-form-control"
-            placeholder="Email"
-            value={email}
-          />
-        </div>
-
-        {/* Password */}
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">
-            Password *
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            disabled
-            readOnly
-            className="form-control custom-form-control"
-            placeholder="Password"
-            value={password}
-          />
-        </div>
-
         {/* Firstname */}
         <div className="mb-3">
           <label htmlFor="firstname" className="form-label">
