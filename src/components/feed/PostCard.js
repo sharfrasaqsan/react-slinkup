@@ -118,6 +118,18 @@ const PostCard = ({ post }) => {
       <div className="card-body">
         <div className="d-flex justify-content-between align-items-center">
           <div>
+            <img
+              src={user?.avatar || "https://via.placeholder.com/40"}
+              alt={user?.username}
+              className="rounded-circle me-3"
+              style={{
+                width: "40px",
+                height: "40px",
+                objectFit: "cover",
+                backgroundColor: "blue",
+              }}
+            />
+
             <p className="card-title mb-0">
               {user.id === postedBy.id ? (
                 <Link to={`/profile/${user.id}`} onClick={() => setSearch("")}>
