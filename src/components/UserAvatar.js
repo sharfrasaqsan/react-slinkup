@@ -1,5 +1,9 @@
 import { useAuth } from "../contexts/AuthContext";
-import { PiUserCircleDuotone, PiUserCircleFill } from "react-icons/pi";
+import {
+  PiUserCircleDuotone,
+  PiUserCircleFill,
+  PiUserCircleLight,
+} from "react-icons/pi";
 
 const UserAvatar = ({ fontSize, width, height }) => {
   const { user } = useAuth();
@@ -14,13 +18,14 @@ const UserAvatar = ({ fontSize, width, height }) => {
           style={{
             width: width,
             height: height,
-            backgroundColor: "red",
           }}
         />
       ) : user.gender === "Male" ? (
         <PiUserCircleDuotone className="me-2" style={{ fontSize: fontSize }} />
-      ) : (
+      ) : user.gender === "Female" ? (
         <PiUserCircleFill className="me-2" style={{ fontSize: fontSize }} />
+      ) : (
+        <PiUserCircleLight className="me-2" style={{ fontSize: fontSize }} />
       )}
     </>
   );

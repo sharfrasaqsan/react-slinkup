@@ -2,3 +2,25 @@
   position: sticky !important;
   top: 5rem !important;
 }
+
+.camera-icon {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: white;
+  color: #333;
+  padding: 6px;
+  border-radius: 50%;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.camera-icon:hover {
+  background: #f0f0f0;
+  transform: scale(1.25);
+}
