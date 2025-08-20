@@ -29,17 +29,25 @@ import AdminProtectedRoute from "./utils/AdminProtectedRoute";
 import { useData } from "./contexts/DataContext";
 import { useAuth } from "./contexts/AuthContext";
 
-import { Navigate, Route, Routes } from "react-router";
+import { Navigate, Route, Routes, useLocation } from "react-router";
 import { Bounce, ToastContainer } from "react-toastify";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   const { user } = useAuth();
 
-  const { search } = useData();
+  const { search, setSearch } = useData();
   const [selected, setSelected] = useState("users");
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (search.trim().length > 0) {
+      setSearch("");
+    }
+  }, [location.pathname]);
 
   return (
     <div>
@@ -110,7 +118,11 @@ function App() {
             />
             <Route
               path="/register-details"
-              element={!user ? <Navigate to="/login" /> : <RegisterDetails />}
+              element={
+                <ProtectedRoute>
+                  <RegisterDetails />
+                </ProtectedRoute>
+              }
             />
 
             <Route

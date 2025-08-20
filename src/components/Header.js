@@ -1,11 +1,12 @@
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router";
-import { FaUserCircle, FaBell, FaCog } from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
 import Logout from "../components/Logout";
 import { useData } from "../contexts/DataContext";
 import Notifications from "../components/Notifications";
 import { useState, useEffect } from "react";
 import Search from "./search/Search";
+import UserAvatar from "./UserAvatar";
 import "../styles/Header.css";
 
 const Header = () => {
@@ -40,50 +41,51 @@ const Header = () => {
         )}
 
         <div className="d-flex align-items-center primary-color">
+          <div className="dropdown">
+            <button
+              className="btn btn-link text-primary dropdown-toggle"
+              type="button"
+              id="dropdownNotificationButton"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <div className="d-flex align-items-center">
+                <FaBell size={20} className="text-primary" />
+                <span className="notification-count">
+                  {unReadNotificationCount}
+                </span>
+              </div>
+            </button>
+
+            <div
+              className="dropdown-menu dropdown-menu-notifications"
+              aria-labelledby="dropdownNotificationButton"
+            >
+              <Notifications />
+            </div>
+          </div>
+
           {user ? (
             <>
-              <div className="d-flex align-items-center">
-                <FaUserCircle size={30} className="me-2" />
-                <span className="text-dark">{user.username}</span>
-              </div>
-
               <div className="dropdown">
-                <button
-                  className="btn btn-link text-primary dropdown-toggle"
-                  type="button"
-                  id="dropdownNotificationButton"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <div className="d-flex align-items-center">
-                    <FaBell size={20} className="text-primary" />
-                    <span className="notification-count">
-                      {unReadNotificationCount}
-                    </span>
-                  </div>
-                </button>
-
                 <div
-                  className="dropdown-menu dropdown-menu-notifications"
-                  aria-labelledby="dropdownNotificationButton"
-                >
-                  <Notifications />
-                </div>
-              </div>
-
-              <div className="dropdown">
-                <button
-                  className="btn btn-link text-primary dropdown-toggle"
+                  className="d-flex align-items-center ms-3 dropdown-toggle cursor-pointer"
                   type="button"
                   id="dropdownMenuButton"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  <FaCog size={20} className="text-primary" />
-                </button>
+                  <UserAvatar
+                    fontSize={35}
+                    width={35}
+                    height={35}
+                    style={{ marginRight: 0 }}
+                  />
+                  <span className="user-select-none">{user.username}</span>
+                </div>
 
                 <ul
-                  className="dropdown-menu"
+                  className="dropdown-menu dropdown-menu-profile"
                   aria-labelledby="dropdownMenuButton"
                 >
                   <li>
