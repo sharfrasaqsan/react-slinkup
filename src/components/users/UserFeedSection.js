@@ -13,8 +13,6 @@ const UserFeedSection = ({ existUser }) => {
   const userPosts = posts?.filter((post) => post.userId === existUser.id);
   if (userPosts?.length === 0) return <NotFound text={"No posts found!"} />;
 
-  // console.log(existUser);
-
   return (
     <div>
       {!existUser && <CreatePost user={existUser} />}
