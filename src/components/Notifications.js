@@ -11,6 +11,7 @@ import { FcInfo } from "react-icons/fc";
 const Notifications = () => {
   // Pass down the count update function
   const { user } = useAuth();
+
   const { notifications, setNotifications, loading } = useData();
 
   const sortedNotifications = [...(notifications || [])].sort(

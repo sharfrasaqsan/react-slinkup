@@ -3,7 +3,6 @@ import { Link } from "react-router";
 const CardBody = ({ post, location, setShowComment }) => {
   return (
     <>
-      {" "}
       {location.pathname === `/post/${post.id}` ? (
         <p
           className="card-text mt-3 p-3 border text-muted"

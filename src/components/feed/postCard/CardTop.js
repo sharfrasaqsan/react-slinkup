@@ -20,7 +20,12 @@ const CardTop = ({
     <>
       <div className="d-flex justify-content-between align-items-center p-3">
         <div className="d-flex align-items-center">
-          <UserAvatar width="40px" height="40px" fontSize="40px" />
+          <UserAvatar
+            width="40px"
+            height="40px"
+            fontSize="40px"
+            user={postedBy}
+          />
 
           <div>
             <p className="card-title mb-0">

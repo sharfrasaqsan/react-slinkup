@@ -16,7 +16,7 @@ const UserInfo = () => {
 
   return (
     <div className="profile-card z-0 sticky">
-      <AvatarUpdates />
+      <AvatarUpdates user={user} />
 
       <h5>{user.username}</h5>
 

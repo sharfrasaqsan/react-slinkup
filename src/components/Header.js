@@ -41,29 +41,31 @@ const Header = () => {
         )}
 
         <div className="d-flex align-items-center primary-color">
-          <div className="dropdown">
-            <button
-              className="btn btn-link text-primary dropdown-toggle"
-              type="button"
-              id="dropdownNotificationButton"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <div className="d-flex align-items-center">
-                <FaBell size={20} className="text-primary" />
-                <span className="notification-count">
-                  {unReadNotificationCount}
-                </span>
-              </div>
-            </button>
+          {user && (
+            <div className="dropdown">
+              <button
+                className="btn btn-link text-primary dropdown-toggle"
+                type="button"
+                id="dropdownNotificationButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <div className="d-flex align-items-center">
+                  <FaBell size={20} className="text-primary" />
+                  <span className="notification-count">
+                    {unReadNotificationCount}
+                  </span>
+                </div>
+              </button>
 
-            <div
-              className="dropdown-menu dropdown-menu-notifications"
-              aria-labelledby="dropdownNotificationButton"
-            >
-              <Notifications />
+              <div
+                className="dropdown-menu dropdown-menu-notifications"
+                aria-labelledby="dropdownNotificationButton"
+              >
+                <Notifications />
+              </div>
             </div>
-          </div>
+          )}
 
           {user ? (
             <>
@@ -79,6 +81,7 @@ const Header = () => {
                     fontSize={35}
                     width={35}
                     height={35}
+                    user={user}
                     style={{ marginRight: 0 }}
                   />
                   <span className="user-select-none">{user.username}</span>

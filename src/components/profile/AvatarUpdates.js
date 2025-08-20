@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import UserAvatar from "../UserAvatar";
-import { IoCameraReverseSharp } from "react-icons/io5";
+import { IoCameraReverseSharp, IoTrashBinOutline } from "react-icons/io5";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/Config";
 import { useData } from "../../contexts/DataContext";
@@ -9,10 +9,11 @@ import ButtonSpinner from "../../utils/ButtonSpinner";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const AvatarUpdates = () => {
-  const { user, setUser } = useAuth();
+const AvatarUpdates = ({ user }) => {
+  const { setUser } = useAuth();
   const { setUsers } = useData();
   const [uploadLoading, setUploadLoading] = useState(false);
+
   if (!user) return;
 
   const handleImageUpload = async (file, userId) => {
@@ -62,45 +63,62 @@ const AvatarUpdates = () => {
     }
   };
 
+  console.log(user);
+
   return (
     <div className="d-flex flex-column align-items-center mb-4">
-      <div className="position-relative">
-        <UserAvatar width="200px" height="200px" fontSize="200px" />
-
-        <label
-          className="position-absolute bottom-0 end-0 bg-white p-2 rounded-circle shadow-sm"
-          style={{ cursor: "pointer" }}
-        >
-          <input
-            type="file"
-            accept="image/*"
-            className="d-none"
-            onChange={(e) => {
-              const file = e.target.files[0];
-              if (file) {
-                handleImageUpload(file, user.id);
-              }
-            }}
+      {user && (
+        <div className="position-relative">
+          <UserAvatar
+            width="200px"
+            height="200px"
+            fontSize="200px"
+            user={user}
           />
-          {uploadLoading ? (
-            <ButtonSpinner />
-          ) : (
-            <IoCameraReverseSharp size={35} className="camera-icon" />
-          )}
-        </label>
-      </div>
 
-      {user.avatar && (
-        <div className="mt-3 d-flex align-items-center flex-start">
-          <span
-            type="button"
-            className="btn btn-danger"
-            onClick={handleRemoveAvatar}
-            disabled={uploadLoading}
+          <label
+            className="position-absolute bottom-0 end-0 bg-white p-2 rounded-circle shadow-sm"
+            style={{ cursor: "pointer" }}
           >
-            Remove Avatar
-          </span>
+            <input
+              type="file"
+              accept="image/*"
+              className="d-none"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) {
+                  handleImageUpload(file, user.id);
+                }
+              }}
+            />
+            {uploadLoading ? (
+              <ButtonSpinner />
+            ) : (
+              <IoCameraReverseSharp
+                size={35}
+                className="camera-icon"
+                title="Upload avatar"
+              />
+            )}
+          </label>
         </div>
+      )}
+
+      {user && user.avatar && (
+        <span
+          type="button"
+          onClick={handleRemoveAvatar}
+          disabled={uploadLoading}
+          className="position-absolute border-0 rounded-circle camera-icon remove-avatar"
+          title="Remove avatar"
+          aria-label="Remove avatar"
+          style={{
+            opacity: uploadLoading ? 0.6 : 1,
+            cursor: uploadLoading ? "not-allowed" : "pointer",
+          }}
+        >
+          <IoTrashBinOutline size={20} className="text-danger" />
+        </span>
       )}
     </div>
   );
