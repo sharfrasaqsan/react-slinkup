@@ -66,10 +66,8 @@ const ResetPassword = () => {
     <div className="reset-password-container container py-4">
       <Breadcrumbs breadcrumbs={breadcrumbs} />
 
-      {/* Main Title */}
       <h3 className="settings-title mb-4 text-center">Reset Password</h3>
 
-      {/* Card Form */}
       <div
         className="settings-menu shadow-sm mx-auto"
         style={{ maxWidth: "450px" }}
