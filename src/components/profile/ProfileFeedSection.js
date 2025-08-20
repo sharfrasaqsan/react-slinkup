@@ -32,7 +32,7 @@ const ProfileFeedSection = () => {
     >
       {user && (
         <>
-          <CreatePost />
+          <CreatePost user={user} />
           <p>
             {(user.userPosts || []).length || 0}{" "}
             {(user.userPosts || []).length > 1 ? "posts" : "post"} since{" "}

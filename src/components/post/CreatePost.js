@@ -80,7 +80,7 @@ const CreatePost = () => {
   return (
     <div className="card shadow-sm border-0 mb-4 p-3">
       <div className="d-flex align-items-start">
-        <UserAvatar fontSize="50px" width="50px" height="50px" />
+        <UserAvatar fontSize="50px" width="50px" height="50px" user={user} />
 
         <div className="w-100">
           <form onSubmit={handlePost}>

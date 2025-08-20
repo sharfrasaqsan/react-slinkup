@@ -8,6 +8,7 @@ import ProfileDetails from "../profile/ProfileDetails";
 import FollowButton from "./FollowButton";
 import "../../styles/UserInfo.css";
 import { format, parse } from "date-fns";
+import AvatarUpdates from "../profile/AvatarUpdates";
 
 const UsersInfo = ({ existUser }) => {
   const { user } = useAuth();
@@ -34,6 +35,8 @@ const UsersInfo = ({ existUser }) => {
 
   return (
     <div className="profile-card z-0 sticky">
+      <AvatarUpdates user={existUser} />
+
       <h5>{existUser.username}</h5>
 
       <div className="d-flex justify-content-between align-items-center">
@@ -56,7 +59,7 @@ const UsersInfo = ({ existUser }) => {
           setAlreadyFollowed={setAlreadyFollowed}
         />
       </div>
-      
+
       <p className="form-text">Joined on {joinedLabel}</p>
 
       <ProfileDetails user={existUser} />

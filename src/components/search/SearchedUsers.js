@@ -27,7 +27,12 @@ const SearchedUsers = () => {
           <li key={searchedUser.id} className="user-list-item">
             {user.id === searchedUser.id ? (
               <Link to={`/profile/${user.id}`}>
-                <UserAvatar width="40px" height="40px" fontSize="40px" />
+                <UserAvatar
+                  width="40px"
+                  height="40px"
+                  fontSize="40px"
+                  user={user}
+                />
                 {searchedUser.username}
               </Link>
             ) : (
