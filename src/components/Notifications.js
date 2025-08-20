@@ -7,7 +7,6 @@ import { Link } from "react-router";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/Config";
 import { FcInfo } from "react-icons/fc";
-import "../styles/Notifications.css";
 
 const Notifications = () => {
   // Pass down the count update function
@@ -44,7 +43,8 @@ const Notifications = () => {
   if (loading) return <LoadingSpinner />;
   if (notifications.length === 0)
     return <NotFound text={"No notifications found!"} />;
-  if (userNotificcations.length === 0) return null;
+  if (userNotificcations.length === 0)
+    return <NotFound text={"No notifications found!"} />;
 
   return (
     <ul className="list-group">

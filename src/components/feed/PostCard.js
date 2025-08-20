@@ -1,21 +1,20 @@
-import { formatDistanceToNow } from "date-fns";
 import { useData } from "../../contexts/DataContext";
 import { useAuth } from "../../contexts/AuthContext";
 import NotFound from "../../utils/NotFound";
 import LoadingSpinner from "../../utils/LoadingSpinner";
 import LikeButton from "../post/LikeButton";
 import CommentModal from "../comments/CommentModal";
-import { useState } from "react";
-import LikeCommentCounts from "../post/LikeCommentCounts";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { doc, writeBatch } from "firebase/firestore";
 import { db } from "../../firebase/Config";
-import ButtonSpinner from "../../utils/ButtonSpinner";
 import EditPost from "../post/EditPost";
-import { FaCommentDots, FaEllipsisH } from "react-icons/fa";
-import { LuPencilLine } from "react-icons/lu";
 import "../../styles/post/PostCard.css";
-import { Link, useLocation } from "react-router";
+import { useLocation } from "react-router";
+import { TbPencilCheck } from "react-icons/tb";
+import CardTop from "./postCard/CardTop";
+import CardBody from "./postCard/CardBody";
+import CardBottom from "./postCard/CardBottom";
 
 const PostCard = ({ post }) => {
   const { user } = useAuth();
@@ -30,19 +29,31 @@ const PostCard = ({ post }) => {
     setComments,
     notifications,
     setNotifications,
-    setSearch,
   } = useData();
+
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const [showEditPost, setShowEditPost] = useState(false);
 
   const location = useLocation();
 
+  const [alreadyFollowed, setAlreadyFollowed] = useState(false);
+
+  const postedBy = users.find((user) => user.id === post.userId);
+
+  // Check if user is already followed
+  useEffect(() => {
+    if (postedBy && (postedBy.followers || [])) {
+      setAlreadyFollowed((postedBy.followers || [])?.includes(user?.id));
+    } else {
+      setAlreadyFollowed(false);
+    }
+  }, [postedBy, user?.id]);
+
   if (loading) return <LoadingSpinner />;
   if (!user || !post) return <NotFound text={"No post found!"} />;
   if (users?.length === 0) return <NotFound text={"No users found!"} />;
 
-  const postedBy = users.find((user) => user.id === post.userId);
   if (!postedBy) {
     toast.error("User not found for this post");
     return null;
@@ -114,139 +125,41 @@ const PostCard = ({ post }) => {
   };
 
   return (
-    <div className="card mb-3 border-0 rounded-3">
-      <div className="card-body">
-        <div className="d-flex justify-content-between align-items-center">
-          <div>
-            <img
-              src={user?.avatar || "https://via.placeholder.com/40"}
-              alt={user?.username}
-              className="rounded-circle me-3"
-              style={{
-                width: "40px",
-                height: "40px",
-                objectFit: "cover",
-                backgroundColor: "blue",
-              }}
+    <div className="card mb-3 border rounded-3">
+      <div className="card-body p-0">
+        <CardTop
+          user={user}
+          post={post}
+          postedBy={postedBy}
+          alreadyFollowed={alreadyFollowed}
+          setAlreadyFollowed={setAlreadyFollowed}
+          setShowEditPost={setShowEditPost}
+          handleDeletePost={handleDeletePost}
+          deleteLoading={deleteLoading}
+          location={location}
+        />
+
+        {post.isUpdated && (
+          <div className="d-flex align-items-center text-warning form-text mt-0 mb-3 ms-3">
+            <TbPencilCheck
+              style={{ fontSize: "1rem", marginRight: "0.5rem" }}
             />
-
-            <p className="card-title mb-0">
-              {user.id === postedBy.id ? (
-                <Link to={`/profile/${user.id}`} onClick={() => setSearch("")}>
-                  {postedBy.username || "Unknown User"}
-                </Link>
-              ) : (
-                <Link to={`/user/${postedBy.id}`} onClick={() => setSearch("")}>
-                  {postedBy.username || "Unknown User"}
-                </Link>
-              )}
-            </p>
-
-            <p className="text-muted" style={{ fontSize: "0.9rem", margin: 0 }}>
-              {formatDistanceToNow(new Date(post.createdAt), {
-                addSuffix: true,
-              })}
-            </p>
-
-            {post.isUpdated && (
-              <div
-                className="d-flex align-items-center text-warning mt-1"
-                style={{
-                  fontSize: "0.85rem",
-                  fontWeight: "500",
-                  color: "#f39c12",
-                }}
-              >
-                <LuPencilLine
-                  style={{ fontSize: "1rem", marginRight: "0.5rem" }}
-                />
-                <span>Edited</span>
-              </div>
-            )}
+            <span>Edited</span>
           </div>
-
-          <div className="d-flex justify-content-end">
-            {user.id === postedBy.id && (
-              <div className="dropdown">
-                <button
-                  className="btn btn-link text-primary dropdown-toggle"
-                  type="button"
-                  id="dropdownMenuButton"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <FaEllipsisH />
-                </button>
-
-                <ul
-                  className="dropdown-menu"
-                  aria-labelledby="dropdownMenuButton"
-                >
-                  <li>
-                    <button
-                      className="dropdown-item"
-                      onClick={() => setShowEditPost(true)}
-                    >
-                      Edit
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      className="dropdown-item text-danger"
-                      onClick={() => handleDeletePost(post.id)}
-                    >
-                      {deleteLoading ? (
-                        <>
-                          Deleting... <ButtonSpinner />
-                        </>
-                      ) : (
-                        "Delete"
-                      )}
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {location.pathname === `/post/${post.id}` ? (
-          <p
-            className="card-text mt-3 p-3 border text-muted"
-            style={{ border: "1px solid #ddd", cursor: "default" }}
-          >
-            {post.body || "No content"}
-          </p>
-        ) : (
-          <Link
-            to={`/post/${post.id}`}
-            onClick={() => {
-              setShowComment(false);
-              setSearch("");
-            }}
-          >
-            <p
-              className="card-text mt-3 p-3 border"
-              style={{ border: "1px solid #ddd" }}
-            >
-              {post.body || "No content"}
-            </p>
-          </Link>
         )}
 
-        <LikeCommentCounts post={post} />
+        <CardBody
+          post={post}
+          location={location}
+          setShowComment={setShowComment}
+        />
 
-        <div className="d-flex gap-3 mt-3">
-          <LikeButton post={post} setPosts={setPosts} />
-
-          <button
-            className="btn btn-outline-primary btn-sm d-flex align-items-center gap-2"
-            onClick={() => setShowComment(true)}
-          >
-            <FaCommentDots />
-            {post.comments?.length} Comments
-          </button>
-        </div>
+        <CardBottom
+          post={post}
+          setShowComment={setShowComment}
+          setPosts={setPosts}
+          LikeButton={LikeButton}
+        />
       </div>
 
       <EditPost

@@ -7,6 +7,7 @@ import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/Config";
 import { useData } from "../../contexts/DataContext";
 import NotFound from "../../utils/NotFound";
+import UserAvatar from "../UserAvatar";
 
 const CreatePost = () => {
   const { user, setUser } = useAuth();
@@ -79,13 +80,7 @@ const CreatePost = () => {
   return (
     <div className="card shadow-sm border-0 mb-4 p-3">
       <div className="d-flex align-items-start">
-        {/* User Avatar */}
-        <img
-          src={user?.avatar || "https://via.placeholder.com/40"}
-          alt="User Avatar"
-          className="rounded-circle me-3"
-          style={{ width: "40px", height: "40px" }}
-        />
+        <UserAvatar fontSize="50px" width="50px" height="50px" />
 
         <div className="w-100">
           <form onSubmit={handlePost}>

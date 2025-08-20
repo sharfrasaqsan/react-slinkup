@@ -111,7 +111,7 @@ const Register = () => {
       toast.success("Registration successful!");
       navigate("/register-details");
     } catch (err) {
-      toast.error("Something went wrong, please try again.");
+      toast.error(err.message);
       console.error(err);
     } finally {
       setRegisterLoading(false);

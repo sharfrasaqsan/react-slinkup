@@ -3,6 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import ProfileDetails from "./ProfileDetails";
 import "../../styles/UserInfo.css";
 import { format, parse } from "date-fns";
+import UserAvatar from "../UserAvatar";
 
 const UserInfo = () => {
   const { user } = useAuth();
@@ -15,6 +16,10 @@ const UserInfo = () => {
 
   return (
     <div className="profile-card z-0 sticky">
+      <div className="d-flex justify-content-center">
+        <UserAvatar width="150px" height="150px" fontSize="150px" />
+      </div>
+
       <h5>{user.username}</h5>
 
       <p className="mb-3">

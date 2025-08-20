@@ -146,14 +146,13 @@ const FollowButton = ({
           className={`btn ${
             alreadyFollowed ? "btn-outline-primary" : "btn-primary"
           } btn-sm`}
+          type="button"
+          style={{ minWidth: "90px" }}
           onClick={() => handleFollow(existUser.id)}
           disabled={followLoading || !user || user.id === existUser.id}
         >
           {followLoading ? (
-            <>
-              {alreadyFollowed ? "Following..." : "Unfollowing..."}{" "}
-              <ButtonSpinner />
-            </>
+            <>{alreadyFollowed ? <ButtonSpinner /> : <ButtonSpinner />} </>
           ) : (
             <>{alreadyFollowed ? "Unfollow" : "Follow"}</>
           )}

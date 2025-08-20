@@ -101,6 +101,7 @@ const Login = () => {
                 className="btn btn-primary w-100 mb-4"
                 onClick={handleLogin}
                 disabled={loginLoading || user}
+                type="submit"
               >
                 {loginLoading ? (
                   <>

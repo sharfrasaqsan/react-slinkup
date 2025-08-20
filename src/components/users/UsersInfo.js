@@ -7,6 +7,7 @@ import NotFound from "../../utils/NotFound";
 import ProfileDetails from "../profile/ProfileDetails";
 import FollowButton from "./FollowButton";
 import "../../styles/UserInfo.css";
+import { format, parse } from "date-fns";
 
 const UsersInfo = ({ existUser }) => {
   const { user } = useAuth();
@@ -22,6 +23,11 @@ const UsersInfo = ({ existUser }) => {
       setAlreadyFollowed(false);
     }
   }, [existUser, user?.id]);
+
+  const joinedLabel = format(
+    parse(existUser.createdAt, "yyyy-MM-dd HH:mm:ss", new Date()),
+    "yyyy MMMM"
+  );
 
   if (loading) return <LoadingSpinner />;
   if (!existUser) return <NotFound text={"No user found!"} />;
@@ -50,6 +56,8 @@ const UsersInfo = ({ existUser }) => {
           setAlreadyFollowed={setAlreadyFollowed}
         />
       </div>
+      
+      <p className="form-text">Joined on {joinedLabel}</p>
 
       <ProfileDetails user={existUser} />
     </div>

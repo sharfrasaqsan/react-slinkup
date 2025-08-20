@@ -7,6 +7,7 @@ import { db } from "../firebase/Config";
 import { useNavigate } from "react-router";
 import LoadingSpinner from "../utils/LoadingSpinner";
 import ButtonSpinner from "../utils/ButtonSpinner";
+import "../styles/RegisterDetails.css";
 
 const RegisterDetails = () => {
   const { user, setUser } = useAuth();
@@ -19,11 +20,9 @@ const RegisterDetails = () => {
   const [location, setLocation] = useState("");
 
   const [updateLoading, setUpdateLoading] = useState(false);
-
   const navigate = useNavigate();
 
   if (loading) return <LoadingSpinner />;
-
   if (!user) return null;
 
   const handleUpdateDetails = async (userId) => {
@@ -43,9 +42,7 @@ const RegisterDetails = () => {
         profileCompletion: true,
       };
 
-      await updateDoc(doc(db, "users", userId), {
-        ...updatedUser,
-      });
+      await updateDoc(doc(db, "users", userId), updatedUser);
 
       setUser((prev) => ({
         ...prev,
@@ -67,25 +64,31 @@ const RegisterDetails = () => {
       navigate("/");
     } catch (err) {
       toast.error(err.message);
+    } finally {
+      setUpdateLoading(false);
     }
-    setUpdateLoading(false);
   };
 
   return (
-    <section>
-      <h2>Register Details</h2>
+    <section className="register-details-container container">
+      <h2 className="register-details-title mb-4 text-center">
+        Complete Your Profile
+      </h2>
       <form
+        className="register-details-form"
         onSubmit={(e) => {
           e.preventDefault();
           handleUpdateDetails(user.id);
         }}
       >
-        <div>
-          <label labelfor="firstname">First Name</label>
+        <div className="register-details-field mb-3">
+          <label htmlFor="firstname" className="form-label">
+            First Name
+          </label>
           <input
             type="text"
             id="firstname"
-            name="firstname"
+            className="form-control"
             value={firstname}
             onChange={(e) => setFirstname(e.target.value)}
             required
@@ -94,12 +97,14 @@ const RegisterDetails = () => {
           />
         </div>
 
-        <div>
-          <label labelfor="lastname">Last Name</label>
+        <div className="register-details-field mb-3">
+          <label htmlFor="lastname" className="form-label">
+            Last Name
+          </label>
           <input
             type="text"
             id="lastname"
-            name="lastname"
+            className="form-control"
             value={lastname}
             onChange={(e) => setLastname(e.target.value)}
             required
@@ -107,51 +112,56 @@ const RegisterDetails = () => {
           />
         </div>
 
-        <div>
-          <label labelfor="gender">Gender</label>
+        <div className="register-details-field mb-3">
+          <label htmlFor="gender" className="form-label">
+            Gender
+          </label>
           <select
-            name="gender"
             id="gender"
+            className="form-select"
             value={gender}
             onChange={(e) => setGender(e.target.value)}
-            placeholder="Gender"
             required
           >
-            <option selected>Select Gender</option>
+            <option value="">Select Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
             <option value="Other">Other</option>
           </select>
         </div>
 
-        <div>
-          <label labelfor="birthday">Birthday</label>
+        <div className="register-details-field mb-3">
+          <label htmlFor="birthday" className="form-label">
+            Birthday
+          </label>
           <input
             type="date"
             id="birthday"
-            name="birthday"
+            className="form-control"
             value={birthday}
             onChange={(e) => setBirthday(e.target.value)}
             required
-            placeholder="Birthday"
           />
         </div>
 
-        <div>
-          <label labelfor="location">Location</label>
+        <div className="register-details-field mb-3">
+          <label htmlFor="location" className="form-label">
+            Location
+          </label>
           <input
             type="text"
             id="location"
-            name="location"
+            className="form-control"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             required
-            placeholder="Location"
+            placeholder="City, State, Country"
           />
         </div>
 
         <button
           type="submit"
+          className="btn btn-primary w-100 register-details-submit mt-3"
           disabled={
             updateLoading ||
             !firstname ||
@@ -163,7 +173,7 @@ const RegisterDetails = () => {
         >
           {updateLoading ? (
             <>
-              Submiting... <ButtonSpinner />
+              Submitting... <ButtonSpinner />
             </>
           ) : (
             "Submit"

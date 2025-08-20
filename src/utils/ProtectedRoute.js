@@ -9,11 +9,14 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" replace />;
   }
 
-  if (
-    user.profileCompletion === false &&
-    location.pathname !== "/register-details"
-  ) {
+  const isOnRegisterDetails = location.pathname === "/register-details";
+
+  if (!user.profileCompletion && !isOnRegisterDetails) {
     return <Navigate to="/register-details" replace />;
+  }
+
+  if (user.profileCompletion && isOnRegisterDetails) {
+    return <Navigate to="/" replace />;
   }
 
   return children;

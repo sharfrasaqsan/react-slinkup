@@ -8,23 +8,21 @@ const Feed = () => {
   const { user } = useAuth();
   const { posts, loading } = useData();
 
-  if (loading) return <LoadingSpinner />;
+  if (loading || !user) return <LoadingSpinner />;
 
   if (posts.length === 0) return <NotFound text={"No posts found!"} />;
 
   const followingIds = user?.following || [];
 
-  const feedPosts = posts?.filter((post) => followingIds.includes(post.userId));
+  const feedPosts = posts?.filter(
+    (post) => followingIds.includes(post.userId) || post.userId === user.id
+  );
 
   if (followingIds.length > 0 && feedPosts.length === 0)
     return <NotFound text={"No posts from people you follow yet."} />;
 
-  if (feedPosts.length === 0)
-    return (
-      <NotFound
-        text={"You are not following any users. Please follow for posts."}
-      />
-    );
+  if (feedPosts.length === 0 && followingIds.length === 0)
+    return <NotFound text={"You are not following any users."} />;
 
   const sortedFeedPosts = [...feedPosts]?.sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
