@@ -1,11 +1,25 @@
-/* Adjust padding and margin for smaller screens */
 .container {
-  padding-left: 15px;
-  padding-right: 15px;
+  margin: auto;
 }
 
 .card-body {
   padding: 2rem;
+}
+
+.form-select option {
+  background-color: #fff;
+  padding: 8px;
+  color: #333;
+}
+
+.form-select option:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.form-select option:checked {
+  background-color: var(--secondary-color);
+  color: #fff;
 }
 
 /* For smaller screens, adjust font sizes and form widths */

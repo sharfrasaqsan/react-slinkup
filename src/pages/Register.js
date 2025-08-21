@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { format } from "date-fns";
 import { Link, useNavigate } from "react-router";
+import "../styles/Register.css";
 
 // Regular Expression for email validation
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -23,10 +24,14 @@ const Register = () => {
   const { user } = useAuth();
   const { setUsers } = useData();
 
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [gender, setGender] = useState("");
+  const [birthday, setBirthday] = useState("");
   const [registerLoading, setRegisterLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -36,7 +41,16 @@ const Register = () => {
 
     setRegisterLoading(true);
     try {
-      if (!username || !email || !password || !confirmPassword) {
+      if (
+        !firstname ||
+        !lastname ||
+        !username ||
+        !email ||
+        !password ||
+        !confirmPassword ||
+        !gender ||
+        !birthday
+      ) {
         toast.error("Please fill in all fields.");
         return;
       }
@@ -79,8 +93,8 @@ const Register = () => {
       const newUser = {
         id: uid,
         username: username.replace(/[^a-z0-9]/gi, "").toLowerCase(),
-        firstname: "",
-        lastname: "",
+        firstname,
+        lastname,
         email,
         password,
         bio: "",
@@ -91,14 +105,13 @@ const Register = () => {
         location: "",
         website: "",
         social: {},
-        birthday: "",
-        gender: "",
+        birthday,
+        gender,
         occupation: [],
         education: [],
         relationship: "",
         languages: [],
         createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-        profileCompletion: false,
       };
 
       await setDoc(doc(db, "users", uid), newUser);
@@ -121,29 +134,57 @@ const Register = () => {
   return (
     <div className="container d-flex justify-content-center align-items-center">
       <div className="row w-100">
-        {/* Left Column: Registration Instructions */}
-        <div className="col-md-6 text-center text-md-start d-flex flex-column justify-content-center px-5">
-          <div className="my-5 display-6 fw-bold ls-tight">
+        <div className="col-md-6 text-center text-md-start d-flex flex-column justify-content-center">
+          <div className="my-3 fw-bold ls-tight">
             Create Your Account on <br />
             <span className="text-primary">Slinkup</span>
           </div>
 
-          <p
-            className="text-muted"
-            style={{ fontSize: "1.2rem", color: "hsl(217, 10%, 50.8%)" }}
-          >
+          <p p className="text-muted" style={{ fontSize: "1rem" }}>
             Join Slinkup to connect with others, share ideas, and build your
             network in a social community.
           </p>
         </div>
 
-        {/* Right Column: Registration Form */}
         <div className="col-md-6">
           <div className="card my-5">
-            <div className="card-body p-5">
+            <div className="card-body">
               <h4 className="mb-4 text-center">Register for an Account</h4>
 
-              <div className="mb-4">
+              <div className="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <div className="mb-3">
+                  <label htmlFor="firstname" className="form-label">
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    id="firstname"
+                    className="form-control"
+                    value={firstname}
+                    onChange={(e) => setFirstname(e.target.value)}
+                    required
+                    autoFocus
+                    placeholder="First Name"
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="lastname" className="form-label">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    id="lastname"
+                    className="form-control"
+                    value={lastname}
+                    onChange={(e) => setLastname(e.target.value)}
+                    required
+                    placeholder="Last Name"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-3">
                 <label htmlFor="username" className="form-label">
                   Username
                 </label>
@@ -158,7 +199,39 @@ const Register = () => {
                 />
               </div>
 
-              <div className="mb-4">
+              <div className="register-details-field mb-3">
+                <label htmlFor="gender" className="form-label">
+                  Gender
+                </label>
+                <select
+                  id="gender"
+                  className="form-select form-control"
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                  required
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div className="register-details-field mb-3">
+                <label htmlFor="birthday" className="form-label">
+                  Date of Birth
+                </label>
+                <input
+                  type="date"
+                  id="birthday"
+                  className="form-control"
+                  value={birthday}
+                  onChange={(e) => setBirthday(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="mb-3">
                 <label htmlFor="email" className="form-label">
                   Email
                 </label>
@@ -173,43 +246,44 @@ const Register = () => {
                 />
               </div>
 
-              <div className="mb-4">
-                <label htmlFor="password" className="form-label">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  className="form-control"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+              <div className="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <div>
+                  <label htmlFor="password" className="form-label">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    className="form-control"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
 
-                <span className="text-muted">
-                  * Password must be at least 8 characters
-                </span>
+                <div>
+                  <label htmlFor="confirmPassword" className="form-label">
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    className="form-control"
+                    placeholder="Confirm your password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
+                </div>
               </div>
-
-              <div className="mb-4">
-                <label htmlFor="confirmPassword" className="form-label">
-                  Confirm Password
-                </label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  className="form-control"
-                  placeholder="Confirm your password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
-              </div>
+              <span className="text-muted">
+                * Password must be at least 8 characters
+              </span>
 
               <button
                 type="submit"
-                className="btn btn-primary w-100 mb-4"
+                className="btn btn-primary w-100 my-3"
                 onClick={handleRegister}
                 disabled={registerLoading}
               >
