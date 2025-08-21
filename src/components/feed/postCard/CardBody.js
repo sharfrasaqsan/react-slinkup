@@ -4,12 +4,20 @@ const CardBody = ({ post, location, setShowComment }) => {
   return (
     <>
       {location.pathname === `/post/${post.id}` ? (
-        <p
-          className="card-text mt-3 p-3 border text-muted"
-          style={{ border: "1px solid #ddd", cursor: "default" }}
-        >
-          {post.body || "No content"}
-        </p>
+        <>
+          <p
+            className="card-text p-3 m-0"
+            style={{
+              backgroundColor: "#f5f5f5",
+              border: "1px solid #ccc, borderBottom: 1px solid #ccc",
+            }}
+          >
+            {post.body || "No content"}
+          </p>
+          {post.bodyImage && (
+            <img src={post.bodyImage} alt="post" className="w-100" />
+          )}
+        </>
       ) : (
         <Link
           to={`/post/${post.id}`}
@@ -18,11 +26,15 @@ const CardBody = ({ post, location, setShowComment }) => {
           }}
         >
           <p
-            className="card-text py-3 px-2"
-            style={{ backgroundColor: "#f5f5f5ff" }}
+            className="card-text p-3 m-0 cursor"
+            style={{ backgroundColor: "#f5f5f5" }}
           >
             {post.body ? post.body.slice(0, 100) + "..." : "No content"}
           </p>
+
+          {post.bodyImage && (
+            <img src={post.bodyImage} alt="post" className="w-100" />
+          )}
         </Link>
       )}
     </>

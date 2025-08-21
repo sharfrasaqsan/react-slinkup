@@ -140,7 +140,7 @@ const PostCard = ({ post }) => {
         />
 
         {post.isUpdated && (
-          <div className="d-flex align-items-center text-warning form-text mt-0 mb-3 ms-3">
+          <div className="d-flex align-items-center justify-content-end text-warning form-text mt-0 px-3">
             <TbPencilCheck
               style={{ fontSize: "1rem", marginRight: "0.5rem" }}
             />

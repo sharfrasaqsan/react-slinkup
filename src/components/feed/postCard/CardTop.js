@@ -93,7 +93,8 @@ const CardTop = ({
 
           {user.followers?.includes(postedBy.id) &&
             location.pathname !== `/user/${postedBy.id}` &&
-            user.id !== postedBy.id && (
+            user.id !== postedBy.id &&
+            !alreadyFollowed && (
               <FollowButton
                 user={user}
                 existUser={postedBy}

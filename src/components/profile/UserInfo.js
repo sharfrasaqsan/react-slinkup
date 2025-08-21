@@ -15,7 +15,7 @@ const UserInfo = ({ ownProfile }) => {
   );
 
   return (
-    <div className="profile-card z-0 sticky">
+    <div className="profile-card z-1 sticky">
       <AvatarUpdates user={user} ownProfile={ownProfile} />
 
       <h5>{user.username}</h5>
