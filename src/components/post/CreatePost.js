@@ -10,6 +10,7 @@ import NotFound from "../../utils/NotFound";
 import UserAvatar from "../UserAvatar";
 import { FaRegImage } from "react-icons/fa6";
 import axios from "axios";
+import { IoTrashBinOutline } from "react-icons/io5";
 
 const CreatePost = () => {
   const { user, setUser } = useAuth();
@@ -164,6 +165,18 @@ const CreatePost = () => {
                   />
                 )}
               </label>
+
+              {bodyImage && (
+                <IoTrashBinOutline
+                  size={20}
+                  color="red"
+                  cursor="pointer"
+                  onClick={() => setBodyImage("")}
+                  title="Remove image"
+                  aria-label="Remove image"
+                  className="ms-2 mt-2"
+                />
+              )}
 
               {/* Error message */}
               {error && <div className="invalid-feedback">{error}</div>}

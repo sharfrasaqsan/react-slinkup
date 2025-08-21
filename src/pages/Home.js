@@ -10,7 +10,7 @@ const Home = () => {
           <CreatePost />
           <Feed />
         </div>
-        <div className="col-md-4 d-none d-sm-block">
+        <div className="col-md-4 d-none d-md-block">
           <SuggestUsers />
         </div>
       </div>
