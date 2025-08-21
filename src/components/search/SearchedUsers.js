@@ -38,7 +38,12 @@ const SearchedUsers = () => {
             ) : (
               <Link to={`/user/${searchedUser.id}`}>
                 <div className="d-flex align-items-center">
-                  <UserAvatar width="40px" height="40px" fontSize="40px" />
+                  <UserAvatar
+                    width="40px"
+                    height="40px"
+                    fontSize="40px"
+                    user={searchedUser}
+                  />
                   <div>
                     {searchedUser?.username}
                     <br />

@@ -11,7 +11,7 @@ const UserAvatar = ({ fontSize, width, height, user }) => {
         <img
           src={user?.avatar}
           alt={user?.username}
-          className="me-3 rounded-circle"
+          className="me-2 rounded-circle"
           style={{
             width: width,
             height: height,
