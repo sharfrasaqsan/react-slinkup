@@ -9,7 +9,7 @@ import ButtonSpinner from "../../utils/ButtonSpinner";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const AvatarUpdates = ({ user }) => {
+const AvatarUpdates = ({ user, ownProfile }) => {
   const { setUser } = useAuth();
   const { setUsers } = useData();
   const [uploadLoading, setUploadLoading] = useState(false);
@@ -63,8 +63,6 @@ const AvatarUpdates = ({ user }) => {
     }
   };
 
-  console.log(user);
-
   return (
     <div className="d-flex flex-column align-items-center mb-4">
       {user && (
@@ -76,35 +74,38 @@ const AvatarUpdates = ({ user }) => {
             user={user}
           />
 
-          <label
-            className="position-absolute bottom-0 end-0 bg-white p-2 rounded-circle shadow-sm"
-            style={{ cursor: "pointer" }}
-          >
-            <input
-              type="file"
-              accept="image/*"
-              className="d-none"
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (file) {
-                  handleImageUpload(file, user.id);
-                }
-              }}
-            />
-            {uploadLoading ? (
-              <ButtonSpinner />
-            ) : (
-              <IoCameraReverseSharp
-                size={35}
-                className="camera-icon"
-                title="Upload avatar"
+          {ownProfile && (
+            <label
+              className="position-absolute bottom-0 end-0 bg-white p-2 rounded-circle shadow-sm"
+              style={{ cursor: "pointer" }}
+            >
+              <input
+                type="file"
+                accept="image/*"
+                className="d-none"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    handleImageUpload(file, user.id);
+                  }
+                }}
               />
-            )}
-          </label>
+
+              {uploadLoading ? (
+                <ButtonSpinner />
+              ) : (
+                <IoCameraReverseSharp
+                  size={35}
+                  className="camera-icon"
+                  title="Upload avatar"
+                />
+              )}
+            </label>
+          )}
         </div>
       )}
 
-      {user && user.avatar && (
+      {user && user.avatar && ownProfile && (
         <span
           type="button"
           onClick={handleRemoveAvatar}

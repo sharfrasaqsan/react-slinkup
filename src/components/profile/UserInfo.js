@@ -5,7 +5,7 @@ import "../../styles/UserInfo.css";
 import { format, parse } from "date-fns";
 import AvatarUpdates from "./AvatarUpdates";
 
-const UserInfo = () => {
+const UserInfo = ({ ownProfile }) => {
   const { user } = useAuth();
   if (!user) return null;
 
@@ -16,7 +16,7 @@ const UserInfo = () => {
 
   return (
     <div className="profile-card z-0 sticky">
-      <AvatarUpdates user={user} />
+      <AvatarUpdates user={user} ownProfile={ownProfile} />
 
       <h5>{user.username}</h5>
 

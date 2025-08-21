@@ -141,14 +141,14 @@ const FollowButton = ({
 
   return (
     <div className="mb-3">
-      {user.id !== existUser.id && (
+      {user?.id !== existUser?.id && (
         <button
           className={`btn ${
             alreadyFollowed ? "btn-outline-primary" : "btn-primary"
           } btn-sm`}
           type="button"
           style={{ minWidth: "90px" }}
-          onClick={() => handleFollow(existUser.id)}
+          onClick={() => handleFollow(existUser?.id)}
           disabled={followLoading || !user || user.id === existUser.id}
         >
           {followLoading ? (
