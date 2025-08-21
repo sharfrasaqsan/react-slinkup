@@ -10,10 +10,6 @@
   padding: 2rem;
 }
 
-.responsive-hide {
-  display: block;
-}
-
 @media (max-width: 768px) {
   .form-control {
     max-width: 100%;
@@ -25,9 +21,5 @@
 
   .btn {
     font-size: 1rem;
-  }
-
-  .responsive-hide {
-    display: none !important;
   }
 }

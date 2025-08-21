@@ -46,7 +46,7 @@ const Login = () => {
 
   return (
     <div
-      className="container d-flex justify-content-center align-items-center py-5"
+      className="container d-flex justify-content-center align-items-center"
       style={{ minHeight: "75vh" }}
     >
       <div className="row w-100">
@@ -67,7 +67,7 @@ const Login = () => {
             <div className="card-body p-4">
               <h4 className="mb-4 text-center">Login to Your Account</h4>
 
-              <div className="mb-4">
+              <div className="mb-3">
                 <label htmlFor="email" className="form-label">
                   Email
                 </label>
@@ -82,7 +82,7 @@ const Login = () => {
                 />
               </div>
 
-              <div className="mb-4">
+              <div className="mb-3">
                 <label htmlFor="password" className="form-label">
                   Password
                 </label>
@@ -98,7 +98,7 @@ const Login = () => {
               </div>
 
               <button
-                className="btn btn-primary w-100 mb-4"
+                className="btn btn-primary w-100 mb-3"
                 onClick={handleLogin}
                 disabled={loginLoading || user}
                 type="submit"

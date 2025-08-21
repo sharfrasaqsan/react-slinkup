@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import "./App.css";
 
 import Header from "./components/Header";
@@ -18,9 +19,9 @@ import UpdateUser from "./pages/admin/UpdateUser";
 import User from "./pages/users/User";
 import ProfileSettings from "./pages/settings/ProfileSettings";
 import AccountSettings from "./pages/settings/AccountSettings";
-import RegisterDetails from "./pages/RegisterDetails";
 import Followers from "./pages/users/Followers";
 import Following from "./pages/users/Following";
+import ResetPassword from "./pages/ResetPassword";
 
 import ProtectedRoute from "./utils/ProtectedRoute";
 import ScrollToTop from "./utils/ScrollToTop";
@@ -32,13 +33,11 @@ import { useAuth } from "./contexts/AuthContext";
 import { Navigate, Route, Routes, useLocation } from "react-router";
 import { Bounce, ToastContainer } from "react-toastify";
 
-import { useEffect, useState } from "react";
-import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   const { user } = useAuth();
-
   const { search, setSearch } = useData();
+
   const [selected, setSelected] = useState("users");
 
   const location = useLocation();
@@ -115,14 +114,6 @@ function App() {
             <Route
               path="/register"
               element={user ? <Navigate to="/" /> : <Register />}
-            />
-            <Route
-              path="/register-details"
-              element={
-                <ProtectedRoute>
-                  <RegisterDetails />
-                </ProtectedRoute>
-              }
             />
 
             <Route
