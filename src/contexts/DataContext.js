@@ -1,7 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  limit,
+  query,
+  startAfter,
+} from "firebase/firestore";
 import { db } from "../firebase/Config";
 import { toast } from "react-toastify";
+import { orderBy, set } from "lodash";
 
 const DataContext = createContext();
 
@@ -13,8 +20,54 @@ export const DataProvider = ({ children }) => {
   const [comments, setComments] = useState([]);
   const [notifications, setNotifications] = useState([]);
 
+  // Pagination
+  const [lastDoc, setLastDoc] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
+
   // Loading state
   const [loading, setLoading] = useState(true);
+
+  // Initial fetch (first 10 posts)
+  const fetchInitialPosts = async () => {
+    try {
+      setLoading(true);
+      const res = await getDocs(
+        query(collection(db, "posts"), orderBy("createdAt", "desc", limit(2)))
+      );
+      const resData = res.docs?.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setPosts(resData);
+      setLastDoc(res.docs[res.docs.length - 1]);
+      setHasMore(res.docs.length === 2);
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
+  const fetchMorePosts = async () => {
+    if (!lastDoc) return;
+
+    try {
+      const res = await getDocs(
+        query(
+          collection(db, "posts"),
+          orderBy("createdAt", "desc"),
+          startAfter(lastDoc),
+          limit(2)
+        )
+      );
+      const resData = res.docs?.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setPosts((prev) => [...prev, ...resData]);
+      setLastDoc(res.docs[res.docs.length - 1] || null);
+      setHasMore(res.docs.length === 2);
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
+  // Load first batch on mount
+  useEffect(() => {
+    fetchInitialPosts();
+  }, []);
 
   // Function to handle error states
   const handleError = (err) => {
@@ -40,7 +93,6 @@ export const DataProvider = ({ children }) => {
         setLoading(true);
         await Promise.all([
           fetchData("users", setUsers),
-          fetchData("posts", setPosts),
           fetchData("likes", setLikes),
           fetchData("comments", setComments),
           fetchData("notifications", setNotifications),
@@ -80,6 +132,8 @@ export const DataProvider = ({ children }) => {
         setUsers,
         posts,
         setPosts,
+        hasMore,
+        fetchMorePosts,
         likes,
         setLikes,
         comments,
