@@ -38,19 +38,19 @@ export const DataProvider = ({ children }) => {
     try {
       setLoading(true);
       const res = await getDocs(
-        query(collection(db, "posts"), orderBy("createdAt", "desc"), limit(10))
+        query(collection(db, "posts"), orderBy("createdAt", "desc"), limit(2))
       );
       const resData = res.docs?.map((doc) => ({ id: doc.id, ...doc.data() }));
       setPosts(resData);
       setLastDoc(res.docs[res.docs.length - 1]);
-      setHasMore(res.docs.length === 10);
+      setHasMore(res.docs.length === 2);
     } catch (err) {
       handleError(err);
     }
   };
 
   const fetchMorePosts = async () => {
-    if (!lastDoc) return;
+    if (!lastDoc || !hasMore) return;
 
     try {
       const res = await getDocs(
@@ -58,13 +58,19 @@ export const DataProvider = ({ children }) => {
           collection(db, "posts"),
           orderBy("createdAt", "desc"),
           startAfter(lastDoc),
-          limit(10)
+          limit(2)
         )
       );
+
+      if (res.empty) {
+        setHasMore(false);
+        return;
+      }
+
       const resData = res.docs?.map((doc) => ({ id: doc.id, ...doc.data() }));
       setPosts((prev) => [...prev, ...resData]);
       setLastDoc(res.docs[res.docs.length - 1] || null);
-      setHasMore(res.docs.length === 10);
+      setHasMore(res.docs.length === 2);
     } catch (err) {
       handleError(err);
     }
