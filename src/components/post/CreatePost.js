@@ -28,7 +28,7 @@ const CreatePost = () => {
   if (!user) return <NotFound text={"No user found! Please log in first."} />;
 
   // Max characters for the post
-  const MAX_CHARACTERS = 280;
+  const MAX_CHARACTERS = 600;
 
   const handlePost = async (e) => {
     e.preventDefault();
@@ -169,7 +169,7 @@ const CreatePost = () => {
               {bodyImage && (
                 <IoTrashBinOutline
                   size={20}
-                  color="red"
+                  color="#CC4C4C"
                   cursor="pointer"
                   onClick={() => setBodyImage("")}
                   title="Remove image"
@@ -196,12 +196,18 @@ const CreatePost = () => {
 
             <button
               type="submit"
-              disabled={postLoading || charCount > MAX_CHARACTERS}
+              disabled={
+                postLoading || uploadLoading || charCount > MAX_CHARACTERS
+              }
               className="btn btn-primary w-100 shadow-sm mt-3"
             >
               {postLoading ? (
                 <>
                   Posting... <ButtonSpinner />
+                </>
+              ) : uploadLoading ? (
+                <>
+                  Uploading image... <ButtonSpinner />
                 </>
               ) : (
                 "Post"

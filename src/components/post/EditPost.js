@@ -10,7 +10,7 @@ const EditPost = ({ showEditPost, handleCloseEditPost, post, setPosts }) => {
   const [updateLoading, setUpdateLoading] = useState(false);
   const [charCount, setCharCount] = useState(0);
 
-  const MAX_CHARACTERS = 280;
+  const MAX_CHARACTERS = 600;
 
   useEffect(() => {
     if (showEditPost) {
