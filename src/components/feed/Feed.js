@@ -1,12 +1,14 @@
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useAuth } from "../../contexts/AuthContext";
 import { useData } from "../../contexts/DataContext";
 import LoadingSpinner from "../../utils/LoadingSpinner";
 import NotFound from "../../utils/NotFound";
 import PostCard from "./PostCard";
+import PostLoadingSpinner from "../../utils/PostLoadingSpinner";
 
 const Feed = () => {
   const { user } = useAuth();
-  const { posts, loading } = useData();
+  const { posts, loading, fetchMorePosts, hasMore } = useData();
 
   if (loading || !user) return <LoadingSpinner />;
 
@@ -29,13 +31,19 @@ const Feed = () => {
   );
 
   return (
-    <>
+    <InfiniteScroll
+      dataLength={sortedFeedPosts.length}
+      next={fetchMorePosts}
+      hasMore={hasMore}
+      loader={<PostLoadingSpinner />}
+      endMessage={<p className="text-center my-3">No more posts to load</p>}
+    >
       {sortedFeedPosts.map((post) => (
         <div key={post.id}>
           <PostCard post={post} />
         </div>
       ))}
-    </>
+    </InfiniteScroll>
   );
 };
 

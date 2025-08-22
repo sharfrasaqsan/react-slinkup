@@ -32,11 +32,11 @@ import { useAuth } from "./contexts/AuthContext";
 
 import { Navigate, Route, Routes, useLocation } from "react-router";
 import { Bounce, ToastContainer } from "react-toastify";
-
+import LoadingSpinner from "./utils/LoadingSpinner";
 
 function App() {
   const { user } = useAuth();
-  const { search, setSearch } = useData();
+  const { search, setSearch, loading } = useData();
 
   const [selected, setSelected] = useState("users");
 
@@ -47,6 +47,8 @@ function App() {
       setSearch("");
     }
   }, [location.pathname]);
+
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div>

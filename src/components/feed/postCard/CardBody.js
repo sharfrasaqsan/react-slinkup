@@ -29,7 +29,7 @@ const CardBody = ({ post, location, setShowComment }) => {
             className="card-text p-3 m-0 cursor"
             style={{ backgroundColor: "#f5f5f5" }}
           >
-            {post.body ? post.body.slice(0, 100) + "..." : "No content"}
+            {post.body ? post.body.slice(0, 280) + "..." : "No content"}
           </p>
 
           {post.bodyImage && (
