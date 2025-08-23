@@ -1,13 +1,10 @@
 /* Root Color Variables */
 :root {
-  --primary-color: #003366;
-  --secondary-color: #1e90ff;
-  --accent-color: #ffeb3b;
+  --primary-color: #0f1020;
+  --secondary-color: #2f195f;
   --background-color: #f8f9fa;
   --link-hover: #ddd;
   --text-color: #212529;
-  --dark-primary: #002244;
-  --dark-secondary: #00796b;
   --font-size-base: 1rem;
   --line-height-base: 1.5;
 
@@ -19,8 +16,8 @@
 
 /* DARK mode */
 :root[data-bs-theme="dark"] {
-  --primary-color: #0d1b2a;
-  --secondary-color: #1e90ff;
+  --primary-color: #5c6d7d;
+  --secondary-color: #9b65a8;
   --text-color: #f8f9fa;
   --background-color: #121212;
 
@@ -56,6 +53,17 @@
     color: var(--text-color) !important;
   }
 
+  .btn-primary {
+    background-color: var(--primary-color) !important;
+    color: var(--text-color) !important;
+    border-color: var(--text-color) !important;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--text-color) !important;
+    color: var(--primary-color) !important;
+  }
+
   .btn-outline-primary {
     background-color: var(--primary-color) !important;
     color: var(--text-color) !important;
@@ -65,7 +73,6 @@
   .btn-outline-primary:hover {
     background-color: var(--text-color) !important;
     color: var(--primary-color) !important;
-    border-color: var(--text-color) !important;
   }
 }
 
@@ -141,8 +148,8 @@ a:hover {
 }
 
 .btn-primary:hover {
-  background-color: #002244 !important;
-  border-color: #002244 !important;
+  background-color: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
 }
 
 .btn-primary:focus,

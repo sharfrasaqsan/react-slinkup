@@ -8,7 +8,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase/Config";
 import LoadingSpinner from "../../../utils/LoadingSpinner";
 import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
-import "../../../styles/settings/BasicProfileSettings.css";
+import "../../../styles/settings/ProfileSetting.css";
 
 const BasicProfileSettings = () => {
   const { user, setUser } = useAuth();
@@ -127,7 +127,7 @@ const BasicProfileSettings = () => {
             id="firstname"
             name="firstname"
             required
-            className="form-control custom-form-control"
+            className="form-control"
             placeholder="Firstname"
             value={firstname}
             onChange={(e) => setFirstname(e.target.value)}
@@ -144,7 +144,7 @@ const BasicProfileSettings = () => {
             id="lastname"
             name="lastname"
             required
-            className="form-control custom-form-control"
+            className="form-control"
             placeholder="Lastname"
             value={lastname}
             onChange={(e) => setLastname(e.target.value)}
@@ -161,7 +161,7 @@ const BasicProfileSettings = () => {
             name="bio"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            className="form-control custom-form-control"
+            className="form-control"
             placeholder="User Bio"
           />
         </div>
@@ -175,7 +175,7 @@ const BasicProfileSettings = () => {
             type="text"
             id="location"
             name="location"
-            className="form-control custom-form-control"
+            className="form-control"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             placeholder="Location"
@@ -191,7 +191,7 @@ const BasicProfileSettings = () => {
             type="url"
             id="websitelink"
             name="websitelink"
-            className="form-control custom-form-control"
+            className="form-control"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
             placeholder="Website Link"
@@ -207,7 +207,7 @@ const BasicProfileSettings = () => {
             id="social"
             value={selectedPlatform}
             onChange={(e) => setSelectedPlatform(e.target.value)}
-            className="form-select custom-form-select"
+            className="form-select"
           >
             <option>Select a platform</option>
             <option value="Facebook">Facebook</option>
@@ -220,35 +220,34 @@ const BasicProfileSettings = () => {
           <input
             type="url"
             id="sociallink"
-            className="form-control custom-form-control"
+            className="form-control"
             placeholder="Link"
             value={link}
             onChange={(e) => setLink(e.target.value)}
             ref={socialRef}
           />
-
           <button
             type="button"
             onClick={handleAddSocial}
-            className="btn btn-outline-primary mt-2"
+            className="btn btn-primary"
           >
-            <AiOutlinePlus />
+            <AiOutlinePlus scale={16} />
           </button>
 
           <table className="table mt-3">
             <tbody>
               {Object.entries(social || {}).map(([platform, url]) => (
                 <tr key={platform}>
-                  <td>
+                  <td className="w-75">
                     {platform}: {url}
                   </td>
-                  <td>
+                  <td className="w-25">
                     <button
                       onClick={() => handleRemoveSocial(platform)}
                       className="btn btn-outline-danger btn-sm"
                       type="button"
                     >
-                      <AiOutlineDelete />
+                      <AiOutlineDelete size={16} />
                     </button>
                   </td>
                 </tr>

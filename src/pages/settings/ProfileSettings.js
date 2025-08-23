@@ -19,7 +19,7 @@ const ProfileSettings = () => {
       <Breadcrumbs breadcrumbs={breadcrumbs} />
 
       {/* Main Title */}
-      <h4 className="mb-4">Profile Settings</h4>
+      <h4 className="mb-4  text-center">Profile Settings</h4>
 
       <div className="row">
         {/* Left Column for Menu */}

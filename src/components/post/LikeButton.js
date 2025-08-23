@@ -110,7 +110,7 @@ const LikeButton = ({ post, setPosts }) => {
           post.likes?.includes(user.id) ? "liked-icon" : ""
         }`}
       />
-      <span>Like</span>
+      <span>{post.likes.includes(user.id) ? "Liked" : "Like"}</span>
     </button>
   );
 };
