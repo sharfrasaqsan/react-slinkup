@@ -28,13 +28,7 @@ const ProfileFeedSection = () => {
   }
 
   return (
-    <div
-      style={{
-        padding: "1rem",
-        backgroundColor: "#f0f0f0",
-        borderRadius: "8px",
-      }}
-    >
+    <div className="p-3 bg-light rounded-3 shadow-sm">
       {user && (
         <>
           <CreatePost user={user} />

@@ -14,13 +14,7 @@ const UserFeedSection = ({ existUser }) => {
   if (userPosts?.length === 0) return <NotFound text={"No posts found!"} />;
 
   return (
-    <div
-      style={{
-        padding: "1rem",
-        backgroundColor: "#f0f0f0",
-        borderRadius: "8px",
-      }}
-    >
+    <div className="p-3 bg-light rounded-3 shadow-sm">
       {!existUser && <CreatePost user={existUser} />}
       <p>
         {(existUser?.userPosts || []).length || 0}{" "}
