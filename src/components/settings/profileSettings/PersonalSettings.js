@@ -8,7 +8,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase/Config";
 import { format } from "date-fns";
 import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
-import "../../../styles/settings/PersonalSettings.css";
+import "../../../styles/settings/ProfileSetting.css";
 
 const PersonalSettings = () => {
   const { user, setUser } = useAuth();
@@ -170,7 +170,7 @@ const PersonalSettings = () => {
             onChange={(e) => setGender(e.target.value)}
             autoFocus
             required
-            className="form-select custom-form-select"
+            className="form-select"
           >
             <option>Select Gender</option>
             <option value="Male">Male</option>
@@ -190,7 +190,7 @@ const PersonalSettings = () => {
             value={birthday}
             onChange={(e) => setBirthday(e.target.value)}
             required
-            className="form-control custom-form-control"
+            className="form-control"
           />
         </div>
 
@@ -203,7 +203,7 @@ const PersonalSettings = () => {
             name="relationship"
             value={relationship}
             onChange={(e) => setRelationship(e.target.value)}
-            className="form-select custom-form-select"
+            className="form-select"
           >
             <option>Select Status</option>
             <option value="Single">Single</option>
@@ -226,13 +226,13 @@ const PersonalSettings = () => {
             value={newOccupation}
             onChange={(e) => setNewOccupation(e.target.value)}
             placeholder="Enter an occupation"
-            className="form-control custom-form-control"
+            className="form-control"
             ref={occupationRef}
           />
           <button
             type="button"
             onClick={addOccupation}
-            className="btn btn-outline-primary mt-2"
+            className="btn btn-primary"
           >
             <AiOutlinePlus />
           </button>
@@ -241,14 +241,14 @@ const PersonalSettings = () => {
             <tbody>
               {occupation.map((occ, index) => (
                 <tr key={index}>
-                  <td>{occ}</td>
-                  <td>
+                  <td className="w-75">{occ}</td>
+                  <td className="w-25">
                     <button
                       type="button"
                       onClick={() => removeOccupation(index)}
                       className="btn btn-outline-danger btn-sm"
                     >
-                      <AiOutlineDelete />
+                      <AiOutlineDelete size={16} />
                     </button>
                   </td>
                 </tr>
@@ -269,13 +269,13 @@ const PersonalSettings = () => {
             value={newEducation}
             onChange={(e) => setNewEducation(e.target.value)}
             placeholder="Enter education"
-            className="form-control custom-form-control"
+            className="form-control"
             ref={educationRef}
           />
           <button
             type="button"
             onClick={addEducation}
-            className="btn btn-outline-primary mt-2"
+            className="btn btn-primary"
           >
             <AiOutlinePlus />
           </button>
@@ -284,14 +284,14 @@ const PersonalSettings = () => {
             <tbody>
               {education.map((edu, index) => (
                 <tr key={index}>
-                  <td>{edu}</td>
-                  <td>
+                  <td className="w-75">{edu}</td>
+                  <td className="w-25">
                     <button
                       type="button"
                       onClick={() => removeEducation(index)}
                       className="btn btn-outline-danger btn-sm"
                     >
-                      <AiOutlineDelete />
+                      <AiOutlineDelete size={16} />
                     </button>
                   </td>
                 </tr>
@@ -312,13 +312,13 @@ const PersonalSettings = () => {
             value={newLanguage}
             onChange={(e) => setNewLanguage(e.target.value)}
             placeholder="Enter a language"
-            className="form-control custom-form-control"
+            className="form-control"
             ref={languageRef}
           />
           <button
             type="button"
             onClick={addLanguage}
-            className="btn btn-outline-primary mt-2"
+            className="btn btn-primary"
           >
             <AiOutlinePlus />
           </button>
@@ -327,14 +327,14 @@ const PersonalSettings = () => {
             <tbody>
               {languages.map((lang, index) => (
                 <tr key={index}>
-                  <td>{lang}</td>
-                  <td>
+                  <td className="w-75">{lang}</td>
+                  <td className="w-25">
                     <button
                       type="button"
                       onClick={() => removeLanguage(index)}
                       className="btn btn-outline-danger btn-sm"
                     >
-                      <AiOutlineDelete />
+                      <AiOutlineDelete size={16} />
                     </button>
                   </td>
                 </tr>

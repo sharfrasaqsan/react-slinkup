@@ -183,10 +183,7 @@ const CreatePost = () => {
             </div>
 
             {/* Character counter */}
-            <div
-              className="text-right"
-              style={{ fontSize: "14px", color: "#999" }}
-            >
+            <div className="text-right form-text">
               {charCount} / {MAX_CHARACTERS} characters
             </div>
 
