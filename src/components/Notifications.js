@@ -64,12 +64,7 @@ const Notifications = () => {
           key={notification.id}
           onClick={() => handleReadNotification(notification.id)}
         >
-          <li
-            className="list-group-item d-flex justify-content-between align-items-center"
-            style={{
-              backgroundColor: notification.isRead ? "#f8f9faff" : "#e9ecef",
-            }}
-          >
+          <li className="list-group-item d-flex justify-content-between align-items-center $(notification.isRead ? bg-light : bg-white)">
             <div>
               <strong>{notification.message}</strong>
               <br />

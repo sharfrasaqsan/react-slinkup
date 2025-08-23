@@ -1,12 +1,7 @@
-.sticky {
-  position: sticky !important;
-  top: 5rem !important;
-}
-
 .camera-icon {
   position: absolute;
-  bottom: 5px;
-  right: 5px;
+  bottom: 0;
+  right: 0;
   background: white;
   color: #333;
   padding: 6px;

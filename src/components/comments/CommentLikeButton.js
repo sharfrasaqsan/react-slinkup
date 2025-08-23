@@ -61,7 +61,7 @@ const CommentLikeButton = ({ comment, post }) => {
   return (
     <>
       <div
-        className="d-flex gap-3 text-muted like-comment-counts"
+        className="d-flex gap-3 text-muted like-comment-counts mb-3"
         style={{ fontSize: "14px" }}
       >
         <span>

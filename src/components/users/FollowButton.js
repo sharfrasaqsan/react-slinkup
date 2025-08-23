@@ -36,7 +36,7 @@ const FollowButton = ({
     }
 
     setFollowLoading(true);
-    // ✅ immediate toggle (same as your raw file)
+    // immediate toggle (same as your raw file)
     setAlreadyFollowed((prev) => !prev);
 
     try {

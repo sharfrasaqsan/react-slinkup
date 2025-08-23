@@ -76,7 +76,6 @@ const AvatarUpdates = ({ user, ownProfile }) => {
 
           {ownProfile && (
             <label
-              className="position-absolute bottom-0 end-0 bg-white p-2 rounded-circle shadow-sm"
               style={{ cursor: "pointer" }}
             >
               <input

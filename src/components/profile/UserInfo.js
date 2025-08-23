@@ -15,10 +15,10 @@ const UserInfo = ({ ownProfile }) => {
   );
 
   return (
-    <div className="profile-card z-1 sticky">
+    <div className="profile-card z-1">
       <AvatarUpdates user={user} ownProfile={ownProfile} />
 
-      <h5>{user.username}</h5>
+      <h5 className="text-color">{user.username}</h5>
 
       <p className="mb-3">
         <Link to={`/profile/${user.id}/followers`}>
