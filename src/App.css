@@ -1,17 +1,71 @@
 /* Root Color Variables */
 :root {
-  --primary-color: #003366; /* Deep Blue */
-  --secondary-color: #1e90ff; /* Teal */
-  --accent-color: #ffeb3b; /* Radiant Yellow */
-  --info-color: #2196f3; /* Sky Blue */
-  --success-color: #4caf50; /* Leaf Green */
-  --danger-color: #f44336; /* Fiery Red */
+  --primary-color: #003366;
+  --secondary-color: #1e90ff;
+  --accent-color: #ffeb3b;
   --background-color: #f8f9fa;
+  --link-hover: #ddd;
   --text-color: #212529;
-  --dark-primary: #002244; /* Darker Blue */
-  --dark-secondary: #00796b; /* Darker Cyan */
+  --dark-primary: #002244;
+  --dark-secondary: #00796b;
   --font-size-base: 1rem;
   --line-height-base: 1.5;
+
+  --bs-primary: var(--primary-color);
+  --bs-secondary: var(--secondary-color);
+  --bs-body-color: var(--text-color);
+  --bs-body-bg: var(--background-color);
+}
+
+/* DARK mode */
+:root[data-bs-theme="dark"] {
+  --primary-color: #0d1b2a;
+  --secondary-color: #1e90ff;
+  --text-color: #f8f9fa;
+  --background-color: #121212;
+
+  --bs-primary: var(--primary-color);
+  --bs-secondary: var(--secondary-color);
+  --bs-body-color: var(--text-color);
+  --bs-body-bg: var(--background-color);
+}
+
+:root[data-bs-theme="dark"] {
+  .bg-light {
+    background-color: #1f1f1f !important;
+  }
+
+  .text-dark {
+    color: #eeeeee !important;
+  }
+
+  a {
+    color: white !important;
+  }
+
+  a:hover {
+    color: var(--secondary-color) !important;
+  }
+
+  .card {
+    border: 1px solid var(--text-color) !important;
+  }
+
+  .navbar a {
+    color: var(--text-color) !important;
+  }
+
+  .btn-outline-primary {
+    background-color: var(--primary-color) !important;
+    color: var(--text-color) !important;
+    border-color: var(--primary-color) !important;
+  }
+
+  .btn-outline-primary:hover {
+    background-color: var(--text-color) !important;
+    color: var(--primary-color) !important;
+    border-color: var(--text-color) !important;
+  }
 }
 
 /* Global Styles */
@@ -58,18 +112,6 @@ a:hover {
 
 .text-secondary {
   color: var(--secondary-color) !important;
-}
-
-.text-success {
-  color: var(--success-color) !important;
-}
-
-.text-danger {
-  color: var(--danger-color) !important;
-}
-
-.text-info {
-  color: var(--info-color) !important;
 }
 
 /* Button Styles */
@@ -127,60 +169,6 @@ a:hover {
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
 }
 
-.btn-success {
-  background-color: var(--success-color) !important;
-  border-color: var(--success-color) !important;
-  color: white !important;
-}
-
-.btn-success:hover {
-  background-color: #388e3c !important;
-  border-color: #388e3c !important;
-}
-
-.btn-success:focus,
-.btn-success.focus,
-.btn-success:active,
-.btn-success.active {
-  box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25) !important;
-}
-
-.btn-danger {
-  background-color: var(--danger-color) !important;
-  border-color: var(--danger-color) !important;
-  color: white !important;
-}
-
-.btn-danger:hover {
-  background-color: #d32f2f !important;
-  border-color: #d32f2f !important;
-}
-
-.btn-danger:focus,
-.btn-danger.focus,
-.btn-danger:active,
-.btn-danger.active {
-  box-shadow: 0 0 0 0.2rem rgba(244, 67, 54, 0.25) !important;
-}
-
-.btn-info {
-  background-color: var(--info-color) !important;
-  border-color: var(--info-color) !important;
-  color: white !important;
-}
-
-.btn-info:hover {
-  background-color: #1976d2 !important;
-  border-color: #1976d2 !important;
-}
-
-.btn-info:focus,
-.btn-info.focus,
-.btn-info:active,
-.btn-info.active {
-  box-shadow: 0 0 0 0.2rem rgba(33, 150, 243, 0.25) !important;
-}
-
 /* Button Outline Primary */
 .btn-outline-primary {
   color: var(--primary-color) !important;
@@ -215,15 +203,6 @@ a:hover {
 .btn-outline-secondary:focus,
 .btn-outline-secondary.focus {
   box-shadow: 0 0 0 0.2rem rgba(52, 73, 94, 0.25) !important;
-}
-
-.btn-outline-primary .thumb-icon {
-  color: var(--primary-color) !important;
-  transition: color 0.3s ease !important;
-}
-
-.btn-outline-primary:hover .thumb-icon {
-  color: white !important;
 }
 
 /* Button Sizes */
@@ -276,7 +255,7 @@ textarea.form-control {
 /* Navbar Styles */
 .navbar {
   background-color: var(--primary-color) !important;
-  color: white !important;
+  /* color: white !important; */
   padding: 1rem !important;
   transition: background-color 0.3s ease !important;
 }
@@ -288,10 +267,10 @@ textarea.form-control {
 }
 
 .navbar a:hover {
-  color: var(--secondary-color) !important;
+  color: var(--link-hover) !important;
 }
 
-/* Modal Styles */
+/* Modal Style s */
 .modal-content {
   border-radius: 0.5rem !important;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1) !important;

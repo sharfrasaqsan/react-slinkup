@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import Search from "./search/Search";
 import UserAvatar from "./UserAvatar";
 import "../styles/Header.css";
+import Darkmode from "../utils/Darkmode";
 
 const Header = () => {
   const { user } = useAuth();
@@ -106,6 +107,8 @@ const Header = () => {
                   </li>
                 </ul>
               </div>
+
+              <Darkmode />
             </>
           ) : (
             <div className="d-flex align-items-center login-register">

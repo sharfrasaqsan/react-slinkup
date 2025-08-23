@@ -106,7 +106,7 @@ const LikeButton = ({ post, setPosts }) => {
       disabled={!user}
     >
       <FaThumbsUp
-        className={`thumb-icon ${
+        className={`like-icon ${
           post.likes?.includes(user.id) ? "liked-icon" : ""
         }`}
       />

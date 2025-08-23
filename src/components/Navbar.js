@@ -8,12 +8,8 @@ const Navbar = () => {
   const { user } = useAuth();
 
   return (
-    <nav
-      className="navbar navbar-light"
-      style={{ backgroundColor: "var(--primary-color)" }}
-    >
+    <nav className="navbar navbar-light">
       <div className="container-fluid d-flex justify-content-between align-items-center">
-        {/* Navbar links */}
         <div className="d-flex flex-wrap justify-content-center w-100">
           <ul className="navbar-nav d-flex w-100 justify-content-center mb-0">
             <li className="nav-item">
@@ -22,6 +18,7 @@ const Navbar = () => {
                 <span className="ms-2 link-text">Home</span>
               </NavLink>
             </li>
+            
             <li className="nav-item">
               <NavLink to="/explore" className="nav-link text-white">
                 <TiWorld className="icon-size" />

@@ -1,16 +1,13 @@
+import FeedInfiniteScroll from "../../utils/FeedInfiniteScroll";
 import PostCard from "./PostCard";
 
 const UserFeed = ({ userPosts }) => {
-  const sortedUserPosts = [...userPosts]?.sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  );
-
   return (
-    <>
-      {sortedUserPosts?.map((userPost) => (
+    <FeedInfiniteScroll posts={userPosts}>
+      {userPosts?.map((userPost) => (
         <PostCard key={userPost.id} post={userPost} />
       ))}
-    </>
+    </FeedInfiniteScroll>
   );
 };
 
