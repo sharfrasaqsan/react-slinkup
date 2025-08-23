@@ -5,8 +5,8 @@ const CardBody = ({ post, location }) => {
 
   // Show first 280 chars only if not expanded
   const shortText =
-    post.body && post.body.length > 280
-      ? post.body.slice(0, 280) + "..."
+    post.body && post.body.length > 200
+      ? post.body.slice(0, 200) + "..."
       : post.body;
 
   const toggleText = () => setExpanded(!expanded);

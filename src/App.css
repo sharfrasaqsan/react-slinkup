@@ -35,7 +35,8 @@
     background-color: #1f1f1f !important;
   }
 
-  .text-dark {
+  .text-dark,
+  .text-secondary {
     color: #eeeeee !important;
   }
 
@@ -58,7 +59,7 @@
   .btn-outline-primary {
     background-color: var(--primary-color) !important;
     color: var(--text-color) !important;
-    border-color: var(--primary-color) !important;
+    border-color: var(--text-color) !important;
   }
 
   .btn-outline-primary:hover {
