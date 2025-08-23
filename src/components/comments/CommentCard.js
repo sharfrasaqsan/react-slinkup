@@ -82,10 +82,7 @@ const CommentCard = ({ comment, post }) => {
   if (!commentUser) return null;
 
   return (
-    <div
-      className="comment-card p-3 my-3 rounded-3 border shadow-sm"
-      style={{ backgroundColor: "#f9f9f9" }}
-    >
+    <div className="comment-card p-3 my-3 rounded-3 border shadow-sm bg-light">
       <div className="d-flex justify-content-between align-items-center">
         <Link to={`/user/${commentUser.id}`}>
           <p className="mb-0" style={{ fontWeight: "bold" }}>

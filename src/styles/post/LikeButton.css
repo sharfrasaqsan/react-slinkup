@@ -1,9 +1,13 @@
-.thumb-icon {
+.like-icon {
   color: var(--primary-color) !important;
   transition: color 0.3s ease !important;
 }
 
-.thumb-icon.liked-icon {
+.btn-outline-primary:hover .like-icon {
+  color: white !important;
+}
+
+.btn-outline-primary .like-icon.liked-icon {
   color: white !important;
 }
 
@@ -11,4 +15,24 @@
   background-color: var(--primary-color) !important;
   color: white !important;
   border-color: var(--primary-color) !important;
+}
+
+:root[data-bs-theme="dark"] {
+  .like-icon {
+    color: var(--text-color) !important;
+  }
+
+  .btn-outline-primary:hover .like-icon {
+    color: var(--primary-color) !important;
+  }
+
+  .like-icon.liked-icon {
+    color: var(--primary-color) !important;
+  }
+
+  .btn-outline-primary.liked {
+    background-color: var(--text-color) !important;
+    color: var(--primary-color) !important;
+    border-color: var(--text-color) !important;
+  }
 }

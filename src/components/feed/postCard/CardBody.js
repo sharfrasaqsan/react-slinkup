@@ -1,6 +1,16 @@
-import { Link } from "react-router";
+import { useState } from "react";
 
-const CardBody = ({ post, location, setShowComment }) => {
+const CardBody = ({ post, location }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  // Show first 280 chars only if not expanded
+  const shortText =
+    post.body && post.body.length > 280
+      ? post.body.slice(0, 280) + "..."
+      : post.body;
+
+  const toggleText = () => setExpanded(!expanded);
+
   return (
     <>
       {location.pathname === `/post/${post.id}` ? (
@@ -8,7 +18,6 @@ const CardBody = ({ post, location, setShowComment }) => {
           <p
             className="card-text p-3 m-0"
             style={{
-              backgroundColor: "#f5f5f5",
               border: "1px solid #ccc, borderBottom: 1px solid #ccc",
             }}
           >
@@ -19,23 +28,21 @@ const CardBody = ({ post, location, setShowComment }) => {
           )}
         </>
       ) : (
-        <Link
-          to={`/post/${post.id}`}
-          onClick={() => {
-            setShowComment(false);
-          }}
-        >
-          <p
-            className="card-text p-3 m-0 cursor"
-            style={{ backgroundColor: "#f5f5f5" }}
-          >
-            {post.body ? post.body.slice(0, 280) + "..." : "No content"}
+        <>
+          <p className="card-text p-3 m-0 cursor">
+            {expanded ? post.body : shortText}
+            <span onClick={toggleText} style={{ cursor: "pointer" }}>
+              {post.body && post.body.length > 280 && (
+                <span className="text-primary ms-2">
+                  {expanded ? "See Less" : "See More"}
+                </span>
+              )}
+            </span>
           </p>
-
           {post.bodyImage && (
             <img src={post.bodyImage} alt="post" className="w-100" />
           )}
-        </Link>
+        </>
       )}
     </>
   );
