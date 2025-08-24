@@ -123,6 +123,16 @@ a:hover {
   color: var(--secondary-color) !important;
 }
 
+.logo {
+  width: 30% !important;
+}
+
+@media (max-width: 768px) {
+  .logo {
+    width: 75% !important;
+  }
+}
+
 /* Button Styles */
 .btn {
   display: inline-block !important;
