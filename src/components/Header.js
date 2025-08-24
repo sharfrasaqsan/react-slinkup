@@ -7,6 +7,7 @@ import Notifications from "../components/Notifications";
 import { useState, useEffect } from "react";
 import Search from "./search/Search";
 import UserAvatar from "./UserAvatar";
+import Logo from "../slinkup-logo.png";
 import "../styles/Header.css";
 
 const Header = () => {
@@ -28,9 +29,9 @@ const Header = () => {
   return (
     <section className="sticky-top bg-light shadow-sm">
       <div className="d-flex justify-content-between align-items-center p-3">
-        <div className="d-flex align-items-center ">
-          <Link to="/" className="text-decoration-none">
-            <h3 className="text-primary m-0 fw-bold">SLINKUP</h3>
+        <div className="d-flex align-items-center">
+          <Link to="/">
+            <img src={Logo} alt="Slinkup" className="logo ms-3" />
           </Link>
         </div>
 
