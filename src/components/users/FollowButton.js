@@ -13,6 +13,7 @@ import { db } from "../../firebase/Config";
 import { format } from "date-fns";
 import ButtonSpinner from "../../utils/ButtonSpinner";
 import { useData } from "../../contexts/DataContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
 
 const FollowButton = ({
@@ -21,6 +22,7 @@ const FollowButton = ({
   alreadyFollowed,
   setAlreadyFollowed,
 }) => {
+  const { setUser } = useAuth();
   const { users, setUsers, setNotifications } = useData();
   const [followLoading, setFollowLoading] = useState(false);
 
@@ -66,6 +68,7 @@ const FollowButton = ({
             : i
         )
       );
+      setUser((prev) => ({ ...prev, followers: updatedFollowers }));
 
       const alreadyFollowing = (currentUser.following || [])?.includes(userId);
       const updatedFollowing = alreadyFollowing
@@ -88,6 +91,7 @@ const FollowButton = ({
             : i
         )
       );
+      setUser((prev) => ({ ...prev, following: updatedFollowing }));
 
       // Add - remove notification
       if (!alreadyFollowed) {

@@ -15,13 +15,13 @@ const Explore = () => {
   // useMemo - Caches a value from a calculation (To avoid recalculating on every render)
   // useEffect - Runs a function after render for side effects (To do things outside React (API, DOM, subscriptions))
 
-  const expplorePosts = posts?.filter(
+  const explorePosts = posts?.filter(
     (post) => post.userId !== user.id && !user.following.includes(post.userId)
   );
 
   const randomPosts = useMemo(() => {
-    return _.sampleSize(expplorePosts, 30);
-  }, [expplorePosts]);
+    return _.sampleSize(explorePosts, 30);
+  }, [explorePosts]);
 
   if (loading) return <LoadingSpinner />;
   if (!user) return <NotFound text={"No user found! Please log in."} />;

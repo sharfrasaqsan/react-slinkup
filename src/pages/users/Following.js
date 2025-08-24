@@ -1,6 +1,7 @@
-import { Link, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useData } from "../../contexts/DataContext";
 import NotFound from "../../utils/NotFound";
+import UserList from "../../components/search/UserList";
 
 const Following = () => {
   const { users } = useData();
@@ -11,16 +12,15 @@ const Following = () => {
     ?.map((followingId) => users.find((user) => user.id === followingId))
     .filter(Boolean); // remove any not found
 
-  if (followings.length === 0) return <NotFound text={"No following users found!"} />;
+  if (followings.length === 0)
+    return <NotFound text={"You are not following anyone!"} />;
 
   return (
-    <div>
-      <h3>Following</h3>
-      <ul>
+    <div className="container search-results-user-card">
+      <h5 className="mt-3">Following</h5>
+      <ul className="user-list">
         {followings?.map((following) => (
-          <li key={following.id}>
-            <Link to={`/user/${following.id}`}>{following.username}</Link>
-          </li>
+          <UserList key={following.id} searchedUser={following} user={user} />
         ))}
       </ul>
     </div>
