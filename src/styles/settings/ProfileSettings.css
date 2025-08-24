@@ -1,11 +1,11 @@
-.profile-settings-container {
+.profile-settings {
   margin: 0 auto;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
 /* Header */
-.profile-settings-container h4 {
+.profile-settings h4 {
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--primary-color);
@@ -57,7 +57,7 @@
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-  .profile-settings-container {
+  .profile-settings {
     padding: 1rem;
   }
 

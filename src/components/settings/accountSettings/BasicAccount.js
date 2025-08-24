@@ -8,9 +8,9 @@ import { toast } from "react-toastify";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase/Config";
 import LoadingSpinner from "../../../utils/LoadingSpinner";
-import ButtonSpinner from "../../../utils/ButtonSpinner";
+import "../../../styles/settings/Setting.css";
 
-const BasicAccountSettings = () => {
+const BasicAccount = () => {
   const { user, setUser } = useAuth();
   const { setUsers, loading } = useData();
 
@@ -67,7 +67,7 @@ const BasicAccountSettings = () => {
   if (!user) return null;
 
   return (
-    <div className="container basic-profile-settings-container">
+    <div className="container profile-settings-container">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -87,7 +87,7 @@ const BasicAccountSettings = () => {
             required
             disabled
             readOnly
-            className="form-control custom-form-control"
+            className="form-control"
             placeholder="Username"
             value={username}
           />
@@ -105,7 +105,7 @@ const BasicAccountSettings = () => {
             required
             disabled
             readOnly
-            className="form-control custom-form-control"
+            className="form-control"
             placeholder="Email"
             value={email}
           />
@@ -124,7 +124,7 @@ const BasicAccountSettings = () => {
               required
               disabled
               readOnly
-              className="form-control custom-form-control"
+              className="form-control"
               placeholder="Password"
               value={password}
             />
@@ -158,4 +158,4 @@ const BasicAccountSettings = () => {
   );
 };
 
-export default BasicAccountSettings;
+export default BasicAccount;

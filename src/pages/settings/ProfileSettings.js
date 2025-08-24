@@ -1,7 +1,7 @@
 import { useState } from "react";
-import BasicProfileSettings from "../../components/settings/profileSettings/BasicProfileSettings";
-import PersonalSettings from "../../components/settings/profileSettings/PersonalSettings";
-import SocialPresence from "../../components/settings/profileSettings/SocialPresence";
+import BasicProfile from "../../components/settings/profileSettings/BasicProfile";
+import Personal from "../../components/settings/profileSettings/Personal";
+import Privacy from "../../components/settings/profileSettings/Privacy";
 import "../../styles/settings/ProfileSettings.css";
 import Breadcrumbs from "../../utils/Breadcrumbs";
 
@@ -15,7 +15,7 @@ const ProfileSettings = () => {
   ];
 
   return (
-    <section className="profile-settings-container container py-4">
+    <section className="profile-settings container py-4">
       <Breadcrumbs breadcrumbs={breadcrumbs} />
 
       {/* Main Title */}
@@ -32,7 +32,7 @@ const ProfileSettings = () => {
                 }`}
                 onClick={() => setActiveSection("basic")}
               >
-                Basic Profile Settings
+                Basic Profile
               </li>
               <li
                 className={`list-group-item profile-settings-link ${
@@ -40,15 +40,15 @@ const ProfileSettings = () => {
                 }`}
                 onClick={() => setActiveSection("personal")}
               >
-                Personal Settings
+                Personal
               </li>
               <li
                 className={`list-group-item profile-settings-link ${
-                  activeSection === "social" ? "active" : ""
+                  activeSection === "privacy" ? "active" : ""
                 }`}
-                onClick={() => setActiveSection("social")}
+                onClick={() => setActiveSection("privacy")}
               >
-                Social Presence
+                Privacy
               </li>
             </ul>
           </nav>
@@ -57,9 +57,9 @@ const ProfileSettings = () => {
         {/* Right Column for Content */}
         <div className="col-md-8">
           <div className="profile-settings-content p-3">
-            {activeSection === "basic" && <BasicProfileSettings />}
-            {activeSection === "personal" && <PersonalSettings />}
-            {activeSection === "social" && <SocialPresence />}
+            {activeSection === "basic" && <BasicProfile />}
+            {activeSection === "personal" && <Personal />}
+            {activeSection === "privacy" && <Privacy />}
           </div>
         </div>
       </div>
