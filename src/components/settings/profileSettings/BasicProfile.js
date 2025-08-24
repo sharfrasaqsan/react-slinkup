@@ -8,9 +8,9 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase/Config";
 import LoadingSpinner from "../../../utils/LoadingSpinner";
 import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
-import "../../../styles/settings/ProfileSetting.css";
+import "../../../styles/settings/Setting.css";
 
-const BasicProfileSettings = () => {
+const BasicProfile = () => {
   const { user, setUser } = useAuth();
   const { setUsers, loading } = useData();
 
@@ -109,7 +109,7 @@ const BasicProfileSettings = () => {
   };
 
   return (
-    <div className="container basic-profile-settings-container">
+    <div className="container profile-settings-container">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -120,7 +120,7 @@ const BasicProfileSettings = () => {
         {/* Firstname */}
         <div className="mb-3">
           <label htmlFor="firstname" className="form-label">
-            Firstname
+            First Name
           </label>
           <input
             type="text"
@@ -137,7 +137,7 @@ const BasicProfileSettings = () => {
         {/* Lastname */}
         <div className="mb-3">
           <label htmlFor="lastname" className="form-label">
-            Lastname
+            Last Name
           </label>
           <input
             type="text"
@@ -270,4 +270,4 @@ const BasicProfileSettings = () => {
   );
 };
 
-export default BasicProfileSettings;
+export default BasicProfile;

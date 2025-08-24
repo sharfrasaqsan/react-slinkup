@@ -48,6 +48,11 @@ function App() {
     }
   }, [location.pathname]);
 
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.documentElement.setAttribute("data-bs-theme", savedTheme);
+  }, []);
+
   if (loading) return <LoadingSpinner />;
 
   return (

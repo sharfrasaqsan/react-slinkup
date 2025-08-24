@@ -8,9 +8,9 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase/Config";
 import { format } from "date-fns";
 import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
-import "../../../styles/settings/ProfileSetting.css";
+import "../../../styles/settings/Setting.css";
 
-const PersonalSettings = () => {
+const Personal = () => {
   const { user, setUser } = useAuth();
   const { setUsers, loading } = useData();
 
@@ -152,7 +152,7 @@ const PersonalSettings = () => {
   if (!user) return null;
 
   return (
-    <div className="personal-settings-container">
+    <div className="profile-settings-container container">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -361,4 +361,4 @@ const PersonalSettings = () => {
   );
 };
 
-export default PersonalSettings;
+export default Personal;

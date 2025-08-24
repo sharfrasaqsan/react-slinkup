@@ -1,29 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useData } from "../../../contexts/DataContext";
-import { Form } from "react-bootstrap"; // Using Bootstrap for form control
+import { Form } from "react-bootstrap";
 import LoadingSpinner from "../../../utils/LoadingSpinner";
 import ButtonSpinner from "../../../utils/ButtonSpinner";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase/Config";
-import "../../../styles/settings/SocialPresence.css"; // Import the updated CSS file
+import "../../../styles/settings/Setting.css";
 
-const SocialPresence = () => {
+const Privacy = () => {
   const { user, setUser } = useAuth();
   const { setUsers, loading } = useData();
 
   const [isShow, setIsShow] = useState(""); // State for showing the count visibility
   const [updateLoading, setUpdateLoading] = useState(false);
 
-  useEffect(() => {
-    if (user) {
-      setIsShow(user.followCountShow === "show");
-    }
-  }, [user]);
-
-  if (!user) return null; // If user data isn't available
   if (loading) return <LoadingSpinner />; // Show loading spinner while loading
 
   const handleUpdate = async (userId) => {
@@ -52,26 +45,24 @@ const SocialPresence = () => {
   };
 
   return (
-    <div className="container social-presence-container">
+    <div className="container profile-settings-container">
       <form
         onSubmit={(e) => {
           e.preventDefault();
           handleUpdate(user.id); // Handle form submit
         }}
-        className="social-presence-form"
+        className="privacy-form"
       >
-        <div className="social-presence-section">
-          <p className="social-presence-text">
-            Manage followers/following counts
-          </p>
+        <div className="d-flex align-items-center justify-content-between mb-3">
+          <p className="privacy-text m-0">Follower/Following Visibility</p>
 
           <Form.Check
             type="switch"
             id="followCount"
-            label={isShow ? "On" : "Off"} // Show current state ("On" or "Off")
+            label={isShow ? "On" : "Off"}
             checked={isShow}
-            onChange={() => setIsShow(!isShow)} // Toggle state on change
-            className="social-presence-switch"
+            onChange={() => setIsShow(!isShow)}
+            className="privacy-switch"
           />
         </div>
 
@@ -89,4 +80,4 @@ const SocialPresence = () => {
   );
 };
 
-export default SocialPresence;
+export default Privacy;

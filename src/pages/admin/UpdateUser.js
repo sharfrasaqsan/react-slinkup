@@ -122,7 +122,7 @@ const UpdateUser = () => {
     <section className="settings-container container my-4">
       <Breadcrumbs breadcrumbs={breadcrumbs} />
 
-      <h3 className="settings-title mb-3">Update Registered User</h3>
+      <h3 className="settings-title mb-3">Update User</h3>
       <form onSubmit={(e) => e.preventDefault()}>
         <div className="mb-3">
           <label htmlFor="username" className="form-label">
