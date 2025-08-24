@@ -1,12 +1,12 @@
 .camera-icon {
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 10px;
+  right: 10px;
   background: white;
   color: #333;
   padding: 6px;
   border-radius: 50%;
-  font-size: 18px;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -75,9 +75,7 @@ const AvatarUpdates = ({ user, ownProfile }) => {
           />
 
           {ownProfile && (
-            <label
-              style={{ cursor: "pointer" }}
-            >
+            <label style={{ cursor: "pointer" }}>
               <input
                 type="file"
                 accept="image/*"
@@ -91,7 +89,9 @@ const AvatarUpdates = ({ user, ownProfile }) => {
               />
 
               {uploadLoading ? (
-                <ButtonSpinner />
+                <span className="camera-icon">
+                  <ButtonSpinner />
+                </span>
               ) : (
                 <IoCameraReverseSharp
                   size={35}

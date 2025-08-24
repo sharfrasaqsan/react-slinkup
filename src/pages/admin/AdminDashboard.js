@@ -53,7 +53,7 @@ const AdminDashboard = () => {
         Welcome, <span className="fw-bold">@{user.username}!</span>
       </p>
       <h4 className="mb-3">{registeredUsers.length} Registered Users</h4>
-      
+
       <div className="table-responsive">
         <table className="table table-bordered table-hover align-middle">
           <thead className="table-dark">
@@ -63,6 +63,8 @@ const AdminDashboard = () => {
               <th>Firstname</th>
               <th>Lastname</th>
               <th>Email</th>
+              <th>Gender</th>
+              <th>DOB</th>
               <th>Register Date</th>
               <th>Role</th>
               <th>Manage</th>
@@ -76,6 +78,8 @@ const AdminDashboard = () => {
                 <td>{u.firstname}</td>
                 <td>{u.lastname}</td>
                 <td>{u.email}</td>
+                <td>{u.gender}</td>
+                <td>{u.birthday}</td>
                 <td>{u.createdAt?.slice(0, 10)}</td>
                 <td>{u.role}</td>
                 <td className="d-flex align-items-center gap-2">

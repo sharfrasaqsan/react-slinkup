@@ -11,6 +11,7 @@ import {
   FaUserSlash,
   FaUserTimes,
 } from "react-icons/fa";
+import { IoIosLink } from "react-icons/io";
 import {
   BsCalendar2Date,
   BsGenderFemale,
@@ -46,6 +47,8 @@ const ProfileDetails = ({ user }) => {
     Widowed: <FaUserTimes />,
   };
 
+  if (!user) return null;
+
   return (
     <div className="profile-details">
       <div className="mb-3 text-center">{user.bio}</div>
@@ -75,16 +78,19 @@ const ProfileDetails = ({ user }) => {
           <BsCalendar2Date /> {user.birthday}
         </p>
       )}
+
       {user.gender && (
         <p>
           {genderIcons[user.gender]} {user.gender}
         </p>
       )}
+
       {user.location && (
         <p>
           <FaLocationDot /> {user.location}
         </p>
       )}
+
       {user.relationship && (
         <p>
           {statusIcons[user.relationship]} {user.relationship}
@@ -93,7 +99,7 @@ const ProfileDetails = ({ user }) => {
 
       {user.website && (
         <p>
-          🌐{" "}
+          <IoIosLink />{" "}
           <a href={user.website} target="_blank" rel="noreferrer">
             {user.website}
           </a>
