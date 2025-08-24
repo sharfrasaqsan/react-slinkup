@@ -6,6 +6,10 @@
   padding: 2rem;
 }
 
+.ls-tight > .text-primary {
+  color: var(--primary-color) !important;
+}
+
 .form-select option {
   background-color: #fff;
   padding: 8px;
@@ -20,6 +24,10 @@
 .form-select option:checked {
   background-color: var(--secondary-color);
   color: #fff;
+}
+
+.input-width {
+  width: 49% !important;
 }
 
 /* For smaller screens, adjust font sizes and form widths */
@@ -38,5 +46,9 @@
 
   .btn {
     font-size: 1rem;
+  }
+
+  .input-width {
+    width: 100% !important;
   }
 }

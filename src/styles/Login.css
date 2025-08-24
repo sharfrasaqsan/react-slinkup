@@ -1,7 +1,3 @@
-.ls-tight > .text-primary {
-  color: var(--primary-color) !important;
-}
-
 .container {
   margin: auto;
 }
@@ -10,9 +6,17 @@
   padding: 2rem;
 }
 
+.ls-tight > .text-primary {
+  color: var(--primary-color) !important;
+}
+
 @media (max-width: 768px) {
   .form-control {
     max-width: 100%;
+  }
+
+  .card-body {
+    padding: 1rem;
   }
 
   .fw-bold {

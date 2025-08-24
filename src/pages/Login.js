@@ -51,10 +51,10 @@ const Login = () => {
     >
       <div className="row w-100">
         <div className="col-md-6 text-center text-md-start d-flex flex-column justify-content-center">
-          <h2 className="my-3 fw-bold ls-tight">
+          <h3 className="my-3 fw-bold ls-tight">
             Connect and Grow <br />
             <span className="text-primary">with SLINKUP</span>
-          </h2>
+          </h3>
           <p className="text-muted" style={{ fontSize: "1rem" }}>
             Slinkup brings people together, making social connections
             effortless. Build your network, share ideas, and grow your
