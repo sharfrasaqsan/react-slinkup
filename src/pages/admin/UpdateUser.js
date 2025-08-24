@@ -16,6 +16,7 @@ import { db } from "../../firebase/Config";
 import { format } from "date-fns";
 import ButtonSpinner from "../../utils/ButtonSpinner";
 import { useAuth } from "../../contexts/AuthContext";
+import Breadcrumbs from "../../utils/Breadcrumbs";
 
 const UpdateUser = () => {
   const { user } = useAuth();
@@ -26,12 +27,12 @@ const UpdateUser = () => {
   const [editLastname, setEditLastname] = useState("");
   const [editPassword, setEditPassword] = useState("");
   const [updateLoading, setUpdateLoading] = useState(false);
-  const [cencelLoading, setCencelLoading] = useState(false);
+  const [cancelLoading, setCancelLoading] = useState(false);
 
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const updatedUser = users?.find((user) => user.id === id);
+  const updatedUser = users?.find((u) => u.id === id);
 
   useEffect(() => {
     if (updatedUser) {
@@ -40,20 +41,22 @@ const UpdateUser = () => {
       setEditLastname(updatedUser.lastname);
       setEditPassword(updatedUser.password);
     }
-  }, [
-    updatedUser,
-    setEditUsername,
-    setEditFirstname,
-    setEditLastname,
-    setEditPassword,
-  ]);
+  }, [updatedUser]);
 
-  // Handle errors
   if (loading) return <LoadingSpinner />;
-  if (!updatedUser) return <NotFound text={"User not found!"} />;
-  if (users.length === 0) return <NotFound text={"No users found!"} />;
-  if (updatedUser.role !== "user") return <NotFound text={"User not found!"} />;
-  if (!user) return <NotFound text={"User not found!"} />;
+  if (
+    !updatedUser ||
+    users.length === 0 ||
+    updatedUser.role !== "user" ||
+    !user
+  )
+    return <NotFound text={"User not found!"} />;
+
+  const breadcrumbs = [
+    { label: "Home", link: "/" },
+    { label: "Admin Dashboard", link: `/admin/dashboard/${user.id}` },
+    { label: "Update User" },
+  ];
 
   const handleUpdateUser = async (userId) => {
     if (!editUsername || !editFirstname || !editLastname || !editPassword) {
@@ -71,7 +74,6 @@ const UpdateUser = () => {
       return;
     }
 
-    // Check if username already exists
     const userDocs = await getDocs(
       query(
         collection(db, "users"),
@@ -87,8 +89,7 @@ const UpdateUser = () => {
 
     setUpdateLoading(true);
     try {
-      // Create updated user
-      const updatedUser = {
+      const updatedData = {
         username: editUsername,
         firstname: editFirstname,
         lastname: editLastname,
@@ -96,12 +97,9 @@ const UpdateUser = () => {
         updatedAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       };
 
-      // Update user in database
-      await updateDoc(doc(db, "users", userId), updatedUser);
+      await updateDoc(doc(db, "users", userId), updatedData);
       setUsers((prev) =>
-        prev.map((user) =>
-          user.id === userId ? { ...user, ...updatedUser } : user
-        )
+        prev.map((u) => (u.id === userId ? { ...u, ...updatedData } : u))
       );
       toast.success("User updated successfully!");
       navigate(`/admin/dashboard/${user.id}`);
@@ -112,96 +110,105 @@ const UpdateUser = () => {
   };
 
   const handleCancelUpdate = () => {
-    setCencelLoading(true);
-
+    setCancelLoading(true);
     setTimeout(() => {
       navigate(`/admin/dashboard/${user.id}`);
       toast.warning("Update canceled!");
-      setCencelLoading(false);
-    }, 2000);
+      setCancelLoading(false);
+    }, 1500);
   };
 
   return (
-    <section>
-      <h2>Update Registered User</h2>
+    <section className="settings-container container my-4">
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
+
+      <h3 className="settings-title mb-3">Update Registered User</h3>
       <form onSubmit={(e) => e.preventDefault()}>
-        <div>
-          <label htmlFor="username">Username</label>
+        <div className="mb-3">
+          <label htmlFor="username" className="form-label">
+            Username
+          </label>
           <input
-            type="text"
             id="username"
-            name="username"
+            className="form-control"
             value={editUsername}
             onChange={(e) => setEditUsername(e.target.value)}
-            placeholder="Username"
             required
             autoFocus
           />
         </div>
-        <div>
-          <label htmlFor="firstname">Firstname</label>
+
+        <div className="mb-3">
+          <label htmlFor="firstname" className="form-label">
+            Firstname
+          </label>
           <input
-            type="text"
             id="firstname"
-            name="firstname"
+            className="form-control"
             value={editFirstname}
             onChange={(e) => setEditFirstname(e.target.value)}
             required
-            placeholder="Firstname"
           />
         </div>
-        <div>
-          <label htmlFor="lastname">Lastname</label>
+
+        <div className="mb-3">
+          <label htmlFor="lastname" className="form-label">
+            Lastname
+          </label>
           <input
-            type="text"
             id="lastname"
-            name="lastname"
-            required
+            className="form-control"
             value={editLastname}
             onChange={(e) => setEditLastname(e.target.value)}
-            placeholder="Lastname"
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={editPassword}
-            onChange={(e) => setEditPassword(e.target.value)}
-            placeholder="Password"
             required
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={updateLoading}
-          onClick={() => handleUpdateUser(updatedUser.id)}
-        >
-          {updateLoading ? (
-            <>
-              Updating... <ButtonSpinner />
-            </>
-          ) : (
-            "Update User"
-          )}
-        </button>
+        <div className="mb-4">
+          <label htmlFor="password" className="form-label">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            className="form-control"
+            value={editPassword}
+            onChange={(e) => setEditPassword(e.target.value)}
+            required
+          />
+        </div>
 
-        <button
-          type="submit"
-          disabled={cencelLoading}
-          onClick={handleCancelUpdate}
-        >
-          {cencelLoading ? (
-            <>
-              Cenceling... <ButtonSpinner />
-            </>
-          ) : (
-            "Cencel"
-          )}
-        </button>
+        <div className="d-flex gap-3">
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={updateLoading}
+            onClick={() => handleUpdateUser(updatedUser.id)}
+          >
+            {updateLoading ? (
+              <>
+                Updating... <ButtonSpinner />
+              </>
+            ) : (
+              "Update User"
+            )}
+          </button>
+
+          <button
+            type="button"
+            className="btn btn-outline-secondary"
+            disabled={cancelLoading}
+            onClick={handleCancelUpdate}
+          >
+            {cancelLoading ? (
+              <>
+                Canceling... <ButtonSpinner />
+              </>
+            ) : (
+              "Cancel"
+            )}
+          </button>
+        </div>
       </form>
     </section>
   );
