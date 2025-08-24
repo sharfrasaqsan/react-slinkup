@@ -14,20 +14,20 @@ const Privacy = () => {
   const { user, setUser } = useAuth();
   const { setUsers, loading } = useData();
 
-  const [isShow, setIsShow] = useState(""); // State for showing the count visibility
+  const [isShow, setIsShow] = useState("show");
   const [updateLoading, setUpdateLoading] = useState(false);
 
-  if (loading) return <LoadingSpinner />; // Show loading spinner while loading
+  if (loading) return <LoadingSpinner />;
 
   const handleUpdate = async (userId) => {
-    setUpdateLoading(true); // Start loading state
+    setUpdateLoading(true);
     try {
       const updateUser = {
-        followCountShow: isShow ? "show" : "hide", // Toggling the follow count visibility
+        followCountShow: isShow ? "show" : "hide",
         updatedAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       };
 
-      await updateDoc(doc(db, "users", userId), updateUser); // Update user data in Firestore
+      await updateDoc(doc(db, "users", userId), updateUser);
 
       setUsers((prev) =>
         prev.map((user) =>
@@ -35,13 +35,13 @@ const Privacy = () => {
         )
       );
 
-      setUser((prev) => ({ ...prev, ...updateUser })); // Update context user data
+      setUser((prev) => ({ ...prev, ...updateUser }));
 
-      toast.success("Profile updated successfully"); // Show success message
+      toast.success("Profile updated successfully");
     } catch (err) {
-      toast.error(err.message); // Show error if update fails
+      toast.error(err.message);
     }
-    setUpdateLoading(false); // End loading state
+    setUpdateLoading(false);
   };
 
   return (
@@ -49,7 +49,7 @@ const Privacy = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          handleUpdate(user.id); // Handle form submit
+          handleUpdate(user.id);
         }}
         className="privacy-form"
       >
@@ -59,7 +59,7 @@ const Privacy = () => {
           <Form.Check
             type="switch"
             id="followCount"
-            label={isShow ? "On" : "Off"}
+            label={isShow ? "Show" : "Hide"}
             checked={isShow}
             onChange={() => setIsShow(!isShow)}
             className="privacy-switch"
