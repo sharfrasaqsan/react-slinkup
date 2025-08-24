@@ -111,6 +111,7 @@ const Register = () => {
         education: [],
         relationship: "",
         languages: [],
+        followCountShow: "show",
         createdAt: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
       };
 
@@ -122,7 +123,7 @@ const Register = () => {
       setPassword("");
       setConfirmPassword("");
       toast.success("Registration successful!");
-      navigate("/register-details");
+      navigate(`/profile/${uid}`);
     } catch (err) {
       toast.error(err.message);
       console.error(err);
@@ -135,10 +136,10 @@ const Register = () => {
     <div className="container d-flex justify-content-center align-items-center">
       <div className="row w-100">
         <div className="col-md-6 text-center text-md-start d-flex flex-column justify-content-center">
-          <div className="my-3 fw-bold ls-tight">
+          <h3 className="my-3 fw-bold ls-tight">
             Create Your Account on <br />
             <span className="text-primary">Slinkup</span>
-          </div>
+          </h3>
 
           <p p className="text-muted" style={{ fontSize: "1rem" }}>
             Join Slinkup to connect with others, share ideas, and build your
@@ -148,11 +149,11 @@ const Register = () => {
 
         <div className="col-md-6">
           <div className="card my-5">
-            <div className="card-body">
+            <div className="card-body p-4">
               <h4 className="mb-4 text-center">Register for an Account</h4>
 
               <div className="d-flex flex-column flex-md-row align-items-center justify-content-between">
-                <div className="mb-3">
+                <div className="mb-3 input-width">
                   <label htmlFor="firstname" className="form-label">
                     First Name
                   </label>
@@ -168,7 +169,7 @@ const Register = () => {
                   />
                 </div>
 
-                <div className="mb-3">
+                <div className="mb-3 input-width">
                   <label htmlFor="lastname" className="form-label">
                     Last Name
                   </label>
@@ -247,7 +248,7 @@ const Register = () => {
               </div>
 
               <div className="d-flex flex-column flex-md-row align-items-center justify-content-between">
-                <div>
+                <div className="mb-3 input-width">
                   <label htmlFor="password" className="form-label">
                     Password
                   </label>
@@ -262,7 +263,7 @@ const Register = () => {
                   />
                 </div>
 
-                <div>
+                <div className="mb-3 input-width">
                   <label htmlFor="confirmPassword" className="form-label">
                     Confirm Password
                   </label>

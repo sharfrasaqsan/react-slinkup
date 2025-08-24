@@ -107,14 +107,17 @@ const ProfileDetails = ({ user }) => {
       ))}
 
       {user.social &&
-        Object.entries(user.social).map(([platform, url]) => (
-          <p key={platform}>
-            {socialIcons[platform.toLowerCase()]}{" "}
-            <a href={url} target="_blank" rel="noreferrer">
-              {url}
-            </a>
-          </p>
-        ))}
+        Object.entries(user.social).map(([platform, url]) => {
+          const username = url.split("/").pop(); // extract username from the URL
+          return (
+            <p key={platform}>
+              {socialIcons[platform.toLowerCase()]}{" "}
+              <a href={url} target="_blank" rel="noreferrer">
+                @{username}
+              </a>
+            </p>
+          );
+        })}
     </div>
   );
 };

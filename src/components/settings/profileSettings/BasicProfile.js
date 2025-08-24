@@ -42,16 +42,17 @@ const BasicProfile = () => {
   if (loading) return <LoadingSpinner />;
   if (!user) return null;
 
+  const socialBaseUrls = {
+    Facebook: "https://facebook.com/",
+    Instagram: "https://instagram.com/",
+    Twitter: "https://twitter.com/",
+    Linkedin: "https://linkedin.com/in/",
+    Github: "https://github.com/",
+  };
+
   const handleAddSocial = () => {
     if (!link.trim()) {
-      toast.error("Please enter a link.");
-      return;
-    }
-
-    try {
-      new URL(link.trim());
-    } catch {
-      toast.error("Please enter a valid URL.");
+      toast.error("Please enter a username.");
       return;
     }
 
@@ -60,9 +61,12 @@ const BasicProfile = () => {
       return;
     }
 
+    const baseUrl = socialBaseUrls[selectedPlatform];
+    const fullUrl = baseUrl + link.trim();
+
     setSocial((prev) => ({
       ...prev,
-      [selectedPlatform]: link.trim(),
+      [selectedPlatform]: fullUrl,
     }));
 
     setLink("");
@@ -221,7 +225,7 @@ const BasicProfile = () => {
             type="url"
             id="sociallink"
             className="form-control"
-            placeholder="Link"
+            placeholder="Enter username only"
             value={link}
             onChange={(e) => setLink(e.target.value)}
             ref={socialRef}
@@ -239,7 +243,10 @@ const BasicProfile = () => {
               {Object.entries(social || {}).map(([platform, url]) => (
                 <tr key={platform}>
                   <td className="w-75">
-                    {platform}: {url}
+                    {platform}:{" "}
+                    <a href={url} target="_blank" rel="noopener noreferrer">
+                      {url}
+                    </a>
                   </td>
                   <td className="w-25">
                     <button
