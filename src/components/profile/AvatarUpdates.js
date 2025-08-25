@@ -70,7 +70,7 @@ const AvatarUpdates = ({ user, ownProfile }) => {
           <UserAvatar
             width="200px"
             height="200px"
-            fontSize="200px"
+            fontSize="220px"
             user={user}
           />
 
