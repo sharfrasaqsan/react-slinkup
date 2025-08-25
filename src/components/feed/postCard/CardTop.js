@@ -16,6 +16,7 @@ const CardTop = ({
   deleteLoading,
   location,
 }) => {
+
   return (
     <>
       <div className="d-flex justify-content-between align-items-center p-3">
