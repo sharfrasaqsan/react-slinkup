@@ -28,8 +28,7 @@ const Notifications = () => {
         isRead: true,
       });
 
-      // Update local state as well
-      setNotifications((prev) =>
+\      setNotifications((prev) =>
         prev.map((notification) =>
           notification.id === notificationId
             ? { ...notification, isRead: true }
