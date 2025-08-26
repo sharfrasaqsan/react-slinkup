@@ -6,7 +6,7 @@ import ButtonSpinner from "../../../utils/ButtonSpinner";
 import "../../../styles/settings/Setting.css";
 
 const Appearance = () => {
-  const [previewTheme, setPreviewTheme] = useState(null); // initially null
+  const [previewTheme, setPreviewTheme] = useState(null);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [updated, setUpdated] = useState(true);
   const initialTheme = useRef(null);
