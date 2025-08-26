@@ -1,51 +1,64 @@
+import { useMemo } from "react";
+import { Link } from "react-router"; // ✅ Correct import for latest version
 import _ from "lodash";
 import { useData } from "../../contexts/DataContext";
-import UserAvatar from "../UserAvatar";
 import { useAuth } from "../../contexts/AuthContext";
-import { Link } from "react-router";
-import { useMemo } from "react";
+import UserAvatar from "../UserAvatar";
 import LoadingSpinner from "../../utils/LoadingSpinner";
 
 const SuggestUsers = () => {
   const { user } = useAuth();
   const { users, loading } = useData();
 
+  const isDataReady = Array.isArray(users) && users.length > 0;
   const currentUserId = user?.id;
-  const userFollowingIds = user?.following?.map((userId) => userId);
 
-  const filteredUsers = users?.filter(
-    (user) =>
-      user.id !== currentUserId &&
-      user.role === "user" &&
-      !userFollowingIds?.includes(user.id)
-  );
+  // Safe fallback for following list
+  const userFollowingIds = Array.isArray(user?.following) ? user.following : [];
 
-  const randomUser = useMemo(() => {
+  // Filter users (not self, not already followed, role === "user")
+  const filteredUsers = useMemo(() => {
+    return users.filter(
+      (u) =>
+        u.id !== currentUserId &&
+        u.role === "user" &&
+        !userFollowingIds.includes(u.id)
+    );
+  }, [users, currentUserId, userFollowingIds]);
+
+  // Select up to 8 random users
+  const suggestedUsers = useMemo(() => {
     return _.sampleSize(filteredUsers, 8);
   }, [filteredUsers]);
 
-  if (loading) return <LoadingSpinner />;
-  if (!currentUserId) return null;
-  if (users?.length === 0) return null;
+  // Handle loading or empty state
+  if (loading || !isDataReady || !currentUserId) return <LoadingSpinner />;
+
+  if (suggestedUsers.length === 0) return null;
 
   return (
     <section>
       <div>
         <h4 className="mb-3 fw-bold">Suggested for you</h4>
         <ul className="list-group list-group-flush">
-          {randomUser?.map((user) => (
-            <Link to={`/user/${user.id}`} key={user.id}>
+          {suggestedUsers.map((suggested) => (
+            <Link to={`/user/${suggested.id}`} key={suggested.id}>
               <li className="list-group-item">
                 <div className="d-flex align-items-center">
                   <UserAvatar
                     width="40px"
                     height="40px"
                     fontSize="40px"
-                    user={user}
+                    user={suggested}
                   />
                   <div className="ms-3">
-                    <p className="mb-0">{user.username}</p>
-                    <p className="mb-0">{user.email}</p>
+                    <p className="mb-0">{suggested.username}</p>
+                    <p
+                      className="mb-0 text-muted"
+                      style={{ fontSize: "0.85rem" }}
+                    >
+                      {suggested.email}
+                    </p>
                   </div>
                 </div>
               </li>

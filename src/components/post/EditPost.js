@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import ButtonSpinner from "../../utils/ButtonSpinner";
 import { format } from "date-fns";
@@ -7,7 +7,9 @@ import { db } from "../../firebase/Config";
 
 const EditPost = ({ showEditPost, handleCloseEditPost, post, setPosts }) => {
   const [editPostBody, setEditPostBody] = useState("");
+  const [editBodyImage, setEditBodyImage] = useState("");
   const [updateLoading, setUpdateLoading] = useState(false);
+  const [uploadLoading, setUploadLoading] = useState(false);
   const [charCount, setCharCount] = useState(0);
 
   const MAX_CHARACTERS = 600;
@@ -15,7 +17,9 @@ const EditPost = ({ showEditPost, handleCloseEditPost, post, setPosts }) => {
   useEffect(() => {
     if (showEditPost) {
       setEditPostBody(post.body);
+      setEditBodyImage(post.bodyImage);
       setCharCount(post.body.length);
+
       document.body.style.overflow = "hidden"; // Prevent background scroll
     } else {
       document.body.style.overflow = "auto";
@@ -23,7 +27,7 @@ const EditPost = ({ showEditPost, handleCloseEditPost, post, setPosts }) => {
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [showEditPost, post.body]);
+  }, [showEditPost, post.body, post.bodyImage]);
 
   // Close on ESC
   useEffect(() => {
@@ -41,6 +45,7 @@ const EditPost = ({ showEditPost, handleCloseEditPost, post, setPosts }) => {
     }
 
     setUpdateLoading(true);
+    setUploadLoading(true);
     try {
       const updatePost = {
         body: editPostBody.trim(),
@@ -58,6 +63,7 @@ const EditPost = ({ showEditPost, handleCloseEditPost, post, setPosts }) => {
       toast.error("Failed to update post");
     }
     setUpdateLoading(false);
+    setUploadLoading(false);
   };
 
   const handleCharCount = (e) => {
@@ -126,6 +132,34 @@ const EditPost = ({ showEditPost, handleCloseEditPost, post, setPosts }) => {
                 {charCount > MAX_CHARACTERS && (
                   <div className="text-danger">Character limit exceeded!</div>
                 )}
+
+                <label htmlFor="editBodyImage">
+                  <input
+                    type="file"
+                    id="editBodyImage"
+                    accept="image/*"
+                    hidden
+                    onChange={(e) =>
+                      setEditBodyImage(URL.createObjectURL(e.target.files[0]))
+                    }
+                  />
+
+                  {uploadLoading ? (
+                    <ButtonSpinner />
+                  ) : (
+                    <div className="mt-3">
+                      <img
+                        src={editBodyImage}
+                        alt="post"
+                        style={{
+                          maxWidth: "100%",
+                          maxHeight: "200px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </div>
+                  )}
+                </label>
               </div>
 
               <div className="d-flex justify-content-between align-items-center mt-3">
@@ -142,7 +176,9 @@ const EditPost = ({ showEditPost, handleCloseEditPost, post, setPosts }) => {
                   type="submit"
                   className="btn btn-primary shadow-sm mt-3"
                   disabled={
-                    editPostBody.trim() === "" || charCount > MAX_CHARACTERS
+                    editPostBody.trim() === "" ||
+                    charCount > MAX_CHARACTERS ||
+                    uploadLoading
                   }
                 >
                   {updateLoading ? (

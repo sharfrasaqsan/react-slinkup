@@ -9,22 +9,29 @@ const Feed = () => {
   const { user } = useAuth();
   const { posts, loading } = useData();
 
-  if (loading || !user) return <LoadingSpinner />;
+  const isUserReady = !!user?.id && Array.isArray(user?.following);
+  const isDataReady = Array.isArray(posts) && posts.length > 0;
 
-  if (posts.length === 0) return <NotFound text={"No posts found!"} />;
+  if (loading || !isUserReady || !isDataReady) {
+    return <LoadingSpinner />;
+  }
 
-  const followingIds = user?.following || [];
+  const userId = user.id;
+  const followingIds = user.following;
 
-  const feedPosts = posts?.filter(
-    (post) => followingIds.includes(post.userId) || post.userId === user.id
+  const feedPosts = posts.filter(
+    (post) => followingIds.includes(post.userId) || post.userId === userId
   );
-  // no sorting required. firestore does it when fetch. orderBy createdAt
 
-  if (followingIds.length > 0 && feedPosts.length === 0)
-    return <NotFound text={"No posts from people you follow yet."} />;
-
-  if (feedPosts.length === 0 && followingIds.length === 0)
-    return <NotFound text={"You are not following any users."} />;
+  if (feedPosts.length === 0) {
+    return (
+      <NotFound
+        text={
+          "Your feed is empty. Start by following users or creating your first post!"
+        }
+      />
+    );
+  }
 
   return (
     <FeedInfiniteScroll posts={feedPosts}>
