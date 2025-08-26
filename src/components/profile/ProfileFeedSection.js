@@ -9,15 +9,13 @@ const ProfileFeedSection = () => {
   const { user } = useAuth();
   const { posts, loading } = useData();
 
-  // Error handling
-  if (loading) return <LoadingSpinner />;
+  const isUserReady = !!user?.id && typeof user?.createdAt === "string";
+
+  if (loading || !isUserReady) return <LoadingSpinner />;
   if (!user) return <NotFound text={"No user found! Please log in."} />;
 
-  // Filter - 	When you want many results
-  // Find - 	When you want only one result
-
-  // Filter user posts
   const userPosts = posts.filter((post) => post.userId === user.id);
+
   if (userPosts.length === 0) {
     return (
       <>
@@ -29,18 +27,12 @@ const ProfileFeedSection = () => {
 
   return (
     <div className="p-3 bg-light rounded-3 shadow-sm">
-      {user && (
-        <>
-          <CreatePost user={user} />
-          <p>
-            {(user.userPosts || []).length || 0}{" "}
-            {(user.userPosts || []).length > 1 ? "posts" : "post"} since{" "}
-            {user.createdAt?.slice(0, 4) || ""}
-          </p>
-
-          <UserFeed userPosts={userPosts} postedBy={user.username} />
-        </>
-      )}
+      <CreatePost user={user} />
+      <p>
+        {userPosts.length} {userPosts.length > 1 ? "posts" : "post"} since{" "}
+        {user.createdAt?.slice(0, 4) || ""}
+      </p>
+      <UserFeed userPosts={userPosts} postedBy={user.username} />
     </div>
   );
 };
