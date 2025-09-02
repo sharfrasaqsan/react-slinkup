@@ -1,7 +1,7 @@
 # React Slinkup
 
-Live page: [![Live Demo](https://img.icons8.com/?size=100&id=UyjPlooIqDBC&format=png&color=000000)](https://slinkup.vercel.app/) 
-My Portfolio: [![Portfolio](https://img.icons8.com/?size=100&id=3dan8A9YrGfa&format=png&color=000000)](https://sharfrasaqsan.vercel.app/)
+### Live page: [![Live Demo](https://img.icons8.com/?size=100&id=UyjPlooIqDBC&format=png&color=000000)](https://slinkup.vercel.app/) 
+### My Portfolio: [![Portfolio](https://img.icons8.com/?size=100&id=3dan8A9YrGfa&format=png&color=000000)](https://sharfrasaqsan.vercel.app/)
 
 React Slinkup is a social networking application built with React, Firebase, and Bootstrap. It allows users to connect with each other, share posts, follow other users, and engage in conversations.
 
